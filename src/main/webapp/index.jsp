@@ -12,6 +12,12 @@
 </head>
 <body>
     <h1>All good!</h1>
+    <br/>
     Database String: ${requestScope.DatabaseString}
+    <br/>
+    <br/>
+    <a href="login.jsp">Login Page</a>
+    <br/>
+    <a href="register.jsp">Registration Page</a>
 </body>
 </html>
