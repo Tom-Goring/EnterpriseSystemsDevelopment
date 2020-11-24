@@ -26,10 +26,10 @@ public class Database {
         if (con == null) {
             try {
                 String host = cfg.getProperty("jdbc_database_url");
-                System.out.println("Hello");
+                
                 con = DriverManager.getConnection(host);
             } catch (SQLException ex) {
-                System.out.println("Hello");
+                
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
