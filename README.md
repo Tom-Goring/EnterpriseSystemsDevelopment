@@ -1,5 +1,3 @@
-Repo documentation should go here in the future, but for now - a placeholder.
-
 ### Steps to run in Intellij
 
 1. Clone repo to local directory
@@ -56,3 +54,18 @@ The reason you have to add this is so we can all add our own config files sepera
    
 8. Some other people should come review your work and hopefully leave some suggestions/comments on what needs to be changed before a merge. Complete this work and push it to your remote branch, and the you can squash these new commits back into the old ones and `git push -f` to keep the history clean.
 9. The PR should then be merged and everybody should be happy
+
+
+### Story Points
+
+In agile we tend to estimate the length of time a task will take us to complete. This will allow us to better plan the amount of work we are capable of bringing in each sprint.
+
+To denote this we tend to use numbers from the Fibonacci sequence. 1, 2, 3, 5, 8, 13, 21. The logic here is that smaller tasks can accurately be estimated, however it is much harder to accurately estimate larger tasks. Hence, the larger difference between each number as it increases in size.
+
+During our first sprint, when we begin working on a ticket we should attempt to estimate the time it will take to complete. This will allow us to look back on this sprint and understand how many story points we are capable of completing. Then we can estimate future tasks before committing to completing it in a sprint.
+
+As a guideline, I think of the numbers as follows. I would encourage us to discuss and agree on this in the pull request for this Readme. Whatever we agree on, we should keep consistent across sprints, so we can properly visualise our productivity in graphs such as burndown charts.
+
+1 - An hour, 2 - A few hours, 3 - Half a day, 5 - A day, 8 - A few days, 13 - A week, 21 - The entire sprint
+
+Further reading: https://www.atlassian.com/agile/project-management/estimation
