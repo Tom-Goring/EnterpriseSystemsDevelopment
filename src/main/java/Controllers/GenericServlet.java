@@ -17,9 +17,6 @@ public class GenericServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection con = Database.getInstance().getConnection();
-        System.out.println("I am hereree");
-        System.out.println(con);
-        
         request.setAttribute("HelloWorld", "Hello World!");
         request.setAttribute("DatabaseString", con.toString());
         request.getRequestDispatcher("index.jsp").forward(request, response);
