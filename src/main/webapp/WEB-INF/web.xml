@@ -7,6 +7,23 @@
         <servlet-name>GenericServlet</servlet-name>
         <servlet-class>Controllers.GenericServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>NewServlet</servlet-name>
+        <servlet-class>Controllers.NewServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AppointmentDetails</servlet-name>
+        <servlet-class>Controllers.AppointmentDetails</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewServlet</servlet-name>
+        <url-pattern>/NewServlet.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AppointmentDetails</servlet-name>
+        <url-pattern>/AppointmentDetails.do</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GenericServlet</servlet-name>
         <url-pattern>/</url-pattern>
