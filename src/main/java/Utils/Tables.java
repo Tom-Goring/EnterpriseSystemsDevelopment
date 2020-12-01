@@ -76,6 +76,29 @@ public class Tables {
             throwables.printStackTrace();
         }
     }
+	
+	    public static void createPrescriptionTable() {
+        Connection con = Database.getInstance().getConnection();
+        try {
+            PreparedStatement ps = con.prepareStatement("create table prescription(" + 
+                    "prescription_no int IDENTITY(1,1) primary key, " +
+                    "customerID int FOREIGN KEY REFERENCES users(ID), " +
+                    "customerFName varchar(30) FOREIGN KEY REFERENCES users(firstName), " +
+                    "customerSName varchar)(30) FOREIGN KEY REFERENCES users(surname), " +
+                    "medicine varchar(30), " +
+                    "quantity int(10), " +
+                    "repeating boolean, " +
+                    "date_issued date, " +
+                    "end_date date" +
+                    ")");
+            ps.executeUpdate();
+            System.out.println("Table created successfully!");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+	
+HEAD
 
 
     public static void recreateTables() {
@@ -102,4 +125,7 @@ public class Tables {
         createAppointmentsTable();
         Log.info("Tables were recreated");
     }
+    
+    
+ f721239... Update Tables.java
 }
