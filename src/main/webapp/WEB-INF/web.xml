@@ -42,6 +42,16 @@
     </servlet-mapping>
     
     <servlet>
+        <servlet-name>IssuePrescriptionServlet</servlet-name>
+        <servlet-class>Controllers.IssuePrescriptionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IssuePrescriptionServlet</servlet-name>
+        <url-pattern>/IssuePrescription</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>AppointmentServlet</servlet-name>
         <servlet-class>Controllers.AppointmentServlet</servlet-class>
     </servlet>
@@ -50,14 +60,21 @@
         <url-pattern>/dashboard/appointments</url-pattern>
     </servlet-mapping>
 
+
+
     <servlet>
-        <servlet-name>IssuePrescriptionServlet</servlet-name>
-        <servlet-class>Controllers.IssuePrescriptionServlet</servlet-class>
+        <servlet-name>PatientInfoServlet</servlet-name>
+        <servlet-class>Controllers.UserInfoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>IssuePrescriptionServlet</servlet-name>
-        <url-pattern>/IssuePrescription</url-pattern>
+        <servlet-name>PatientInfoServlet</servlet-name>
+        <url-pattern>/dashboard/patientinformation</url-pattern>
     </servlet-mapping>
+
+
+
+
+
 
     <session-config>
         <session-timeout>

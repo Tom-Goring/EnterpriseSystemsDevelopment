@@ -35,12 +35,17 @@ public class DashboardFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
 
-        if (!request.getServletPath().equals("/dashboard") && !request.getServletPath().equals("/dashboard/appointments")) {
+        if (!request.getServletPath().equals("/dashboard") && !request.getServletPath().equals("/dashboard/appointments") && !request.getServletPath().equals("/dashboard/patientinformation")) {
             response.sendRedirect(request.getContextPath() + "/dashboard");
             return;
         }
 
         if (request.getServletPath().equals("/dashboard/appointments")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        if (request.getServletPath().equals("/dashboard/patientinformation")) {
             chain.doFilter(request, response);
             return;
         }

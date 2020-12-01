@@ -139,6 +139,18 @@
         <button>Recreate Tables</button>
     </form>
 
+    <form method="get" action="${pageContext.request.contextPath}/dashboard/patientinformation">
+        <label>
+            <select name="userID">
+                <c:forEach items="${requestScope.users}" var="user">
+                    <option id="userID" value="${user.ID}">${user.firstName} ${user.surname}</option>
+                </c:forEach>
+            </select>
+        </label>
+
+        <button>View User</button>
+    </form>
+
     <form method="post" action="${pageContext.request.contextPath}/login">
         <button>Log Out</button>
     </form>
