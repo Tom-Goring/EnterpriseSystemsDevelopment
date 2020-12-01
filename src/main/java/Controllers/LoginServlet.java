@@ -6,6 +6,8 @@ import Models.User.UserDao;
 import Models.User.UserNotFoundException;
 import Utils.Passwords;
 
+import Utils.Tables;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +21,6 @@ import java.security.spec.InvalidKeySpecException;
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         HttpSession session = request.getSession(false);
         if (session.getAttribute("currentUser") != null) {
             User user = (User) session.getAttribute("currentUser");

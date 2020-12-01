@@ -8,10 +8,16 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css" />
     <title>Staff Dashboard</title>
 </head>
 <body>
     <p>Staff dashboard</p>
+    <form method="get" action="${pageContext.request.contextPath}/IssuePrescription">
+        <button>Issue Prescription to Patient</button>
+    </form>
     <form method="post" action="${pageContext.request.contextPath}/login">
         <button>Log Out</button>
     </form>
