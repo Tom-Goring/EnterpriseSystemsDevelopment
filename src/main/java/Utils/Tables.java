@@ -85,10 +85,10 @@ public class Tables {
                     "customerID int FOREIGN KEY REFERENCES users(ID), " +
                     "customerFName varchar(30) FOREIGN KEY REFERENCES users(firstName), " +
                     "customerSName varchar)(30) FOREIGN KEY REFERENCES users(surname), " +
-                    "medicine varchar(30), " +
-                    "quantity int(10), " +
-                    "repeating boolean, " +
-                    "date_issued date, " +
+                    "medicine varchar(30) not null, " +
+                    "quantity int(10) not null, " +
+                    "repeating boolean not null, " +
+                    "date_issued date not null, " +
                     "end_date date" +
                     ")");
             ps.executeUpdate();
