@@ -3,12 +3,12 @@
   User: tomgo
   Date: 22/11/2020
   Time: 16:05
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles/main.css" />
+    <title>Login</title>
 </head>
 <body>
     <form method="post" action="${pageContext.request.contextPath}/login">
