@@ -1,8 +1,11 @@
 package UtilsTest;
 
+import Utils.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class DatabaseTest {
 
@@ -15,6 +18,14 @@ class DatabaseTest {
     }
 
     @Test
-    void getInstance() {
+    void Given_NullDatabase_Then_ReturnDatabase() {
+        // Given
+
+
+        // When
+
+
+        // Then
+        assertNotNull(Database.getInstance());
     }
 }
