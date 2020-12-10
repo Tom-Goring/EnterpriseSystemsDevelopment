@@ -13,7 +13,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserDaoTest {
 
@@ -27,7 +29,7 @@ class UserDaoTest {
     @AfterEach
     void tearDown() throws IOException {
         outputStreamCaptor.close();
-        // TODO: Revert changes made to database in unit 'Given_ValidUser_Then_InsertUser' test
+        // TODO: Revert changes made to database in unit test 'Given_ValidUser_Then_InsertUser'
     }
 
     @Ignore
