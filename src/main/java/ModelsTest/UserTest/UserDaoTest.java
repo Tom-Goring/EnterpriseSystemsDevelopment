@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +25,9 @@ class UserDaoTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws IOException {
+        outputStreamCaptor.close();
+        // TODO: Revert changes made to database in unit 'Given_ValidUser_Then_InsertUser' test
     }
 
     @Ignore

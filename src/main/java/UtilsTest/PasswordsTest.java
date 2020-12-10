@@ -26,7 +26,7 @@ class PasswordsTest {
     }
 
     @Test
-    void Should_ReturnTuple_Given_Password() throws InvalidKeySpecException, NoSuchAlgorithmException {
+    void Given_Password_Then_ReturnTuple() throws InvalidKeySpecException, NoSuchAlgorithmException {
         // Given
 
         // When
@@ -39,7 +39,7 @@ class PasswordsTest {
 
     @Ignore
     @Test
-    void Should_ReturnTrue_Given_CorrectValues() throws InvalidKeySpecException, NoSuchAlgorithmException {
+    void Given_CorrectValues_Then_ReturnTrue() throws InvalidKeySpecException, NoSuchAlgorithmException {
         // Given
         byte[] salt = new byte[16];
         byte[] expectedHash = new byte[16];
@@ -52,7 +52,7 @@ class PasswordsTest {
     }
 
     @Test
-    void Should_ReturnFalse_Given_IncorrectValues() throws InvalidKeySpecException, NoSuchAlgorithmException {
+    void Given_IncorrectValues_Then_ReturnFalse() throws InvalidKeySpecException, NoSuchAlgorithmException {
         // Given
         byte[] salt = new byte[16]; // Valueless salt
         byte[] expectedHash = new byte[16]; // Valueless hash
