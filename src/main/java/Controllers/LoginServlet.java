@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Event.Log;
 import Models.User.User;
 import Models.User.UserDao;
 import Models.User.UserNotFoundException;
@@ -10,8 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -19,30 +20,36 @@ import java.security.spec.InvalidKeySpecException;
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        try {
-            User user = UserDao.getUserByEmail(request.getParameter("submitted-email"));
+        HttpSession session = request.getSession(false);
+        if (session.getAttribute("currentUser") != null) {
+            User user = (User) session.getAttribute("currentUser");
+            session.invalidate();
+            Log.info(String.format("User %s %s logged out", user.getFirstName(), user.getSurname()));
+            request.setAttribute("login_failed", false);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else {
+            try {
+                User user = UserDao.getUserByEmail(request.getParameter("submitted-email"));
 
-            if (Passwords.equals(
-                    request.getParameter("submitted-password"),
-                    user.getSalt(),
-                    user.getPassword())
-            ) {
-                request.setAttribute("login_failed", false);
-                request.getSession().setAttribute("currentUserID", user.getID());
+                if (Passwords.equals(
+                        request.getParameter("submitted-password"),
+                        user.getSalt(),
+                        user.getPassword())
+                ) {
+                    request.getSession().setAttribute("currentUser", user);
+                    Log.info(String.format("User %s %s successfully logged in", user.getFirstName(), user.getSurname()));
+                    response.sendRedirect(request.getContextPath() + "/dashboard");
+                } else {
+                    request.setAttribute("login_failed", true);
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                }
 
-                // placeholder - TODO: replace this with a redirect to the correct dashboard page
-                PrintWriter writer = response.getWriter();
-                writer.println("Login successful!");
-            } else {
+            } catch (UserNotFoundException e) {
                 request.setAttribute("login_failed", true);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                e.printStackTrace();
             }
-
-        } catch(UserNotFoundException e) {
-            request.setAttribute("login_failed", true);
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
         }
     }
 

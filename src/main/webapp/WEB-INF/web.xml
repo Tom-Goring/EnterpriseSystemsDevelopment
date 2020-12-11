@@ -4,14 +4,23 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <servlet>
-        <servlet-name>GenericServlet</servlet-name>
-        <servlet-class>Controllers.GenericServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GenericServlet</servlet-name>
-        <url-pattern>/index</url-pattern>
-    </servlet-mapping>
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>Filters.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>DashboardFilter</filter-name>
+        <filter-class>Filters.DashboardFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>DashboardFilter</filter-name>
+        <url-pattern>/dashboard/*</url-pattern>
+    </filter-mapping>
 
     <servlet>
         <servlet-name>LoginServlet</servlet-name>

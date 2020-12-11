@@ -3,6 +3,7 @@ package Models.User;
 import Utils.Database;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class UserDao {
 
@@ -10,12 +11,13 @@ public class UserDao {
         Connection con = Database.getInstance().getConnection();
 
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO USERS (FIRSTNAME, SURNAME, EMAIL, HASHED_PASSWORD, SALT) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO USERS (FIRSTNAME, SURNAME, EMAIL, HASHED_PASSWORD, SALT, ROLE) VALUES (?, ?, ?, ?, ?, ?)");
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getSurname());
             ps.setString(3, user.getEmail());
             ps.setBytes(4, user.getPassword());
             ps.setBytes(5, user.getSalt());
+            ps.setString(6, user.getRole());
             ps.executeUpdate();
 
             System.out.println("User inserted");
@@ -39,11 +41,9 @@ public class UserDao {
                 throw new UserNotFoundException();
             }
 
-            User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBytes(5), rs.getBytes(6));
+            User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBytes(5), rs.getBytes(6), rs.getString("role"));
 
             rs.close();
-
-            System.out.println("User retrieved via ID");
 
             return user;
 
@@ -65,11 +65,9 @@ public class UserDao {
                 throw new UserNotFoundException();
             }
 
-            User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBytes(5), rs.getBytes(6));
+            User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBytes(5), rs.getBytes(6), rs.getString("role"));
 
             rs.close();
-
-            System.out.println("User retrieved via email");
 
             return user;
 
@@ -77,5 +75,30 @@ public class UserDao {
             throwables.printStackTrace();
             throw new UserNotFoundException();
         }
+    }
+
+    public static ArrayList<User> getAllUsers() throws SQLException {
+        Connection con = Database.getInstance().getConnection();
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM USERS");
+
+        ResultSet rs = ps.executeQuery();
+
+        ArrayList<User> users = new ArrayList<User>();
+        while (rs.next()) {
+            users.add(new User(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getBytes(5),
+                    rs.getBytes(6),
+                    rs.getString(7)
+            ));
+        }
+
+        rs.close();
+
+        return users;
+
     }
 }

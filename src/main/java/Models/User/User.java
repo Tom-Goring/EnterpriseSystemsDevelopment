@@ -11,6 +11,7 @@ public class User {
      private final byte[] password;
      private final byte[] salt;
      private final String email;
+     private final String role;
 //     private String phoneNumber;
 //
 //     private String addressLine1;
@@ -21,15 +22,15 @@ public class User {
 //     private Date dob;
 //
 //     private String gender;
-//     private String role;
 
-     public User(Integer ID, String firstName, String surname, String email, byte[] password, byte[] salt) {
+     public User(Integer ID, String firstName, String surname, String email, byte[] password, byte[] salt, String role) {
           this.ID = ID;
           this.firstName = firstName;
           this.surname = surname;
           this.email = email;
           this.password = password;
           this.salt = salt;
+          this.role = role;
      }
 
      public Integer getID() {
@@ -55,6 +56,8 @@ public class User {
      public String getEmail() {
           return email;
      }
+
+     public String getRole() { return role; }
 
      @Override
      public String toString() {

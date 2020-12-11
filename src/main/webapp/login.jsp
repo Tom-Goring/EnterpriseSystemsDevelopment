@@ -4,7 +4,7 @@
   Date: 22/11/2020
   Time: 16:05
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -26,6 +26,7 @@
         <button>Submit</button>
     </form>
     <br/>
+    <a href="${pageContext.request.contextPath}/register">Register</a>
     ${requestScope.login_failed ? "Invalid email or password, please try again" : ""}
 </body>
 </html>
