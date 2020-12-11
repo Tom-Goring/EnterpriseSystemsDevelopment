@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Event.Log;
 import Models.User.DuplicateEmailPresentException;
 import Models.User.User;
 import Models.User.UserDao;
@@ -27,10 +28,12 @@ public class RegistrationServlet extends HttpServlet {
                     request.getParameter("submitted-surname"),
                     request.getParameter("submitted-email"),
                     saltAndHash.x,
-                    saltAndHash.y
+                    saltAndHash.y,
+                    request.getParameter("submitted-role")
             );
-
             UserDao.insertUser(user);
+            Log.info(String.format("Created new user %s %s with email %s", user.getFirstName(), user.getSurname(), user.getEmail()));
+            response.sendRedirect(request.getContextPath() + "/login");
 
         } catch (DuplicateEmailPresentException e) {
             request.setAttribute("duplicate_email_error", true);
@@ -38,7 +41,6 @@ public class RegistrationServlet extends HttpServlet {
         }  catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
