@@ -17,6 +17,12 @@ import Utils.Tables;
 
 @WebFilter(filterName = "DashboardFilter")
 public class DashboardFilter implements Filter {
+    @Override
+    public void destroy() {}
+    @Override
+    public void init(FilterConfig config) throws ServletException {}
+
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
