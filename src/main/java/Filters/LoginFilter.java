@@ -28,7 +28,7 @@ public class LoginFilter implements Filter {
         if (loggedIn) {
             if (isLoginRequest && request.getMethod().equals("POST")) {
                 chain.doFilter(request, response);
-            } else if (isLoginRequest) {
+            } else if (isLoginRequest || isRegistrationRequest) {
                 String URI = request.getContextPath() + "/dashboard";
                 response.sendRedirect(URI);
             } else {
