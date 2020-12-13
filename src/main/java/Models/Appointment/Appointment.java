@@ -22,14 +22,14 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Appointment {
 
-    public ArrayList<Event> sortAppointmentsByDate(String appointmentDate, ArrayList<Event> event) {
+    private ArrayList<Event> sortAppointmentsByDate(String appointmentDate, ArrayList<Event> event) {
         ArrayList<Event> e = new ArrayList<>();
 
         event.stream().peek((Event event1) -> System.out.println(event1.getDate())).filter((event1) -> (event1.getDate().equals(appointmentDate))).forEachOrdered(e::add);
         return e;
     }
 
-    public ArrayList<String> getGeneratedSlots(int apptmLength, String doctorName, String date) {
+    private ArrayList<String> getGeneratedSlots(int apptmLength, String doctorName, String date) {
         ArrayList<Event> currEvents;
         ArrayList<String> intervals = new ArrayList<>();
         try {
@@ -66,7 +66,7 @@ public class Appointment {
         return intervals;
     }
 
-    public boolean isAvailableSlot(String[] time, ArrayList<Event> currEvents) {
+    private boolean isAvailableSlot(String[] time, ArrayList<Event> currEvents) {
 
         int slotStart = Integer.parseInt(time[0].replace(":", ""));
         int slotEnd = Integer.parseInt(time[1].replace(":", ""));
@@ -85,7 +85,7 @@ public class Appointment {
         return true;
     }
 
-    public String[] formatSelectedSlot(String slot) {
+    private String[] formatSelectedSlot(String slot) {
         String[] time;
         time = slot.split("-");
         return time;
@@ -96,7 +96,8 @@ public class Appointment {
         ArrayList<String> doctorsList;
         doctorsList = AppointmentDAO.retrieveDoctors();
         request.setAttribute("doctorsList", doctorsList);
-        return request.getRequestDispatcher("AppointmentSlotRequest.jsp");
+        request.setAttribute("task", "add");
+        return request.getRequestDispatcher("AppointmentPages.jsp");
     }
 
     private RequestDispatcher deleteAppointment(HttpServletRequest request) {
@@ -105,7 +106,8 @@ public class Appointment {
         try {
             allAppointments = AppointmentDAO.retrieveDoctorsAppointment(" ", false);
             request.setAttribute("appointments", allAppointments);
-            dispatcher = request.getRequestDispatcher("DeleteSelectedAppointments.jsp");
+            request.setAttribute("task", "delete");
+            dispatcher = request.getRequestDispatcher("AppointmentPages.jsp");
 
         } catch (SQLException ex) {
             Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,7 +120,8 @@ public class Appointment {
         ArrayList<String> doctorsList;
         doctorsList = AppointmentDAO.retrieveDoctors();
         request.setAttribute("doctors", doctorsList);
-        return request.getRequestDispatcher("ViewDoctorAppointments.jsp");
+        request.setAttribute("task", "view");
+        return request.getRequestDispatcher("AppointmentPages.jsp");
     }
 
     private RequestDispatcher updateAppointment(HttpServletRequest request) {
@@ -127,7 +130,8 @@ public class Appointment {
         try {
             allAppointments = AppointmentDAO.retrieveDoctorsAppointment(" ", false);
             request.setAttribute("appointments", allAppointments);
-            dispatcher = request.getRequestDispatcher("UpdateSelectedAppointment.jsp");
+            request.setAttribute("task", "update");
+            dispatcher = request.getRequestDispatcher("AppointmentPages.jsp");
 
         } catch (SQLException ex) {
             Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,7 +200,8 @@ public class Appointment {
         request.setAttribute("doctor", docName);
         request.setAttribute("date", date);
         request.setAttribute("slots", slots);
-        return request.getRequestDispatcher("AppointmentBooking.jsp");
+        request.setAttribute("task", "availableSlots");
+        return request.getRequestDispatcher("AppointmentPages.jsp");
     }
 
     private RequestDispatcher confirmAppointment(HttpServletRequest request, String docName, String date) {
@@ -210,17 +215,19 @@ public class Appointment {
         AppointmentDAO.insertAppointment(event);
         String addMessage = "Successfully added appointment";
         request.setAttribute("successMessage", addMessage);
-        return request.getRequestDispatcher("AppointmentTaskConfirmation.jsp");
+        request.setAttribute("task", "displayTaskSuccess");
+        return request.getRequestDispatcher("AppointmentPages.jsp");
     }
 
     private RequestDispatcher viewSelected(HttpServletRequest request, String docName, String date) {
         ArrayList<Event> events;
         events = retrieveByDate(docName, date);
         request.setAttribute("appointments", events);
-        return request.getRequestDispatcher("ViewDocAppointmentsList.jsp");
+        request.setAttribute("task", "viewSelected");
+        return request.getRequestDispatcher("AppointmentPages.jsp");
     }
 
-    public RequestDispatcher deleteSelected(HttpServletRequest request) {
+    private RequestDispatcher deleteSelected(HttpServletRequest request) {
         int count = 0;
         String[] selectedAppointmentsID = request.getParameterValues("selected");
         for (String selectedAppointmentsID1 : selectedAppointmentsID) {
@@ -230,10 +237,11 @@ public class Appointment {
 
         String deleted = "Successfully deleted " + count + " appointment(s)";
         request.setAttribute("successMessage", deleted);
-        return request.getRequestDispatcher("AppointmentTaskConfirmation.jsp");
+        request.setAttribute("task", "displayTaskSuccess");
+        return request.getRequestDispatcher("AppointmentPages.jsp");
     }
 
-    public RequestDispatcher updateSelected(HttpServletRequest request) {
+    private RequestDispatcher updateSelected(HttpServletRequest request) {
         int count = 0;
         String[] customerName = request.getParameterValues("customerName");
         String[] appointmentType = request.getParameterValues("type");
@@ -253,11 +261,12 @@ public class Appointment {
         }
         String updated = "Successfully updated " + count + " appointment(s)";
         request.setAttribute("successMessage", updated);
-        return request.getRequestDispatcher("AppointmentTaskConfirmation.jsp");
+        request.setAttribute("task", "displayTaskSuccess");
+        return request.getRequestDispatcher("AppointmentPages.jsp");
 
     }
 
-    public ArrayList<Event> retrieveByDate(String doctorName, String date) {
+    private ArrayList<Event> retrieveByDate(String doctorName, String date) {
         ArrayList<Event> currEvents = new ArrayList<>();
         try {
             currEvents = AppointmentDAO.retrieveDoctorsAppointment(doctorName, true);
@@ -269,13 +278,14 @@ public class Appointment {
         return currEvents;
     }
 
-    public RequestDispatcher retrieveAllAppointments(HttpServletRequest request) {
+    private RequestDispatcher retrieveAllAppointments(HttpServletRequest request) {
         ArrayList<Event> allAppointments;
         RequestDispatcher dispatcher = null;
         try {
             allAppointments = AppointmentDAO.retrieveDoctorsAppointment(" ", false);
             request.setAttribute("appointments", allAppointments);
-            dispatcher = request.getRequestDispatcher("ViewDocAppointmentsList.jsp");
+            request.setAttribute("task", "viewAll");
+            dispatcher = request.getRequestDispatcher("AppointmentPages.jsp");
 
         } catch (SQLException ex) {
             Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, ex);
