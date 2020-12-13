@@ -28,6 +28,11 @@ public class DashboardFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
 
+        if (!request.getServletPath().equals("/dashboard")) {
+            response.sendRedirect(request.getContextPath() + "/dashboard");
+            return;
+        }
+
         User user = (User) session.getAttribute("currentUser");
 
         switch (user.getRole()) {
