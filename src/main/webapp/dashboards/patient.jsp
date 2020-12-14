@@ -15,6 +15,7 @@
 </head>
 <body>
     <p>Patient dashboard!</p>
+    <a href="${pageContext.request.contextPath}/dashboard/appointments">Manage your appointments</a>
     <form method="post" action="${pageContext.request.contextPath}/login">
         <button>Log Out</button>
     </form>

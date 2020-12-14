@@ -1,17 +1,18 @@
 package Models.User;
 
+import static Models.User.UserDAO.getAllStaff;
 import Utils.Database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class UserDao {
-
-    public static void insertUser(User user) throws DuplicateEmailPresentException {
+public class UserAccountDAO {
+    public static void insertUserAccount(UserAccount user) throws DuplicateEmailPresentException {
         Connection con = Database.getInstance().getConnection();
-
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO USERS (FIRSTNAME, SURNAME, EMAIL, HASHED_PASSWORD, SALT, ROLE) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users (FIRSTNAME, SURNAME, EMAIL, HASHED_PASSWORD, SALT, ROLE) VALUES (?, ?, ?, ?, ?, ?)");
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getSurname());
             ps.setString(3, user.getEmail());
@@ -23,13 +24,14 @@ public class UserDao {
             System.out.println("User inserted");
 
         } catch(SQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
             throw new DuplicateEmailPresentException();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public static User getUser(int ID) throws UserNotFoundException {
+    public static UserAccount getUserAccount(int ID) throws UserNotFoundException {
         Connection con = Database.getInstance().getConnection();
         try {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM USERS WHERE ID = ?");
@@ -41,7 +43,15 @@ public class UserDao {
                 throw new UserNotFoundException();
             }
 
-            User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBytes(5), rs.getBytes(6), rs.getString("role"));
+            UserAccount user = new UserAccount(
+                    rs.getInt("ID"),
+                    rs.getString("firstName"),
+                    rs.getString("surname"),
+                    rs.getString("email"),
+                    rs.getBytes("hashed_password"),
+                    rs.getBytes("salt"),
+                    rs.getString("role")
+            );
 
             rs.close();
 
@@ -53,7 +63,7 @@ public class UserDao {
         }
     }
 
-    public static User getUserByEmail(String email) throws UserNotFoundException {
+    public static UserAccount getUserAccountByEmail(String email) throws UserNotFoundException {
         Connection con = Database.getInstance().getConnection();
         try {
             PreparedStatement ps = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL = ?");
@@ -65,7 +75,15 @@ public class UserDao {
                 throw new UserNotFoundException();
             }
 
-            User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBytes(5), rs.getBytes(6), rs.getString("role"));
+            UserAccount user = new UserAccount(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getBytes(5),
+                    rs.getBytes(6),
+                    rs.getString("role")
+            );
 
             rs.close();
 
@@ -77,16 +95,15 @@ public class UserDao {
         }
     }
 
-    public static ArrayList<User> getAllUsers() throws SQLException{
+    public static ArrayList<UserAccount> getAllUserAccounts() throws SQLException {
         Connection con = Database.getInstance().getConnection();
-    
         PreparedStatement ps = con.prepareStatement("SELECT * FROM USERS");
 
         ResultSet rs = ps.executeQuery();
 
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<UserAccount> users = new ArrayList<>();
         while (rs.next()) {
-            users.add(new User(
+            users.add(new UserAccount(
                     rs.getInt(1),
                     rs.getString(2),
                     rs.getString(3),
@@ -101,4 +118,6 @@ public class UserDao {
 
         return users;
     }
+         
 }
+

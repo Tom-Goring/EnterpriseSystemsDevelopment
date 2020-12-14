@@ -23,18 +23,81 @@
         </c:forEach>
     </ol>
 
-    <h2>Users</h2>
-    <ol style="list-style-type: none">
-        <c:forEach items="${requestScope.users}" var="user">
-            <li>${user.firstName} ${user.surname}</li>
-        </c:forEach>
-    </ol>
-    <form method="post">
-        <input type="hidden" id="recreate-tables" value="">
-        <button>Recreate Tables</button>
-    </form>
-    <form method="post" action="${pageContext.request.contextPath}/login">
-        <button>Log Out</button>
-    </form>
-</body>
+        <h2>Users</h2>
+        <ol style="list-style-type: none">
+            <c:forEach items="${requestScope.users}" var="user">
+                <li>${user.firstName} ${user.surname}</li>
+                </c:forEach>
+        </ol>
+        <form method="post">
+            <input type="hidden" name="action" value="recreate-tables">
+            <button>Recreate Tables</button>
+        </form>
+        <form method="post" action="${pageContext.request.contextPath}/login">
+            <button>Log Out</button>
+        </form>
+
+        <form method="post">
+            <table border="1" cellpadding="5">
+                <caption>Set Working days</caption>
+                <tr>
+                    <th>Staff Name</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                </tr>
+                <c:forEach items="${requestScope.staff}" var="current">
+                    <tr>
+                        <td><c:out value= "${current.firstName} ${current.surname}"/></td>
+                        <td><label>
+                                <c:if test="${current.schedule.getDayBoolean(0)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-0" checked />
+                                </c:if>
+                                <c:if test="${!current.schedule.getDayBoolean(0)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-0"/>
+                                </c:if>
+                            </label></td>
+                        <td><label>
+                                <c:if test="${current.schedule.getScheduleBoolean(1)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-1" checked />
+                                </c:if>
+                                <c:if test="${!current.schedule.getScheduleBoolean(1)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-1"/>
+                                </c:if>
+                            </label></td>
+                        <td><label>
+                                <c:if test="${current.schedule.getDayBoolean(2)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-2" checked/>
+                                </c:if>
+                                <c:if test="${!current.schedule.getDayBoolean(2)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-2" />
+                                </c:if>
+                            </label></td>
+                        <td><label>
+                                <c:if test="${current.schedule.getDayBoolean(3)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-3" checked />
+                                </c:if>
+                                <c:if test="${!current.schedule.getDayBoolean(3)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-3" />
+                                </c:if>
+                            </label></td>
+                        <td><label>
+                                <c:if test="${current.schedule.getDayBoolean(4)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-4" checked/>
+                                </c:if>
+                                <c:if test="${!current.schedule.getDayBoolean(4)}">
+                                    <input type="checkbox" name="checkrows" value="${current.ID}-4" />
+                                </c:if>
+                            </label></td>
+
+                    </tr>
+                </c:forEach>
+            </table>
+            <br>
+            <input type="submit" name="action" value="Confirm Working Days"/>
+        </form>
+
+    </body>
 </html>

@@ -1,9 +1,7 @@
 package Controllers;
 
 import Models.Event.Log;
-import Models.User.DuplicateEmailPresentException;
-import Models.User.User;
-import Models.User.UserDao;
+import Models.User.*;
 import Utils.Tuple;
 
 import javax.servlet.ServletException;
@@ -16,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import static Utils.Passwords.createSaltAndHash;
+import Utils.Tables;
 
 @WebServlet(name = "RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
@@ -23,7 +22,7 @@ public class RegistrationServlet extends HttpServlet {
 
         try {
             Tuple<byte[], byte[]> saltAndHash = createSaltAndHash(request.getParameter("submitted-password"));
-            User user = new User(null,
+            UserAccount user = new UserAccount(null,
                     request.getParameter("submitted-name"),
                     request.getParameter("submitted-surname"),
                     request.getParameter("submitted-email"),
@@ -31,7 +30,7 @@ public class RegistrationServlet extends HttpServlet {
                     saltAndHash.y,
                     request.getParameter("submitted-role")
             );
-            UserDao.insertUser(user);
+            UserAccountDAO.insertUserAccount(user);
             Log.info(String.format("Created new user %s %s with email %s", user.getFirstName(), user.getSurname(), user.getEmail()));
             response.sendRedirect(request.getContextPath() + "/login");
 
@@ -46,6 +45,7 @@ public class RegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("duplicate_email_error", false);
         request.getRequestDispatcher("register.jsp").forward(request, response);
+        Tables.recreateTables();
     }
 
  }

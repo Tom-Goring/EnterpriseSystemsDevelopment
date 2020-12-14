@@ -1,12 +1,10 @@
 package Controllers;
 
 import Models.Event.Log;
-import Models.User.User;
-import Models.User.UserDao;
+import Models.User.UserAccount;
+import Models.User.UserAccountDAO;
 import Models.User.UserNotFoundException;
 import Utils.Passwords;
-
-import Utils.Tables;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,14 +21,14 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session.getAttribute("currentUser") != null) {
-            User user = (User) session.getAttribute("currentUser");
+            UserAccount user = (UserAccount) session.getAttribute("currentUser");
             session.invalidate();
             Log.info(String.format("User %s %s logged out", user.getFirstName(), user.getSurname()));
             request.setAttribute("login_failed", false);
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
             try {
-                User user = UserDao.getUserByEmail(request.getParameter("submitted-email"));
+                UserAccount user = UserAccountDAO.getUserAccountByEmail(request.getParameter("submitted-email"));
 
                 if (Passwords.equals(
                         request.getParameter("submitted-password"),
@@ -44,7 +42,6 @@ public class LoginServlet extends HttpServlet {
                     request.setAttribute("login_failed", true);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
-
             } catch (UserNotFoundException e) {
                 request.setAttribute("login_failed", true);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
