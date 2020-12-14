@@ -77,7 +77,7 @@ public class Tables {
         }
     }
 	
-	    public static void createPrescriptionTable() {
+    public static void createPrescriptionTable() {
         Connection con = Database.getInstance().getConnection();
         try {
             PreparedStatement ps = con.prepareStatement("create table prescription(" + 
@@ -98,9 +98,6 @@ public class Tables {
         }
     }
 	
-HEAD
-
-
     public static void recreateTables() {
         System.out.println("Recreating database table structure...");
         Connection con = Database.getInstance().getConnection();
@@ -126,6 +123,4 @@ HEAD
         Log.info("Tables were recreated");
     }
     
-    
- f721239... Update Tables.java
 }
