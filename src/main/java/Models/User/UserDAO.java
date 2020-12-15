@@ -63,7 +63,7 @@ public class UserDAO {
         return users;
     }
 
-    public static ArrayList<User> getAllStaff() throws SQLException {
+    public static ArrayList<User> getAllStaff() {
         ArrayList<User> staff = new ArrayList<>();
         try {
             Connection con = Database.getInstance().getConnection();
@@ -92,6 +92,7 @@ public class UserDAO {
 
         } catch (SQLException e) {
             Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, e);
+            return null;
         }
         return staff;
     }

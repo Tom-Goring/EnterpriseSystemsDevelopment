@@ -6,10 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
+import Models.Approval.Approval;
+import Models.Approval.ApprovalDAO;
 import Models.Event.Event;
 import Models.Event.EventDao;
 import Models.Event.Log;
@@ -22,12 +24,10 @@ import Utils.Tables;
 public class DashboardFilter implements Filter {
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
 
     @Override
-    public void init(FilterConfig config) throws ServletException {
-    }
+    public void init(FilterConfig config) throws ServletException {}
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
@@ -61,53 +61,93 @@ public class DashboardFilter implements Filter {
     }
 
     private RequestDispatcher adminDispatcher(HttpServletRequest request) {
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+
         // We check to see if a POST request to the admin page has been received, and treat this as a a signal to recreate the tables.
         // The button in the admin page sends a POST request to the page, nothing else sends a POST request there.
         // In the future this would be moved to a full Servlet if more functionality was needed.
-        try {
+        if (request.getMethod().equals("POST")) {
             String action = request.getParameter("action");
-            if ("Confirm Working Days".equals(action)) {
-                String[] rawSchedules = request.getParameterValues("checkrows");
-                if (rawSchedules.length > 0) {
-                    int index = 0;
-                    String[] IDtoDay = rawSchedules[0].split("-");
-                    String lastID = IDtoDay[0];
-                    String currentID = IDtoDay[0];
 
-                    while(index < rawSchedules.length) {
-                        Schedule currentSchedule = new Schedule();
-                        currentSchedule.setStaffID(Integer.parseInt(currentID));
-                        while (currentID.equals(lastID)) {
-                            IDtoDay = rawSchedules[index].split("-");
-                            currentSchedule.setDayOfWeek(Integer.parseInt(IDtoDay[1]), true);
+            switch (action) {
+                case "recreate-tables":
+                    Tables.recreateTables();
+                    break;
+                case "Confirm Working Days":
+                    String[] rawSchedules = request.getParameterValues("checkrows");
+                    if (rawSchedules.length > 0) {
+                        int index = 0;
+                        String[] IDtoDay = rawSchedules[0].split("-");
+                        String lastID = IDtoDay[0];
+                        String currentID = IDtoDay[0];
+
+                        while (index < rawSchedules.length) {
+                            Schedule currentSchedule = new Schedule();
+                            currentSchedule.setStaffID(Integer.parseInt(currentID));
+                            while (currentID.equals(lastID)) {
+                                IDtoDay = rawSchedules[index].split("-");
+                                currentSchedule.setDayOfWeek(Integer.parseInt(IDtoDay[1]), true);
+                                lastID = currentID;
+                                index++;
+                                if (index >= rawSchedules.length) {
+                                    break;
+                                } else {
+                                    currentID = rawSchedules[index].split("-")[0];
+                                }
+                            }
+                            ScheduleDAO.upsertSchedule(currentSchedule);
                             lastID = currentID;
-                            index++;
-                            if (index >= rawSchedules.length) {
-                                break;
+                        }
+
+                    }
+                    break;
+                case "submit-approvals":
+                    int count = 1;
+                    String rawApproval = request.getParameter("approval-" + count);
+                    while (rawApproval != null) {
+                        String[] IDtoApproval = rawApproval.split("-");
+                        Approval approval = ApprovalDAO.getApproval(Integer.parseInt(IDtoApproval[0]));
+                        if (approval != null) {
+                            if (IDtoApproval[1].equals("approved")) {
+                                approval.getAccount().setActive(true);
+                                approval.setActioned(true);
+                                UserAccountDAO.updateUserAccount(approval.getAccount());
+                                ApprovalDAO.updateApproval(approval);
+                                Log.info(String.format("Admin: %s %s approved an account of privilege level: '%s' for %s %s",
+                                        currentUser.getFirstName(),
+                                        currentUser.getSurname(),
+                                        approval.getAccount().getRole(),
+                                        approval.getAccount().getFirstName(),
+                                        approval.getAccount().getSurname())
+                                );
                             } else {
-                                currentID = rawSchedules[index].split("-")[0];
+                                approval.setActioned(true);
+                                ApprovalDAO.updateApproval(approval);
+                                Log.info(String.format("Admin: %s %s denied an account of privilege level: '%s' for %s %s",
+                                        currentUser.getFirstName(),
+                                        currentUser.getSurname(),
+                                        approval.getAccount().getRole(),
+                                        approval.getAccount().getFirstName(),
+                                        approval.getAccount().getSurname())
+                                );
                             }
                         }
-                        ScheduleDAO.upsertSchedule(currentSchedule);
-                        lastID = currentID;
+                        count++;
+                        rawApproval = request.getParameter("approval" + count);
                     }
-
-                }
+                    break;
             }
-            if (request.getMethod().equals("POST") && request.getParameter("action").equals("recreate-tables")) {
-                Tables.recreateTables();
-            }
-            List<Event> events = EventDao.getAllEvents();
-            request.setAttribute("events", events);
-           
-            List<User> users = UserDAO.getAllUsers();
-            List<User> staff = UserDAO.getAllStaff();
-
-            request.setAttribute("users", users);
-            request.setAttribute("staff", staff);
-        } catch (SQLException throwables) {
-            Log.info(String.format("Failed to fetch events from database with error message: %s", throwables.toString()));
         }
+        List<Event> events = EventDao.getAllEvents();
+        List<Approval> approvals = ApprovalDAO.getAllPendingApprovals();
+        ArrayList<UserAccount> users = UserAccountDAO.getAllUserAccounts();
+        List<User> staff = UserDAO.getAllStaff();
+
+        request.setAttribute("events", events);
+        request.setAttribute("approvals", approvals);
+        request.setAttribute("users", users);
+        request.setAttribute("staff", staff);
+
         return request.getRequestDispatcher("/dashboards/admin.jsp");
     }
 }

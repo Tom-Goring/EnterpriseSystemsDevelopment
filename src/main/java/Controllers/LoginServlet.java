@@ -5,6 +5,7 @@ import Models.User.UserAccount;
 import Models.User.UserAccountDAO;
 import Models.User.UserNotFoundException;
 import Utils.Passwords;
+import Utils.Tables;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,21 +30,21 @@ public class LoginServlet extends HttpServlet {
         } else {
             try {
                 UserAccount user = UserAccountDAO.getUserAccountByEmail(request.getParameter("submitted-email"));
+                boolean passwordsMatch = Passwords.equals(request.getParameter("submitted-password"), user.getSalt(), user.getPassword());
 
-                if (Passwords.equals(
-                        request.getParameter("submitted-password"),
-                        user.getSalt(),
-                        user.getPassword())
-                ) {
+                if (passwordsMatch && user.isActive()) {
                     request.getSession().setAttribute("currentUser", user);
-                    Log.info(String.format("User %s %s successfully logged in", user.getFirstName(), user.getSurname()));
+                    Log.info(String.format("User: %s %s successfully logged in", user.getFirstName(), user.getSurname()));
                     response.sendRedirect(request.getContextPath() + "/dashboard");
-                } else {
-                    request.setAttribute("login_failed", true);
+                } else if (passwordsMatch && !user.isActive()) {
+                    session.setAttribute("approvalNeeded", true);
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                } else if (!passwordsMatch) {
+                    session.setAttribute("loginFailed", true);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                 }
             } catch (UserNotFoundException e) {
-                request.setAttribute("login_failed", true);
+                session.setAttribute("loginFailed", true);
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                 e.printStackTrace();
@@ -52,7 +53,10 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("login_failed", false);
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.setAttribute("loginFailed", false);
+        }
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 }

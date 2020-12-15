@@ -130,7 +130,6 @@ public class AppointmentServlet extends HttpServlet {
     }
 
     private RequestDispatcher viewAppointments(HttpServletRequest request) {
-        try {
             User user = (User) request.getSession().getAttribute("currentUser");
             System.out.println("view");
             ArrayList<User> doctorsList = UserDAO.getAllStaff();
@@ -141,10 +140,6 @@ public class AppointmentServlet extends HttpServlet {
             request.setAttribute("appointments", appointments);
 
             return request.getRequestDispatcher("/appointments.jsp");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     private RequestDispatcher updateAppointment(HttpServletRequest request) {

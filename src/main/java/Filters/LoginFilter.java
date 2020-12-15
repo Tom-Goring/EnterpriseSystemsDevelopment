@@ -24,7 +24,6 @@ public class LoginFilter implements Filter {
         boolean isLoginRequest = request.getServletPath().equals("/login");
         boolean isRegistrationRequest = request.getServletPath().equals("/register");
 
-
         if (loggedIn) {
             if (isLoginRequest && request.getMethod().equals("POST")) {
                 chain.doFilter(request, response);
@@ -42,7 +41,6 @@ public class LoginFilter implements Filter {
                 loginURI = request.getContextPath() + "/login";
                 response.sendRedirect(loginURI);
             }
-
         }
     }
 }

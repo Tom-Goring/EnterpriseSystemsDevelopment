@@ -8,22 +8,28 @@ import java.util.List;
 
 public class EventDao {
 
-    public static List<Event> getAllEvents() throws SQLException {
-        Connection con = Database.getInstance().getConnection();
-        PreparedStatement ps = con.prepareStatement("SELECT * FROM EVENTS ORDER BY CreatedAt DESC");
-        ResultSet rs = ps.executeQuery();
+    public static List<Event> getAllEvents()  {
+        try {
+            Connection con = Database.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM EVENTS ORDER BY CreatedAt DESC");
+            ResultSet rs = ps.executeQuery();
 
-        ArrayList<Event> events = new ArrayList<Event>();
-        while (rs.next()) {
-            events.add(
-                    new Event(
-                            rs.getInt("ID"),
-                            rs.getTimestamp("CreatedAt"),
-                            rs.getString("description")
-                    )
-            );
+            ArrayList<Event> events = new ArrayList<Event>();
+            while (rs.next()) {
+                events.add(
+                        new Event(
+                                rs.getInt("ID"),
+                                rs.getTimestamp("CreatedAt"),
+                                rs.getString("description")
+                        )
+                );
+            }
+            return events;
         }
-        return events;
+        catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void insertEvent(Event event) throws SQLException {

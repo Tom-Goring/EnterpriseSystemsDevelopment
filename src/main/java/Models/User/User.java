@@ -10,9 +10,7 @@ public class User {
      private final String role;
      private Schedule schedule;
      
-
      public User(Integer ID, String firstName, String surname, String email, String role) {
-          
           this.ID = ID;
           this.firstName = firstName;
           this.surname = surname;
@@ -41,14 +39,13 @@ public class User {
      }
 
      public boolean isMedicalStaff() {
-          return role.equals("doctor") || role.equals("nurse");
+          return (this.role.equals("nurse") || this.role.equals("doctor"));
      }
      
-     public void setSchedule(Schedule schedule)
-     {
+     public void setSchedule(Schedule schedule) {
          this.schedule = schedule;
-         
      }
+
      public Schedule getSchedule()
      {
          return schedule;
