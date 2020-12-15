@@ -39,6 +39,20 @@ public class Tables {
             );
             UserDao.insertUser(admin);
             System.out.println("Admin user created successfully!");
+            
+            // staff test user
+            Tuple<byte[], byte[]> saltAndHash1 = createSaltAndHash("staff");
+            User staff = new User(1,
+                    "staff",
+                    "",
+                    "staff@care.com",
+                    saltAndHash1.x,
+                    saltAndHash1.y,
+                    "staff"
+                    );
+            UserDao.insertUser(staff);
+            System.out.println("Staff user created successfully!");
+
         } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException | DuplicateEmailPresentException throwables) {
             throwables.printStackTrace();
         }
@@ -81,18 +95,16 @@ public class Tables {
         Connection con = Database.getInstance().getConnection();
         try {
             PreparedStatement ps = con.prepareStatement("create table prescription(" + 
-                    "prescription_no int IDENTITY(1,1) primary key, " +
-                    "customerID int FOREIGN KEY REFERENCES users(ID), " +
-                    "customerFName varchar(30) FOREIGN KEY REFERENCES users(firstName), " +
-                    "customerSName varchar)(30) FOREIGN KEY REFERENCES users(surname), " +
+                    "ID int generated always as identity unique, " +
+                    "patientID int not null constraint patientid_FK references USERS (ID), " +
                     "medicine varchar(30) not null, " +
-                    "quantity int(10) not null, " +
+                    "quantity int not null, " +
                     "repeating boolean not null, " +
                     "date_issued date not null, " +
                     "end_date date" +
                     ")");
             ps.executeUpdate();
-            System.out.println("Table created successfully!");
+            System.out.println("Prescription table created successfully!");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -112,14 +124,22 @@ public class Tables {
             System.out.println("Appointments table dropped");
         } catch (SQLException e) { e.printStackTrace(); }
         try {
+            PreparedStatement ps = con.prepareStatement("DROP TABLE prescription");
+            ps.executeUpdate();
+            System.out.println("Prescription table dropped");
+        } catch (SQLException e) {e.printStackTrace();}
+        try {
             PreparedStatement ps = con.prepareStatement("DROP TABLE users");
             ps.executeUpdate();
             System.out.println("Users table dropped");
         } catch (SQLException e) {e.printStackTrace();}
 
+        
+
         createUserTable();
         createEventTable();
         createAppointmentsTable();
+        createPrescriptionTable();
         Log.info("Tables were recreated");
     }
     

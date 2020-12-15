@@ -12,6 +12,9 @@
 </head>
 <body>
     <p>Staff dashboard</p>
+    <form method="post" action="${pageContext.request.contextPath}/IssuePrescription.jsp">
+        <button>Issue Prescription to Patient</button>
+    </form>
     <form method="post" action="${pageContext.request.contextPath}/login">
         <button>Log Out</button>
     </form>
