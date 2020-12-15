@@ -1,0 +1,57 @@
+body {
+    font-family: 'PT Sans', sans-serif;
+    color: #181818;
+}
+
+.header {
+    background-color: #e6f3ff;
+    text-transform: uppercase;
+}
+
+.header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #e6f3ff;
+}
+
+.header li {
+    float: right;
+}
+
+.header li a {
+    display: block;
+    color: #181818;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.header li a:hover {
+    background-color: #e31566;
+}
+
+.pinkButton {
+    color: #ffffff;
+    background-color: #e31566;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+.blueButton {
+    color: #ffffff;
+    background-color: #42a5f5;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 32px;
+}
+
+p {
+    font-weight: normal;
+    font-size: 20px;
+}
