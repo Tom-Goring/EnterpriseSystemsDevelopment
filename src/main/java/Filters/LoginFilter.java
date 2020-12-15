@@ -24,7 +24,11 @@ public class LoginFilter implements Filter {
         boolean isLoginRequest = request.getServletPath().equals("/login");
         boolean isRegistrationRequest = request.getServletPath().equals("/register");
 
-        // TODO: clean up this logic so its not cursed?
+        // If the user is logged in, they should not be allowed to access the login or register pages, and instead be redirected to their dashboard.
+        // If they are not trying to access the login or register pages, we allow them to go where they asked to go.
+        // If they are not logged in and trying to access the register or login pages we allow them.
+        // If they are not logged in and trying to access any other pages we redirect them to the login page.
+
         if (loggedIn) {
             if (isLoginRequest && request.getMethod().equals("POST")) {
                 chain.doFilter(request, response);

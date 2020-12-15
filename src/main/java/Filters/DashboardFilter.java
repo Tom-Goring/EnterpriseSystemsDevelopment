@@ -49,6 +49,9 @@ public class DashboardFilter implements Filter {
     }
 
     private RequestDispatcher adminDispatcher(HttpServletRequest request) {
+        // We check to see if a POST request to the admin page has been received, and treat this as a a signal to recreate the tables.
+        // The button in the admin page sends a POST request to the page, nothing else sends a POST request there.
+        // In the future this would be moved to a full Servlet if more functionality was needed.
         try {
             if (request.getMethod().equals("POST")) {
                 Tables.recreateTables();
