@@ -64,4 +64,8 @@
             5
         </session-timeout>
     </session-config>
+
+    <listener>
+        <listener-class>Utils.SessionListener</listener-class>
+    </listener>
 </web-app>

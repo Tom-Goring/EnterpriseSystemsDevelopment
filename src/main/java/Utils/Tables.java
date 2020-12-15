@@ -200,7 +200,7 @@ public class Tables {
             PreparedStatement ps = con.prepareStatement("DROP TABLE approvals");
             ps.executeUpdate();
             System.out.println("Approvals table dropped");
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {}
         try {
             PreparedStatement ps = con.prepareStatement("DROP TABLE prescription");
             ps.executeUpdate();
@@ -210,7 +210,7 @@ public class Tables {
             PreparedStatement ps = con.prepareStatement("DROP TABLE users");
             ps.executeUpdate();
             System.out.println("Users table dropped");
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {}
 
         createUserTable();
         createEventTable();
