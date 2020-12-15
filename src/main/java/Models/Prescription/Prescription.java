@@ -5,8 +5,6 @@ package Models.Prescription;
  * @author Bredan
  */
 
-import java.text.SimpleDateFormat;
-
 public class Prescription {
     private final Integer patientID;
     private final String medicine;
@@ -20,10 +18,6 @@ public class Prescription {
         this.medicine = medicine;
         this.quantity = quantity;
         this.repeating = repeating;
-        
-        SimpleDateFormat timeformat = new SimpleDateFormat("yyyy-MM-dd");
-        
-        
         this.issueDate = issueDate;
         this.endDate = endDate;
     }

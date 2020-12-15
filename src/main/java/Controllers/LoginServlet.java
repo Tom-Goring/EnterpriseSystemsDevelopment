@@ -6,7 +6,7 @@ import Models.User.UserDao;
 import Models.User.UserNotFoundException;
 import Utils.Passwords;
 
-import Utils.Tables;
+//import Utils.Tables;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ import java.security.spec.InvalidKeySpecException;
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        Tables.recreateTables();
+//        Tables.recreateTables();
         HttpSession session = request.getSession(false);
         if (session.getAttribute("currentUser") != null) {
             User user = (User) session.getAttribute("currentUser");
