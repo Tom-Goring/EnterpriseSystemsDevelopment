@@ -77,8 +77,9 @@ public class UserDao {
         }
     }
 
-    public static ArrayList<User> getAllUsers() throws SQLException {
+    public static ArrayList<User> getAllUsers() throws SQLException{
         Connection con = Database.getInstance().getConnection();
+    
         PreparedStatement ps = con.prepareStatement("SELECT * FROM USERS");
 
         ResultSet rs = ps.executeQuery();
@@ -99,6 +100,5 @@ public class UserDao {
         rs.close();
 
         return users;
-
     }
 }
