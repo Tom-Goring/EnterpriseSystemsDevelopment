@@ -3,12 +3,14 @@
   User: tomgo
   Date: 22/11/2020
   Time: 16:05
-  To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
-    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles/main.css" />
+    <title>Login</title>
 </head>
 <body>
     <form method="post" action="${pageContext.request.contextPath}/login">
@@ -24,6 +26,7 @@
         <button>Submit</button>
     </form>
     <br/>
+    <a href="${pageContext.request.contextPath}/register">Register</a>
     ${requestScope.login_failed ? "Invalid email or password, please try again" : ""}
 </body>
 </html>

@@ -3,11 +3,13 @@
   User: tomgo
   Date: 22/11/2020
   Time: 16:48
-  To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles/main.css" />
     <title>Register</title>
 </head>
 <body>
@@ -33,9 +35,15 @@
             <input name="submitted-password" autocomplete="off">
         </label>
         <br/>
+        <label>
+            Role:
+            <input name="submitted-role" autocomplete="off">
+        </label>
+        <br/>
         <button>Submit</button>
     </form>
     <br/>
+    <a href="${pageContext.request.contextPath}/login">Login</a>
     ${requestScope.duplicate_email_error ? "That email already has an associated account. Would you like to login instead?" : ""}
 </body>
 </html>
