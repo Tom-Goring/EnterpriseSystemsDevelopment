@@ -21,9 +21,7 @@ class DatabaseTest {
     void Given_NullDatabase_Then_ReturnDatabase() {
         // Given
 
-
         // When
-
 
         // Then
         assertNotNull(Database.getInstance());

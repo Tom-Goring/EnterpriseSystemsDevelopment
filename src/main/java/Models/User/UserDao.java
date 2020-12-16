@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class UserDao {
 
-    public static void insertUser(User user) throws DuplicateEmailPresentException {
+    public static boolean insertUser(User user) throws DuplicateEmailPresentException {
         Connection con = Database.getInstance().getConnection();
 
         try {
@@ -21,12 +21,14 @@ public class UserDao {
             ps.executeUpdate();
 
             System.out.println("User inserted");
+            return true;
 
         } catch(SQLIntegrityConstraintViolationException e) {
             throw new DuplicateEmailPresentException();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return false;
     }
 
     public static User getUser(int ID) throws UserNotFoundException {
