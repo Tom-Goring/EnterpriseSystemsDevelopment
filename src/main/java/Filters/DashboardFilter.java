@@ -15,6 +15,8 @@ import Models.Approval.ApprovalDAO;
 import Models.Event.Event;
 import Models.Event.EventDao;
 import Models.Event.Log;
+import Models.Prescription.Prescription;
+import Models.Prescription.PrescriptionDAO;
 import Models.Schedule.Schedule;
 import Models.Schedule.ScheduleDAO;
 import Models.User.*;
@@ -57,6 +59,12 @@ public class DashboardFilter implements Filter {
                 adminDispatcher(request).forward(request, response);
                 break;
             case "patient":
+                try {
+                    ArrayList<Prescription> prescriptions = PrescriptionDAO.getAllPrescriptionsForUser(user.getID());
+                    request.setAttribute("prescriptions", prescriptions);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
                 request.getRequestDispatcher("/dashboards/patient.jsp").forward(request, response);
                 break;
             case "nurse":
