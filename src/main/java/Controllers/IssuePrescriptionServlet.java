@@ -9,8 +9,7 @@ import Models.Event.Log;
 import Models.Prescription.Prescription;
 import Models.Prescription.PrescriptionDAO;    
 import Models.User.User;
-import Models.User.UserDao;
-import Models.User.UserNotFoundException;
+import Models.User.UserDAO;
 
 import java.sql.*;
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class IssuePrescriptionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //catch all user input and pass into DAO
         
-        Prescription prescription = new Prescription(Integer.parseInt(request.getParameter("submitted-patientid")),
+        Prescription prescription = new Prescription(null, Integer.parseInt(request.getParameter("submitted-patientid")),
             request.getParameter("submitted-medicine"),
             Integer.parseInt(request.getParameter("submitted-quantity")),
             Boolean.parseBoolean(request.getParameter("submitted-repeating")),
@@ -54,7 +53,7 @@ public class IssuePrescriptionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            ArrayList<User> users = UserDao.getAllUsers();
+            ArrayList<User> users = UserDAO.getAllUsers();
             request.setAttribute("users", users);
             request.getRequestDispatcher("IssuePrescription.jsp").forward(request, response);
         } catch (SQLException throwables) {

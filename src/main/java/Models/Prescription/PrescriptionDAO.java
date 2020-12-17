@@ -46,7 +46,15 @@ public class PrescriptionDAO {
 
             ResultSet rs = ps.executeQuery();
 
-            Prescription prescription = new Prescription(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getBoolean(4), rs.getDate(5), rs.getDate(6));
+            Prescription prescription = new Prescription(
+                    rs.getInt(1),
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getInt(4),
+                    rs.getBoolean(5),
+                    rs.getDate(6),
+                    rs.getDate(7)
+            );
 
             rs.close();
             
@@ -75,8 +83,8 @@ public class PrescriptionDAO {
             Logger.getLogger(Prescription.class.getName()).log(Level.SEVERE, null, e);
         }
         return patients;
-    } 
-    
+    }
+
     public static ArrayList<Prescription> getAllPrescriptionsForUser(Integer userID) throws SQLException{
         Connection con = Database.getInstance().getConnection();
         
@@ -89,11 +97,12 @@ public class PrescriptionDAO {
         while (rs.next()) {
             prescriptions.add(new Prescription(
                     rs.getInt(1),
-                    rs.getString(2),
-                    rs.getInt(3),
-                    rs.getBoolean(4),
-                    rs.getDate(5),
-                    rs.getDate(6)
+                    rs.getInt(2),
+                    rs.getString(3),
+                    rs.getInt(4),
+                    rs.getBoolean(5),
+                    rs.getDate(6),
+                    rs.getDate(7)
             ));
         }
         

@@ -27,6 +27,8 @@
     </form>
     <br/>
     <a href="${pageContext.request.contextPath}/register">Register</a>
-    ${requestScope.login_failed ? "Invalid email or password, please try again" : ""}
+    ${sessionScope.loginFailed ? "Invalid email or password, please try again" : ""}
+    ${sessionScope.approvalNeeded ? "A request has been sent to the Admin team to approve your account." : ""}
+    <c:set var="approvalNeeded" value="false" scope="session"/>
 </body>
 </html>

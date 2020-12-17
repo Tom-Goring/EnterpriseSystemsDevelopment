@@ -37,7 +37,12 @@
         <br/>
         <label>
             Role:
-            <input name="submitted-role" autocomplete="off">
+            <select name="submitted-role">
+                <option value="patient">Patient</option>
+                <option value="nurse">Nurse</option>
+                <option value="doctor">Doctor</option>
+                <option value="admin">Admin</option>
+            </select>
         </label>
         <br/>
         <button>Submit</button>

@@ -1,10 +1,6 @@
 package Models.Prescription;
 
-import Models.User.User;    
-
 import java.sql.*;
-import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -12,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 public class Prescription {
+    private final Integer ID;
     private final Integer patient;
     private final String medicine;
     private final Integer quantity;
@@ -19,7 +16,8 @@ public class Prescription {
     private final Date issueDate;
     private final Date endDate;
     
-    public Prescription(Integer patientID, String medicine, Integer quantity, Boolean repeating, Date issueDate, Date endDate){
+    public Prescription(Integer ID, Integer patientID, String medicine, int quantity, Boolean repeating, Date issueDate, Date endDate){
+        this.ID = ID;
         this.patient = patientID;
         this.medicine = medicine;
         this.quantity = quantity;
@@ -27,7 +25,11 @@ public class Prescription {
         this.issueDate = issueDate;
         this.endDate = endDate;
     }
-        
+
+    public Integer getID() {
+        return ID;
+    }
+
     public Integer getPatient() {
         return patient;
     }
