@@ -2,8 +2,7 @@ package UserTest;
 
 import Models.User.DuplicateEmailPresentException;
 import Models.User.User;
-import Models.User.UserAccount;
-import Models.User.UserAccountDAO;
+import Models.User.UserDao;
 import Models.User.UserNotFoundException;
 import Utils.Tables;
 import jdk.nashorn.internal.ir.annotations.Ignore;
@@ -33,10 +32,10 @@ class UserDaoTest {
     @Test
     void Given_ValidUser_Then_InsertUser() throws DuplicateEmailPresentException {
         // Given
-        UserAccount user = new UserAccount(12, "Charlie", "Williams,", email, new byte[16], new byte[16], "admin", true);
+        User user = new User(12, "Charlie", "Williams,", email, new byte[16], new byte[16], "admin");
 
         // When
-        boolean isInserted = UserAccountDAO.insertUserAccount(user);
+        boolean isInserted = UserDao.insertUser(user);
 
         // Then
         assertTrue(isInserted);
@@ -46,15 +45,15 @@ class UserDaoTest {
     @Test
     void Given_DuplicateUser_Then_ThrowException() throws DuplicateEmailPresentException {
         // Given
-        UserAccount user = new UserAccount(12, "Charlie", "Williams,", email, new byte[16], new byte[16], "admin", true);
-        UserAccountDAO.insertUserAccount(user);
+        User user = new User(12, "Charlie", "Williams,", email, new byte[16], new byte[16], "admin");
+        UserDao.insertUser(user);
 
         // When
 
         // Then
         assertThrows(
                 DuplicateEmailPresentException.class,
-                () -> UserAccountDAO.insertUserAccount(user)
+                () -> UserDao.insertUser(user)
         );
     }
 
@@ -64,7 +63,7 @@ class UserDaoTest {
         // Given
 
         // When
-        User actual = UserAccountDAO.getUserAccountByEmail(email);
+        User actual = UserDao.getUserByEmail(email);
 
         // Then
         assertNotNull(actual);
@@ -80,7 +79,7 @@ class UserDaoTest {
         // Then
         assertThrows(
                 UserNotFoundException.class,
-                () -> UserAccountDAO.getUserAccountByEmail(email)
+                () -> UserDao.getUserByEmail(email)
         );
     }
 }
