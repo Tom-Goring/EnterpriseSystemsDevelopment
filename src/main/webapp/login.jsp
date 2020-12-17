@@ -9,7 +9,7 @@
 <head>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="styles/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css" />
     <title>Login</title>
 </head>
 <body>
@@ -27,6 +27,8 @@
     </form>
     <br/>
     <a href="${pageContext.request.contextPath}/register">Register</a>
-    ${requestScope.login_failed ? "Invalid email or password, please try again" : ""}
+    ${sessionScope.loginFailed ? "Invalid email or password, please try again" : ""}
+    ${sessionScope.approvalNeeded ? "A request has been sent to the Admin team to approve your account." : ""}
+    <c:set var="approvalNeeded" value="false" scope="session"/>
 </body>
 </html>

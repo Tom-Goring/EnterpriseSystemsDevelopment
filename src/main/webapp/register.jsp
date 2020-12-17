@@ -9,7 +9,7 @@
 <head>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="styles/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css" />
     <title>Register</title>
 </head>
 <body>
@@ -37,7 +37,12 @@
         <br/>
         <label>
             Role:
-            <input name="submitted-role" autocomplete="off">
+            <select name="submitted-role">
+                <option value="patient">Patient</option>
+                <option value="nurse">Nurse</option>
+                <option value="doctor">Doctor</option>
+                <option value="admin">Admin</option>
+            </select>
         </label>
         <br/>
         <button>Submit</button>
