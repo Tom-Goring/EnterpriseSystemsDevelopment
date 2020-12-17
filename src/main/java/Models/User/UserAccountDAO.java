@@ -1,15 +1,17 @@
 package Models.User;
 
-import static Models.User.UserDAO.getAllStaff;
 import Utils.Database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UserAccountDAO {
-    public static void insertUserAccount(UserAccount user) throws DuplicateEmailPresentException {
+
+    public static boolean insertUserAccount(UserAccount user) throws DuplicateEmailPresentException {
         Connection con = Database.getInstance().getConnection();
         try {
             PreparedStatement ps = con.prepareStatement("INSERT INTO users (FIRSTNAME, SURNAME, EMAIL, HASHED_PASSWORD, SALT, ROLE, ACTIVE) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -23,13 +25,15 @@ public class UserAccountDAO {
             ps.executeUpdate();
 
             System.out.println("User inserted");
+            return true;
 
-        } catch(SQLIntegrityConstraintViolationException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
             throw new DuplicateEmailPresentException();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return false;
     }
 
     public static UserAccount getUserAccount(int ID) throws UserNotFoundException {
