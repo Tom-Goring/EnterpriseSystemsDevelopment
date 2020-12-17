@@ -37,7 +37,7 @@ public class IssuePrescriptionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //catch all user input and pass into DAO
         
-        Prescription prescription = new Prescription(Integer.parseInt(request.getParameter("submitted-patientid")),
+        Prescription prescription = new Prescription(null, Integer.parseInt(request.getParameter("submitted-patientid")),
             request.getParameter("submitted-medicine"),
             Integer.parseInt(request.getParameter("submitted-quantity")),
             Boolean.parseBoolean(request.getParameter("submitted-repeating")),

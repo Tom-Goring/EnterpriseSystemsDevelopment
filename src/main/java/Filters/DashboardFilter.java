@@ -59,7 +59,10 @@ public class DashboardFilter implements Filter {
             case "patient":
                 request.getRequestDispatcher("/dashboards/patient.jsp").forward(request, response);
                 break;
-            case "staff":
+            case "nurse":
+                request.getRequestDispatcher("/dashboards/staff.jsp").forward(request, response);
+                break;
+            case "doctor":
                 request.getRequestDispatcher("/dashboards/staff.jsp").forward(request, response);
                 break;
         }
