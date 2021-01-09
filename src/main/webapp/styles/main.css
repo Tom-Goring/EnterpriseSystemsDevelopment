@@ -1,10 +1,31 @@
+:root {
+    --primaryLight: #e6f3ff;
+    --primaryDark: #42a5f5;
+    --secondaryDark: #181818;
+    --secondaryLight: #ffffff;
+    --alternativeLight: #e31566;
+}
+
 body {
     font-family: 'PT Sans', sans-serif;
-    color: #181818;
+    color: var(--secondaryDark);
+}
+
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
 }
 
 .header {
-    background-color: #e6f3ff;
+    background-color: var(--primaryLight);
     text-transform: uppercase;
 }
 
@@ -13,7 +34,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #e6f3ff;
+    background-color: var(--primaryLight);
 }
 
 .header li {
@@ -22,28 +43,50 @@ body {
 
 .header li a {
     display: block;
-    color: #181818;
+    color: var(--secondaryDark);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 .header li a:hover {
-    background-color: #e31566;
+    background-color: var(--alternativeLight);
 }
 
 .pinkButton {
-    color: #ffffff;
-    background-color: #e31566;
+    color: var(--secondaryLight);
+    background-color: var(--alternativeLight);
     font-weight: bold;
-    border-radius: 25px;
+    border-radius: 12px;
+    border: none;
+    padding: 15px 128px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    -ms-transform: translateX(32%);
+    transform: translateX(32%);
+    margin-top: 25px;
 }
 
 .blueButton {
-    color: #ffffff;
-    background-color: #42a5f5;
+    color: var(--secondaryLight);
+    background-color: var(--primaryDark);
     font-weight: bold;
-    border-radius: 25px;
+    border-radius: 12px;
+    border: none;
+    padding: 15px 128px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    -ms-transform: translateX(32%);
+    transform: translateX(32%);
+    margin-top: 25px;
+}
+
+.title {
+    color: var(--primaryDark);
 }
 
 h1 {
@@ -54,4 +97,41 @@ h1 {
 p {
     font-weight: normal;
     font-size: 20px;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    width: 60%;
+}
+
+#register-link {
+    text-align: center;
+    display: block;
+}
+
+.highlight-span {
+    color: var(--primaryDark);
 }
