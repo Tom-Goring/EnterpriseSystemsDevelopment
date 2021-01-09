@@ -9,6 +9,8 @@
 body {
     font-family: 'PT Sans', sans-serif;
     color: var(--secondaryDark);
+    margin: 0px;
+    padding: 0px;
 }
 
 .outer {
@@ -24,20 +26,22 @@ body {
     width: 500px;
 }
 
+.innerDashboard {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+}
+
 .header {
     background-color: var(--primaryLight);
     text-transform: uppercase;
+    margin-bottom: 100px;
 }
 
 .header ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
-    background-color: var(--primaryLight);
-}
-
-.header li {
+    display: inline-block;
     float: right;
 }
 
@@ -131,6 +135,13 @@ img {
     text-align: center;
     display: block;
     color: var(--primaryDark);
+}
+
+#header-logo {
+    float: left;
+    width:150px;
+    display: inline;
+    margin-top: 25px;
 }
 
 .highlight-span {
