@@ -15,7 +15,7 @@
 <body>
 <div class="outer">
     <div class="inner">
-        <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="Paris" class="center">
+        <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" class="center">
         <h1 class="title">Login</h1>
         <form method="post" action="${pageContext.request.contextPath}/login">
             <label>
@@ -31,7 +31,7 @@
             <button class="blueButton">Submit</button>
         </form>
         <br/>
-        <a href="${pageContext.request.contextPath}/register" id="register-link">Register</a>
+        <a href="${pageContext.request.contextPath}/register" id="link">Register</a>
         ${sessionScope.loginFailed ? "Invalid email or password, please try again" : ""}
         ${sessionScope.approvalNeeded ? "A request has been sent to the Admin team to approve your account." : ""}
         <c:set var="approvalNeeded" value="false" scope="session"/>

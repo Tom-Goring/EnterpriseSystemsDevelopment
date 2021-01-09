@@ -127,9 +127,10 @@ img {
     width: 60%;
 }
 
-#register-link {
+#link {
     text-align: center;
     display: block;
+    color: var(--primaryDark);
 }
 
 .highlight-span {
