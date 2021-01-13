@@ -11,17 +11,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP  Page</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css" />
     </head>
     <body>
-    <center>
-        <h1>Appointments Page</h1>
-    </center>
     <c:choose>
-        <c:when test="${requestScope.task == null}">         
-            <center>
-                <h3>Your Appointments</h3>
+        <c:when test="${requestScope.task == null}">
+            <center>                                    
                 <c:set var="min" scope="request" value="${0}" />
                 <c:if test="${requestScope.appointments.size()==min}">
                     <h3>No appointments booked</h3>
@@ -34,7 +29,7 @@
                             <th>Date</th>
                             <th>Start</th>
                             <th>End</th>
-                            <th>Type</th>                        
+                            <th>Type</th>
                         </tr>
                         <c:forEach items="${requestScope.appointments}" var="current">
                             <tr>
@@ -42,129 +37,113 @@
                                 <td><c:out value= "${current.date}"/></td>
                                 <td><c:out value= "${current.startTime}"/></td>
                                 <td><c:out value= "${current.endTime}"/></td>
-                                <td><c:out value= "${current.type}"/></td>                            
+                                <td><c:out value= "${current.type}"/></td>
                             </tr>
                         </c:forEach>
                     </table>
                 </c:if>
                 <br>
+                
+                
+                <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments" id="optionsForm"></form>
+                <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments" id="patientInfo"></form>
+                <button type="submit" name ="action" value="Home" id="options" form="patientInfo">Home</button>
+                <button type="submit" name ="action" value="Add" id="options" form="optionsForm">Add</button>
+                <button type="submit" name ="action" value="Update" id="options" form="optionsForm">Update</button>
+                <button type="submit" name ="action" value="Delete" id="options" form="optionsForm">Delete</button>
+               
+                
+                
             </center>
-
+        </c:when>
+        <c:when test="${requestScope.task == 'add'}">
             <center>
-                <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments">
-                    <input type="submit" name ="action" value="Add" id="options"/>
-                    <input type="submit" name ="action" value="Update" id="options" />                    
-                    <!--                                    <input type="submit" name ="action" value="Delete" />-->
-                    <!--                                    <input type="submit" name ="action" value="View" />-->
+                <c:set var="min" scope="request" value="${0}" />
+                <c:if test="${requestScope.appointments.size()==min}">
+                    <h3>No appointments booked</h3>
+                </c:if>
+                <c:if test="${requestScope.appointments.size() > min}">
+                    <table id="appointments">
+                        <caption>List of Appointments</caption>
+                        <tr>
+                            <th>Staff Name</th>
+                            <th>Date</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Type</th>
+                        </tr>
+                        <c:forEach items="${requestScope.appointments}" var="current">
+                            <tr>
+                                <td><c:out value= "${current.staffMember.firstName} ${current.staffMember.surname}"/></td>
+                                <td><c:out value= "${current.date}"/></td>
+                                <td><c:out value= "${current.startTime}"/></td>
+                                <td><c:out value= "${current.endTime}"/></td>
+                                <td><c:out value= "${current.type}"/></td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                    <br>
+                </c:if>
+                <form action="${pageContext.request.contextPath}/dashboard/appointments" method="post" id="availability">
+                    <label >
+                        Date:
+                        <input type="date" name="date" required="">
+                    </label>                  
+                    <label>
+                        Length:
+                        <select name="length">
+                            <option>15</option>
+                            <option>30</option>
+                            <option>60</option>
+                        </select>
+                    </label> 
+                    
+                    <button type="submit" name="action" value="Availability" >Generate Slots</button>
                 </form>
             </center>
         </c:when>
 
-        <c:when test="${requestScope.task == 'add'}">
-            <center>               
-                <center>               
-                    <c:set var="min" scope="request" value="${0}" />
-                    <c:if test="${requestScope.appointments.size()==min}">
-                        <h3>No appointments booked</h3>
-                    </c:if>
-                    <c:if test="${requestScope.appointments.size() > min}">
-                        <table id="appointments">
-                            <caption>List of Appointments</caption>
-                            <tr>
-                                <th>Staff Name</th>
-                                <th>Date</th>
-                                <th>Start</th>
-                                <th>End</th>
-                                <th>Type</th>                        
-                            </tr>
-                            <c:forEach items="${requestScope.appointments}" var="current">
-                                <tr>
-                                    <td><c:out value= "${current.staffMember.firstName} ${current.staffMember.surname}"/></td>
-                                    <td><c:out value= "${current.date}"/></td>
-                                    <td><c:out value= "${current.startTime}"/></td>
-                                    <td><c:out value= "${current.endTime}"/></td>
-                                    <td><c:out value= "${current.type}"/></td>                            
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </c:if>
-                    <br>
-                </center>
-                <div id="slots">
-                    <form action="${pageContext.request.contextPath}/dashboard/appointments" method="post" >
-
-
-                        <label><i class="fa fa-calendar" aria-hidden="true"></i>
-                            <input type="date" name="date" required="" id="dateselection">
-                        </label>
-                        <label>  
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>  
-                            <select name="length" id="select-css">                
-                                <option>15</option>
-                                <option>30</option>
-                                <option>60</option>
-                            </select> 
-                        </label>       
-                        <input type="submit" name="action" value="Availability" />
-
-                    </form>
-                </div>
-            </center>
-        </c:when>
-
         <c:when test="${requestScope.task == 'availableSlots'}">
-            <center>                
+            <center>            
                 <c:set var="min" scope="request" value="${0}" />
                 <c:if test="${requestScope.slots.size()==min}">
                     <h3>0 slots available</h3>
                 </c:if>
-                <c:if test="${requestScope.slots.size() > min}">
-                    <center>
-                        <h3>Your Appointments</h3>
-                        <c:set var="min" scope="request" value="${0}" />
-                        <c:if test="${requestScope.appointments.size()==min}">
-                            <h3>No appointments booked</h3>
-                        </c:if>
-                        <c:if test="${requestScope.appointments.size() > min}">
-                            <table id="appointments">
-                                <caption>List of Appointments</caption>
-                                <tr>
-                                    <th>Staff Name</th>
-                                    <th>Date</th>
-                                    <th>Start</th>
-                                    <th>End</th>
-                                    <th>Type</th>                        
-                                </tr>
-                                <c:forEach items="${requestScope.appointments}" var="current">
-                                    <tr>
-                                        <td><c:out value= "${current.staffMember.firstName} ${current.staffMember.surname}"/></td>
-                                        <td><c:out value= "${current.date}"/></td>
-                                        <td><c:out value= "${current.startTime}"/></td>
-                                        <td><c:out value= "${current.endTime}"/></td>
-                                        <td><c:out value= "${current.type}"/></td>                            
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </c:if>
-                        <br>
-                    </center> 
+                <c:if test="${requestScope.slots.size() > min}">                    
+                    <table id="appointments">
+                        <caption>List of Appointments</caption>
+                        <tr>
+                            <th>Staff Name</th>
+                            <th>Date</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Type</th>
+                        </tr>
+                        <c:forEach items="${requestScope.appointments}" var="current">
+                            <tr>
+                                <td><c:out value= "${current.staffMember.firstName} ${current.staffMember.surname}"/></td>
+                                <td><c:out value= "${current.date}"/></td>
+                                <td><c:out value= "${current.startTime}"/></td>
+                                <td><c:out value= "${current.endTime}"/></td>
+                                <td><c:out value= "${current.type}"/></td>
+                            </tr>
+                        </c:forEach>
 
-
-                    <form action="${pageContext.request.contextPath}/dashboard/appointments" method="post">
+                    </table>
+                    <br>
+                    <form action="${pageContext.request.contextPath}/dashboard/appointments" method="post">                        
                         <table id="appointments">
+                            <caption>Current Appointment Booking</caption>
                             <tr>
                                 <th>Doctor</th>
-                                <th>Selected Date</th>
-                                <th>Slots</th>
-                                <th>Service Type</th>                               
-                                <th>Add</th>
+                                <th>Slots</th>                                
+                                <th>Service Type</th>
+                                <th>Date</th>
+                                <th>Selection</th>
                             </tr>
                             <c:forEach items="${requestScope.doctorSlots}" var="doctorToSlots">
                                 <tr>
                                     <td><c:out value="${doctorToSlots.x.firstName} ${doctorToSlots.x.surname}"/></td>
-                                    <td>
-                                        <input name="date" value="${requestScope.date}" readonly>
-                                    </td>
                                     <td>
                                         <select name="selectedSlot">
                                             <c:forEach items="${doctorToSlots.y}" var="slot">
@@ -172,16 +151,23 @@
                                             </c:forEach>
                                         </select>
                                     </td>
+                                    
                                     <td><select name="serviceType">
                                             <option>public (NHS)</option>
                                             <option>private</option>
                                         </select>
-                                    </td>                            
-                                <input type="hidden" name="staffID" value="${doctorToSlots.x.ID}">                                                                  
-                                <td><button style="font-size:24px" type="submit" name="action" value="Confirm"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></td>                                   
+                                    </td>
+                                    <td>
+                                        <input name="date" value="${requestScope.date}" readonly>
+                                    </td>                                    
+                                    <td>
+                                        <input type="radio" name="staffID" value="${doctorToSlots.x.ID}" required>
+                                    </td>
                                 </tr>
                             </c:forEach>
-                        </table>                                                       
+                        </table>
+                        <br>                        
+                        <button type="submit" name="action" value="Confirm" id="options">Confirm</button>
                     </form>
                 </c:if>
             </center>
@@ -189,7 +175,6 @@
 
         <c:when test="${requestScope.task == 'delete'}">
             <center>
-                <h3>Delete Appointment</h3>
                 <form action="${pageContext.request.contextPath}/dashboard/appointments" method="post">
                     <div>
                         <c:set var="min" scope="request" value="${0}" />
@@ -198,7 +183,7 @@
                         </c:if>
                         <c:if test="${requestScope.appointments.size() > min}">
                             <c:set var="count" value="0" scope="page" />
-                            <table border="1" cellpadding="5">
+                            <table id="appointments">
                                 <caption>List of Appointments</caption>
                                 <tr>
                                     <th>Number</th>
@@ -208,8 +193,6 @@
                                     <th>Type</th>
                                     <th>Staff Member</th>
                                     <th>Select</th>
-                                    <th>Delete</th>
-                                    <th>Update</th>
 
                                 </tr>
                                 <c:forEach items="${requestScope.appointments}" var="current">
@@ -224,16 +207,13 @@
                                         <td><label>
                                                 <input type="checkbox" name="selected" value="${current.ID}"/>
                                             </label></td>
-                                        <td><button style="font-size:24px" type="submit" name="action" value="Delete Selected"><i class="fa fa-trash-o"></i></button></td>
-                                        <td><button style="font-size:24px"><i class="fa fa-refresh"></i></button></td>
-                                        <td><input type="submit" name="action" value="Delete Selected"/></td>
                                     </tr>
                                 </c:forEach>
                             </table>
                         </c:if>
                     </div>
                     <br>
-                    <input type="submit" name="action" value="Delete Selected"/>
+                    <button type="submit" name="action" value="Delete Selected" id="options">Delete</button>
                 </form>
             </center>
         </c:when>
@@ -241,13 +221,14 @@
             <center>
                 <h3>Update Appointment</h3>
                 <form action="${pageContext.request.contextPath}/dashboard/appointments" method="post">
-                    <div id="update">
+                    <div>
                         <c:set var="min" scope="request" value="${0}" />
                         <c:if test="${requestScope.appointments.size()==min}">
                             <h3>No appointments booked</h3>
                         </c:if>
                         <c:if test="${requestScope.appointments.size() > min}">
                             <c:set var="count" value="0" scope="page" />
+                            <c:set var="type" scope="request" value="private"/>
                             <table id="appointments">
                                 <caption>List of Appointments</caption>
                                 <tr>
@@ -257,42 +238,38 @@
                                     <th>End</th>
                                     <th>Type</th>
                                     <th>Doctor</th>
-                                    <th>Selected</th>
-                                    <th>Delete</th>
-                                    <th>Update</th>
+                                    <th>Select</th>
                                 </tr>
                                 <c:forEach items="${requestScope.appointments}" var="current">
                                     <c:set var="count" value="${count + 1}" scope="page"/>
+
                                     <tr>
                                         <td><c:out value= "${count}"/></td>
                                         <td><c:out value= "${current.date}"/></td>
                                         <td><c:out value= "${current.startTime}"/></td>
                                         <td><c:out value= "${current.endTime}"/></td>
-                                        <td>
-                                            <c:set var="type" scope="request" value="private" />
+                                        <td>                                        
+                                            <c:if test="${current.type.equals(type)}">
+                                                <label>
+                                                    <select name="types">                                                    
+                                                        <option>private</option>
+                                                        <option>public (NHS)</option>
+                                                    </select>
+                                                </label>
+                                            </c:if>
                                             <c:if test="${current.type!=type}">
                                                 <label>
                                                     <select name="types">
                                                         <option>public (NHS)</option>
-                                                        <option>private</option>
-                                                    </select>
-                                                </label>
-                                            </c:if>
-                                            <c:if test="${current.type==type}">
-                                                <label>
-                                                    <select name="types">
-                                                        <option>private</option>
-                                                        <option>public (NHS)</option>
+                                                        <option>private</option>                                               
                                                     </select>
                                                 </label>
                                             </td>
                                         </c:if>
                                         <td><c:out value= "${current.staffMember.firstName} ${current.staffMember.surname}"/></td>
-
-                                        <td><input type="checkbox" name="selected" value="${current.ID}"/></td>
-
-                                        <td><button style="font-size:24px" type="submit" name="action" value="Delete Selected"><i class="fa fa-trash-o"></i></button></td>
-                                        <td><button style="font-size:24px" type="submit" name="action" value="Update Selected"><i class="fa fa-refresh"></i></button></td>
+                                        <td><label>
+                                                <input type="checkbox" name="selected" value="${count}"/>
+                                            </label></td>
                                     </tr>
                                     <label>
                                         <%-- I hate absolutely everything about this. ヽ(ಠ_ಠ)ノ --%>
@@ -308,7 +285,7 @@
                         </c:if>
                     </div>
                     <br>
-
+                    <button type="submit" name="action" value="Update Selected" id="options">Update</button>
                 </form>
             </center>
         </c:when>
@@ -327,7 +304,7 @@
                             <th>Date</th>
                             <th>Start</th>
                             <th>End</th>
-                            <th>Type</th>                        
+                            <th>Type</th>
                         </tr>
                         <c:forEach items="${requestScope.appointments}" var="current">
                             <tr>
@@ -335,7 +312,7 @@
                                 <td><c:out value= "${current.date}"/></td>
                                 <td><c:out value= "${current.startTime}"/></td>
                                 <td><c:out value= "${current.endTime}"/></td>
-                                <td><c:out value= "${current.type}"/></td>                            
+                                <td><c:out value= "${current.type}"/></td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -345,14 +322,13 @@
         </c:when>
         <c:when test="${requestScope.task == 'viewSelected' || requestScope.task == 'viewAll' }">
             <center>
-                <h3>View Appointment</h3>
                 <div>
                     <c:set var="min" scope="request" value="${0}" />
                     <c:if test="${requestScope.appointments.size()==min}">
                         <h3>No appointments booked</h3>
                     </c:if>
                     <c:if test="${requestScope.appointments.size() > min}">
-                        <table border="1" cellpadding="5">
+                        <table id="appointments">
                             <caption>List of Appointments</caption>
                             <tr>
                                 <th>Name</th>
@@ -381,48 +357,18 @@
                 <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments">
                     <input type="submit" name ="action" value="Add" />
                     <input type="submit" name ="action" value="Update" />
-                    <!--                <input type="submit" name ="action" value="Delete" />
-                                    <input type="submit" name ="action" value="View" />-->
+                    <input type="submit" name ="action" value="Delete" />
+                    <input type="submit" name ="action" value="View" />
                 </form>
             </center>
         </c:when>
         <c:when test="${requestScope.task == 'displayTaskSuccess'}">
             <center>
-                <h3>Your Appointments</h3>
-                <c:set var="min" scope="request" value="${0}" />
-                <c:if test="${requestScope.appointments.size()==min}">
-                    <h3>No appointments booked</h3>
-                </c:if>
-                <c:if test="${requestScope.appointments.size() > min}">
-                    <table id="appointments">
-                        <caption>List of Appointments</caption>
-                        <tr>
-                            <th>Staff Name</th>
-                            <th>Date</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Type</th>                        
-                        </tr>
-                        <c:forEach items="${requestScope.appointments}" var="current">
-                            <tr>
-                                <td><c:out value= "${current.staffMember.firstName} ${current.staffMember.surname}"/></td>
-                                <td><c:out value= "${current.date}"/></td>
-                                <td><c:out value= "${current.startTime}"/></td>
-                                <td><c:out value= "${current.endTime}"/></td>
-                                <td><c:out value= "${current.type}"/></td>                            
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </c:if>
-                <br>
-            </center>
-            <center>
-                <h3> ${requestScope.successMessage} </h3>
                 <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments">
                     <input type="submit" name ="action" value="Add" />
                     <input type="submit" name ="action" value="Update" />
-                    <!--                                    <input type="submit" name ="action" value="Delete" />-->
-                    <input type="submit" name ="action" value="View" />
+                    <input type="submit" name ="action" value="Delete" />
+<!--                    <input type="submit" name ="action" value="View" />-->
                 </form>
             </center>
         </c:when>
