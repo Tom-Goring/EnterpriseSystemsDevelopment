@@ -11,11 +11,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP  Page</title>
-         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css" />
     </head>
     <body>
-    <c:choose>
-        <c:when test="${requestScope.task == null}">
+        <c:choose>
+            <c:when test="${requestScope.task == null}">
             <center>                                    
                 <c:set var="min" scope="request" value="${0}" />
                 <c:if test="${requestScope.appointments.size()==min}">
@@ -43,17 +43,17 @@
                     </table>
                 </c:if>
                 <br>
-                
-                
-                <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments" id="optionsForm"></form>
-                <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments" id="patientInfo"></form>
-                <button type="submit" name ="action" value="Home" id="options" form="patientInfo">Home</button>
-                <button type="submit" name ="action" value="Add" id="options" form="optionsForm">Add</button>
-                <button type="submit" name ="action" value="Update" id="options" form="optionsForm">Update</button>
-                <button type="submit" name ="action" value="Delete" id="options" form="optionsForm">Delete</button>
-               
-                
-                
+
+                <div>
+                    <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments" id="optionsForm"></form>
+                    <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments" id="patientInfo"></form>
+                    <button type="submit" name ="action" value="Home" id="options" form="patientInfo">Home</button>
+                    <button type="submit" name ="action" value="Add" id="options" form="optionsForm">Add</button>
+                    <button type="submit" name ="action" value="Update" id="options" form="optionsForm">Update</button>
+                    <button type="submit" name ="action" value="Delete" id="options" form="optionsForm">Delete</button>                    
+                </div>
+
+
             </center>
         </c:when>
         <c:when test="${requestScope.task == 'add'}">
@@ -97,7 +97,7 @@
                             <option>60</option>
                         </select>
                     </label> 
-                    
+
                     <button type="submit" name="action" value="Availability" >Generate Slots</button>
                 </form>
             </center>
@@ -151,7 +151,7 @@
                                             </c:forEach>
                                         </select>
                                     </td>
-                                    
+
                                     <td><select name="serviceType">
                                             <option>public (NHS)</option>
                                             <option>private</option>
@@ -368,7 +368,7 @@
                     <input type="submit" name ="action" value="Add" />
                     <input type="submit" name ="action" value="Update" />
                     <input type="submit" name ="action" value="Delete" />
-<!--                    <input type="submit" name ="action" value="View" />-->
+                    <!--                    <input type="submit" name ="action" value="View" />-->
                 </form>
             </center>
         </c:when>
