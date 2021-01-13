@@ -12,11 +12,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP  Page</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css" />
     </head>
     <body>
+        <header class="header">
+            <ul>
+                <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
+                <li><a>User Name</a></li>
+                <li><a>Logout</a></li>
+            </ul>
+        </header>
         <c:choose>
             <c:when test="${requestScope.task == null}">
-            <center>                                    
+            <center>   
+                <br>
                 <c:set var="min" scope="request" value="${0}" />
                 <c:if test="${requestScope.appointments.size()==min}">
                     <h3>No appointments booked</h3>
@@ -50,10 +59,8 @@
                     <button type="submit" name ="action" value="Home" id="options" form="patientInfo">Home</button>
                     <button type="submit" name ="action" value="Add" id="options" form="optionsForm">Add</button>
                     <button type="submit" name ="action" value="Update" id="options" form="optionsForm">Update</button>
-                    <button type="submit" name ="action" value="Delete" id="options" form="optionsForm">Delete</button>                    
+                    <button type="submit" name ="action" value="Delete" id="options" form="optionsForm">Delete</button>                      
                 </div>
-
-
             </center>
         </c:when>
         <c:when test="${requestScope.task == 'add'}">
@@ -102,7 +109,6 @@
                 </form>
             </center>
         </c:when>
-
         <c:when test="${requestScope.task == 'availableSlots'}">
             <center>            
                 <c:set var="min" scope="request" value="${0}" />
@@ -373,6 +379,5 @@
             </center>
         </c:when>
     </c:choose>
-
 </body>
 </html>

@@ -99,7 +99,6 @@ public class AppointmentServlet extends HttpServlet {
                 case "Availability":
                     dispatcher = getAvailabilitySlots(request, date);
                     break;
-
                 case "View Selected":
                     dispatcher = viewSelected(request, staffMember, date);
                     break;
@@ -228,7 +227,6 @@ public class AppointmentServlet extends HttpServlet {
         allAppointments = AppointmentDAO.retrieveAppointments(user);
         request.setAttribute("appointments", allAppointments);
         return request.getRequestDispatcher("/appointments.jsp");
-
     }
 
     private RequestDispatcher viewSelected(HttpServletRequest request, User staffMember, Date date) {

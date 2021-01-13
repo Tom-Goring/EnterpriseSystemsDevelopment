@@ -18,8 +18,8 @@
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #e6f3ff;
+  color:black;
   text-align: center;
 }
 
@@ -37,16 +37,17 @@
     height: 100px;
     outline: 0;
     font-size: 15px;
+    background-color: #e6f3ff;
 }
 
 #options:hover
 {
-    background-color: #4CAF50;
+   background-color: #e31566;
 }
 
 caption{
-    background-color: #4CAF50;
-    color:white;
+    background-color: #e6f3ff;
+    color:black;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 15px;
     padding: 8px;
@@ -58,6 +59,12 @@ caption{
     height: 100px;
     outline: 0;
     font-size: 35px;
+}
+#header-logo {
+    float: left;
+    width:150px;
+    display: inline;
+    margin-top: 25px;
 }
 
 
