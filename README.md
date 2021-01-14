@@ -1,11 +1,11 @@
 ### Group Information
 Group 25
 
-Tom Goring
-Maxwell Gyamfi
-Louis Harding
-Bredan Pires
-Charlie Williams
+* Tom Goring
+* Maxwell Gyamfi
+* Louis Harding
+* Bredan Pires
+* Charlie Williams
 
 ### Steps to run in Intellij
 
