@@ -3,7 +3,6 @@
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 60%;
-  
 }
 #appointments td, #appointments th {
   border: 1px solid #ddd;
@@ -22,7 +21,6 @@
   color:black;
   text-align: center;
 }
-
 #slots
 {
   text-align: center;
@@ -39,12 +37,10 @@
     font-size: 15px;
     background-color: #e6f3ff;
 }
-
 #options:hover
 {
    background-color: #e31566;
 }
-
 caption{
     background-color: #e6f3ff;
     color:black;
@@ -52,6 +48,7 @@ caption{
     font-size: 15px;
     padding: 8px;
     font-weight: bold;
+    margin-top: 10px;
 }
 #update button{
     border-radius: 45%;
@@ -60,15 +57,3 @@ caption{
     outline: 0;
     font-size: 35px;
 }
-#header-logo {
-    float: left;
-    width:150px;
-    display: inline;
-    margin-top: 25px;
-}
-
-
-
-
-
-

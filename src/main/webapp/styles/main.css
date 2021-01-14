@@ -2,12 +2,10 @@ body {
     font-family: 'PT Sans', sans-serif;
     color: #181818;
 }
-
 .header {
     background-color: #e6f3ff;
     text-transform: uppercase;
 }
-
 .header ul {
     list-style-type: none;
     margin: 0;
@@ -15,12 +13,10 @@ body {
     overflow: hidden;
     background-color: #e6f3ff;
 }
-
 .header li {
     float: right;
 }
-
-.header li a {
+.header li a{
     display: block;
     color: #181818;
     text-align: center;
@@ -28,30 +24,52 @@ body {
     text-decoration: none;
 }
 
+.header li button{
+    display: block;
+    color: #181818;
+    text-align: center;
+    padding: 16px 18px;
+    background: none;
+    border:none;
+    text-transform: uppercase;
+}
+
 .header li a:hover {
     background-color: #e31566;
 }
-
+.header li button:hover {
+    background-color: #e31566;
+}
 .pinkButton {
     color: #ffffff;
     background-color: #e31566;
     font-weight: bold;
     border-radius: 25px;
 }
-
 .blueButton {
     color: #ffffff;
     background-color: #42a5f5;
     font-weight: bold;
     border-radius: 25px;
 }
-
 h1 {
     font-weight: bold;
     font-size: 32px;
 }
-
 p {
     font-weight: normal;
     font-size: 20px;
 }
+#header-logo {
+    float: left;
+    width:150px;
+    display: inline;
+/*    margin-top: 25px;*/
+}
+/*img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    width: 60%; 
+}*/
