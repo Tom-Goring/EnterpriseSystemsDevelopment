@@ -76,12 +76,13 @@ caption{
 {
     width:100%;
 }
-#details
+details
 {
-    list-style: none;
+   display:block;
 }
 summary{
     outline: 0;
     font-size: 20px;
+    width: 20%;
 }
 

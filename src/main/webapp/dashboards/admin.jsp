@@ -24,11 +24,65 @@
                 <li><button type="submit" name ="action" value="" form="logout">Logout</button></li>
             </ul>           
         </header>
-        <div>
-            <h1>Admin</h1>
-            <p>Add new User</p>
-        </div>
-    <center>                 
+    <center>
+        <h1>Admin</h1>
+        <details>
+            <summary>Add new User</summary>
+            <div>                       
+                <form method="post" action="${pageContext.request.contextPath}/login">
+                    <label>
+                        First Name<span class="highlight-span">*</span>
+                        <input name="firstname" type="text" autocomplete="name">
+                    </label> 
+
+                    <label>                
+                        Surname<span class="highlight-span">*</span>
+                        <input name="surname" type="text">
+                    </label>
+
+                    <label>
+                        Email<span class="highlight-span">*</span>
+                        <input name="email" type="text" autocomplete="email">
+                    </label> 
+
+                    <label>
+                        Password<span class="highlight-span">*</span>
+                        <input name="password" type="text" autocomplete="off">
+                    </label>            
+                    <br/>
+                    <button class="blueButton">Submit</button>
+                </form>
+            </div>
+        </details>
+        <details>
+            <summary>Edit User</summary>
+            <div>  
+                <form>
+                    <table id="appointments">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>First Name</th>
+                                <th>Surname</th>
+                                <th>Password</th>
+                                <th>Selection</th>
+                            </tr>
+                        </thead>
+                        <c:forEach items="${requestScope.users}" var="userAccount">
+                            <tr>
+                                <td><input type="text" name="email" value="${userAccount.email}"></td>
+                                <td><input type="text" name="firstname" value="${userAccount.firstName}"></td>
+                                <td><input type="text" name="surname" value="${userAccount.surname}"></td>
+                                <td><input type="text" name="password" value="${userAccount.password}"></td> 
+                                <td><input type="checkbox" name="selected" value="${userAccount.ID}"></td> 
+                            </tr>
+                        </c:forEach>
+                    </table>
+                    <br>
+                    <button id="options">Edit Selected</button>
+                </form>
+            </div>  
+        </details>
         <details>
             <summary>Audit Logs</summary>
             <div id="table">
@@ -49,40 +103,41 @@
             </div>
         </details>
         <details>
-            <summary>Users Accounts</summary>
-            <div id="table">
-                <table id="appointments">  
-                    <c:set var="count" value="0" scope="page" />
-                    <thead>
-                        <tr>
-                            <th>Number</th>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Active</th>
-                        </tr>
-                    </thead>
-                    <c:forEach items="${requestScope.users}" var="userAccount">
-                        <c:set var="count" value="${count + 1}" scope="page"/>
-                        <tr>
-                            <td>${count}</td>
-                            <td>${userAccount.firstName} ${userAccount.surname}</td>
-                            <td>${userAccount.role}</td>
-                            <c:if test="${userAccount.active}">  
-                                <td><i class="fa fa-check-circle" aria-hidden="true"></i></td>
-                                </c:if>
-                                <c:if test="${!userAccount.active}">
-                                <td><i class="fa fa-times-circle-o" aria-hidden="true"></i></td>
-                                </c:if>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </div>
+            <summary>Users</summary>            
+            <table id="appointments">  
+                <c:set var="count" value="0" scope="page" />
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+                <c:forEach items="${requestScope.users}" var="userAccount">
+                    <c:set var="count" value="${count + 1}" scope="page"/>
+                    <tr>
+                        <td>${count}</td>
+                        <td>${userAccount.firstName} ${userAccount.surname}</td>
+                        <td>${userAccount.role}</td>
+                        <c:if test="${userAccount.active}">  
+                            <td><i class="fa fa-check-circle" aria-hidden="true"></i></td>
+                            </c:if>
+                            <c:if test="${!userAccount.active}">
+                            <td><i class="fa fa-times-circle-o" aria-hidden="true"></i></td>
+                            </c:if>
+                    </tr>
+                </c:forEach>
+            </table>            
         </details>
         <c:set var="count" value="0" scope="page"/>
-        <form method="post">
-            <details>
-                <summary>Pending Account Approvals</summary>
-                    <c:if test="${requestScope.approvals.size() > 0}">              
+        <details>
+            <summary>Pending Approvals</summary>
+            <form method="post">
+                <c:if test="${requestScope.approvals.size() == 0}">
+                    <h3>No pending account approvals</h3>
+                </c:if>
+                <c:if test="${requestScope.approvals.size() > 0}">              
                     <table id="appointments">
                         <tr>
                             <th>Number</th>
@@ -108,18 +163,13 @@
                         </c:forEach>
                     </table>
                     <input type="hidden" id="action" name="action" value="submit-approvals">
-                    <br/>
                     <button id="options">Submit Account Approvals</button>
                 </c:if>
-                <c:if test="${requestScope.approvals.size() == 0}">
-                    <h3>No pending account approvals</h3>
-                </c:if>
-            </details>
-        </form>      
+            </form>  
+        </details>
         <details>
-            <summary>Set Working Days</summary>
+            <summary>Edit Working Days</summary>
             <form method="post">
-
                 <table id="appointments">                   
                     <tr>
                         <th>Staff Name</th>
@@ -180,24 +230,29 @@
                 <input type="submit" name="action" value="Confirm Working Days"/>
             </form>
         </details>
+        <details>
+            <summary>View User</summary>
+            <form method="get" action="${pageContext.request.contextPath}/dashboard/patientinformation">
+                <label>
+                    <select name="userID">
+                        <c:forEach items="${requestScope.users}" var="user">
+                            <option id="userID" value="${user.ID}">${user.firstName} ${user.surname}</option>
+                        </c:forEach>
+                    </select>
+                </label>
+                <button>View User</button>
+            </form>
+        </details>
+
+        <details>
+            <summary>Delete User</summary>
+            <form></form>
+        </details>       
 
         <form method="post">
             <input type="hidden" name="action" value="recreate-tables">
             <button>Recreate Tables</button>
-        </form>
-
-        <form method="get" action="${pageContext.request.contextPath}/dashboard/patientinformation">
-            <label>
-                <select name="userID">
-                    <c:forEach items="${requestScope.users}" var="user">
-                        <option id="userID" value="${user.ID}">${user.firstName} ${user.surname}</option>
-                    </c:forEach>
-                </select>
-            </label>
-
-            <button>View User</button>
-        </form>
-
+        </form>                              
         <form method="post" action="${pageContext.request.contextPath}/login">
             <button>Log Out</button>
         </form>
