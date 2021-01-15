@@ -1,33 +1,40 @@
 #appointments
 {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 60%;
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+
+
 }
 #appointments td, #appointments th {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+
 }
+
 #appointments tr:nth-child(even){background-color: #f2f2f2;}
 
 #appointments tr:hover {background-color: #ddd;}
 
 #appointments th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #e6f3ff;
-  color:black;
-  text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #e6f3ff;
+    color:black;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 2
 }
 #slots
 {
-  text-align: center;
-  width: 50%;
-  padding: 10px;
-  font-size: 20px;
-  border-radius: 2px;
+    text-align: center;
+    width: 50%;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 2px;
 }
 #options{
     border-radius: 45%;
@@ -39,7 +46,7 @@
 }
 #options:hover
 {
-   background-color: #e31566;
+    background-color: #e31566;
 }
 caption{
     background-color: #e6f3ff;
@@ -49,6 +56,9 @@ caption{
     padding: 8px;
     font-weight: bold;
     margin-top: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 #update button{
     border-radius: 45%;
@@ -57,3 +67,21 @@ caption{
     outline: 0;
     font-size: 35px;
 }
+#table{
+    width:60%;
+    height:300px;
+    overflow: auto;
+}
+#table table
+{
+    width:100%;
+}
+#details
+{
+    list-style: none;
+}
+summary{
+    outline: 0;
+    font-size: 20px;
+}
+
