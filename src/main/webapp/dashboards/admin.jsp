@@ -24,238 +24,316 @@
                 <li><button type="submit" name ="action" value="" form="logout">Logout</button></li>
             </ul>           
         </header>
-    <center>
-        <h1>Admin</h1>
-        <details>
-            <summary>Add new User</summary>
-            <div>                       
+        <div id="outer">
+            <div id="inner">
+                <h1>Admin</h1>
+                <details>
+                    <summary>Add new User</summary>
+                    <div id="parent">                       
+                        <form method="post" action="${pageContext.request.contextPath}/login">
+                            <label>
+                                First Name<span class="highlight-span">*</span>
+                                <input name="firstname" type="text" autocomplete="name">
+                            </label> 
+
+                            <label>                
+                                Surname<span class="highlight-span">*</span>
+                                <input name="surname" type="text">
+                            </label>
+                                                      
+                            <label>
+                                Email<span class="highlight-span">*</span>
+                                <input name="email" type="text" autocomplete="email">
+                            </label> 
+                            
+                            <label>
+                                Password<span class="highlight-span">*</span>
+                                <input name="password" type="text" autocomplete="off">
+                            </label>  
+                            
+                            <label>
+<!--                                Role<span class="highlight-span">*</span>-->
+                                Role<span class="highlight-span">*</span>
+                                <select>
+                                    <option>doctor</option>
+                                    <option>patient</option>
+                                    <option>nurse</option>
+                                    <option>admin</option>
+                                </select>
+                            </label>  
+                            
+                            <button id="blueButton">Submit</button>
+                        </form>
+                    </div>
+                </details>
+                <details>
+                    <summary>Edit User</summary>
+                    <div id="tables">  
+                        <form>
+                            <table id="appointments">
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>First Name</th>
+                                        <th>Surname</th>
+                                        <th>Role</th>
+                                        <th>Selection</th>
+                                    </tr>
+                                </thead>
+                                <c:forEach items="${requestScope.users}" var="userAccount">
+                                    <tr>
+                                        <td><input type="text" name="email" value="${userAccount.email}"></td>
+                                        <td><input type="text" name="firstname" value="${userAccount.firstName}"></td>
+                                        <td><input type="text" name="surname" value="${userAccount.surname}"></td>
+                                        <td>
+                                            <c:if test="${userAccount.role.equals('doctor')}">
+                                                <select>
+                                                    <option>doctor</option>
+                                                    <option>nurse</option> 
+                                                    <option>admin</option> 
+                                                    <option>patient</option> 
+                                                </select>
+                                            </c:if>
+                                            <c:if test="${userAccount.role.equals('nurse')}">
+                                                <select>
+                                                    <option>nurse</option>
+                                                    <option>doctor</option> 
+                                                    <option>admin</option> 
+                                                    <option>patient</option> 
+                                                </select>
+                                            </c:if>
+                                            <c:if test="${userAccount.role.equals('admin')}">
+                                                <select>
+                                                    <option>admin</option>
+                                                    <option>doctor</option> 
+                                                    <option>nurse</option> 
+                                                    <option>patient</option> 
+                                                </select>
+                                            </c:if>
+                                            <c:if test="${userAccount.role.equals('patient')}">
+                                                <select>
+                                                    <option>patient</option>
+                                                    <option>doctor</option> 
+                                                    <option>nurse</option> 
+                                                    <option>admin</option> 
+                                                </select>
+                                            </c:if>
+   <!--                                        <input type="text" name="role" value="${userAccount.role}"> -->
+                                        </td>
+                                        <td><input type="checkbox" name="selected" value="${userAccount.ID}"></td> 
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <br>
+                            <button id="blueButton">Edit Selected</button>
+                        </form>
+                    </div>  
+                </details>
+                <details>
+                    <summary>Audit Logs</summary>
+                    <div id="table">
+                        <table id="appointments">                   
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Event</th>
+                                </tr>                        
+                            </thead>
+                            <c:forEach items="${requestScope.events}" var="event">
+                                <tr>
+                                    <td>${event.createdAt}</td>
+                                    <td>${event.description}</td>
+                                </tr>
+                            </c:forEach>            
+                        </table>
+                    </div>
+                </details>
+                <details>
+                    <summary>Users</summary>  
+                    <div id="table">
+                        <table id="appointments">  
+                            <c:set var="count" value="0" scope="page" />
+                            <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Active</th>
+                                    <th>View Profile</th>
+                                </tr>
+                            </thead>
+                            <c:forEach items="${requestScope.users}" var="userAccount">
+                                <c:set var="count" value="${count + 1}" scope="page"/>
+                                <tr>
+                                    <td>${count}</td>
+                                    <td>${userAccount.firstName} ${userAccount.surname}</td>
+                                    <td>${userAccount.role}</td>
+                                    <c:if test="${userAccount.active}">  
+                                        <td><input type="checkbox" checked ></td>
+                                        </c:if>
+                                        <c:if test="${!userAccount.active}">
+                                        <td><input type="checkbox"></td>
+                                        </c:if>
+                                    <td><button id="bluebutton">View</button</td>
+                                </tr>
+                            </c:forEach>
+                        </table>  
+                    </div>
+                </details>
+                <c:set var="count" value="0" scope="page"/>
+                <details>
+                    <summary>Pending Approvals</summary>
+                    <form method="post">
+                        <c:if test="${requestScope.approvals.size() == 0}">
+                            <h3>No pending account approvals</h3>
+                        </c:if>
+                        <c:if test="${requestScope.approvals.size() > 0}">              
+                            <table id="appointments">
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Email</th>
+                                    <th>First Name</th>
+                                    <th>Surname</th>
+                                    <th>Requested Role</th>
+                                    <th>Approve</th>
+                                    <th>Deny</th>
+                                </tr>
+                                <c:forEach items="${requestScope.approvals}" var="approval">
+                                    <c:set var="count" value="${count + 1}" scope="page"/>
+                                    <tr>
+                                        <th>${count}</th>
+                                        <th>${approval.account.email}</th>
+                                        <th>${approval.account.firstName}</th>
+                                        <th>${approval.account.surname}</th>
+                                        <th>${approval.account.role}</th>
+                                        <th><label><input type="radio" value="${approval.ID}-approved" name="approval-${count}"></label>
+                                        </th>
+                                        <th><label><input type="radio" value="${approval.ID}-denied" name="approval-${count}"></label></th>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <input type="hidden" id="action" name="action" value="submit-approvals">
+                            <button id="blueButton">Submit Account Approvals</button>
+                        </c:if>
+                    </form>  
+                </details>
+                <details>
+                    <summary>Edit Working Days</summary>
+                    <form method="post" id="workingdays">
+                        <table id="appointments">                   
+                            <tr>
+                                <th>Staff Name</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                            </tr>
+                            <c:forEach items="${requestScope.staff}" var="current">
+                                <tr>
+                                    <td><c:out value="${current.firstName} ${current.surname}"/></td>
+                                    <td><label>
+                                            <c:if test="${current.schedule.getDayBoolean(0)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-0" checked/>
+                                            </c:if>
+                                            <c:if test="${!current.schedule.getDayBoolean(0)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-0"/>
+                                            </c:if>
+                                        </label></td>
+                                    <td><label>
+                                            <c:if test="${current.schedule.getScheduleBoolean(1)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-1" checked/>
+                                            </c:if>
+                                            <c:if test="${!current.schedule.getScheduleBoolean(1)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-1"/>
+                                            </c:if>
+                                        </label></td>
+                                    <td><label>
+                                            <c:if test="${current.schedule.getDayBoolean(2)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-2" checked/>
+                                            </c:if>
+                                            <c:if test="${!current.schedule.getDayBoolean(2)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-2"/>
+                                            </c:if>
+                                        </label></td>
+                                    <td><label>
+                                            <c:if test="${current.schedule.getDayBoolean(3)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-3" checked/>
+                                            </c:if>
+                                            <c:if test="${!current.schedule.getDayBoolean(3)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-3"/>
+                                            </c:if>
+                                        </label></td>
+                                    <td><label>
+                                            <c:if test="${current.schedule.getDayBoolean(4)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-4" checked/>
+                                            </c:if>
+                                            <c:if test="${!current.schedule.getDayBoolean(4)}">
+                                                <input type="checkbox" name="checkrows" value="${current.ID}-4"/>
+                                            </c:if>
+                                        </label></td>
+
+                                </tr>
+                            </c:forEach>
+                        </table>
+                        <br>
+                        <button type="submit" name="action" value="Confirm Working Days" form="workingdays" id="blueButton">Confirm Working Days</button>
+                        <!--                        <input type="submit" name="action" value="Confirm Working Days"/>-->
+                    </form>
+                </details>
+                <details>
+                    <summary>View User</summary>
+                    <form method="get" action="${pageContext.request.contextPath}/dashboard/patientinformation">
+                        <label>
+                            <select name="userID">
+                                <c:forEach items="${requestScope.users}" var="user">
+                                    <option id="userID" value="${user.ID}">${user.firstName} ${user.surname}</option>
+                                </c:forEach>
+                            </select>
+                        </label>
+                        <button>View User</button>
+                    </form>
+                </details>
+                <details>
+                    <summary>Delete User</summary>
+                    <form>                    
+                        <div id="table">
+                            <table id="appointments">  
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th>Selection</th>
+                                    </tr>
+                                </thead>
+                                <c:forEach items="${requestScope.users}" var="userAccount">
+                                    <tr>
+                                        <td>${userAccount.email}</td>
+                                        <td>${userAccount.firstName} ${userAccount.surname}</td>
+                                        <td>${userAccount.role}</td>
+                                        <td><input type="checkbox" name="selected" value="${userAccount.ID}"></td> 
+                                    </tr>
+                                </c:forEach>                               
+                            </table>  
+                            <br>
+                            <button id="pinkButton">Delete Selected</button> 
+                        </div>                       
+                        
+                    </form>
+                </details>       
+                <details>
+                    <summary>Recreate Tables</summary>
+                    <span><p>Warning, this action will reset all databases</p></span>
+                    <form method="post">
+                        <input type="hidden" name="action" value="recreate-tables">
+                        <button>Recreate Tables</button>
+                    </form>  
+                </details>
                 <form method="post" action="${pageContext.request.contextPath}/login">
-                    <label>
-                        First Name<span class="highlight-span">*</span>
-                        <input name="firstname" type="text" autocomplete="name">
-                    </label> 
-
-                    <label>                
-                        Surname<span class="highlight-span">*</span>
-                        <input name="surname" type="text">
-                    </label>
-
-                    <label>
-                        Email<span class="highlight-span">*</span>
-                        <input name="email" type="text" autocomplete="email">
-                    </label> 
-
-                    <label>
-                        Password<span class="highlight-span">*</span>
-                        <input name="password" type="text" autocomplete="off">
-                    </label>            
-                    <br/>
-                    <button class="blueButton">Submit</button>
+                    <button>Log Out</button>
                 </form>
             </div>
-        </details>
-        <details>
-            <summary>Edit User</summary>
-            <div>  
-                <form>
-                    <table id="appointments">
-                        <thead>
-                            <tr>
-                                <th>Email</th>
-                                <th>First Name</th>
-                                <th>Surname</th>
-                                <th>Password</th>
-                                <th>Selection</th>
-                            </tr>
-                        </thead>
-                        <c:forEach items="${requestScope.users}" var="userAccount">
-                            <tr>
-                                <td><input type="text" name="email" value="${userAccount.email}"></td>
-                                <td><input type="text" name="firstname" value="${userAccount.firstName}"></td>
-                                <td><input type="text" name="surname" value="${userAccount.surname}"></td>
-                                <td><input type="text" name="password" value="${userAccount.password}"></td> 
-                                <td><input type="checkbox" name="selected" value="${userAccount.ID}"></td> 
-                            </tr>
-                        </c:forEach>
-                    </table>
-                    <br>
-                    <button id="options">Edit Selected</button>
-                </form>
-            </div>  
-        </details>
-        <details>
-            <summary>Audit Logs</summary>
-            <div id="table">
-                <table id="appointments">                   
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Event</th>
-                        </tr>                        
-                    </thead>
-                    <c:forEach items="${requestScope.events}" var="event">
-                        <tr>
-                            <td>${event.createdAt}</td>
-                            <td>${event.description}</td>
-                        </tr>
-                    </c:forEach>            
-                </table>
-            </div>
-        </details>
-        <details>
-            <summary>Users</summary>            
-            <table id="appointments">  
-                <c:set var="count" value="0" scope="page" />
-                <thead>
-                    <tr>
-                        <th>Number</th>
-                        <th>Name</th>
-                        <th>Role</th>
-                        <th>Active</th>
-                    </tr>
-                </thead>
-                <c:forEach items="${requestScope.users}" var="userAccount">
-                    <c:set var="count" value="${count + 1}" scope="page"/>
-                    <tr>
-                        <td>${count}</td>
-                        <td>${userAccount.firstName} ${userAccount.surname}</td>
-                        <td>${userAccount.role}</td>
-                        <c:if test="${userAccount.active}">  
-                            <td><i class="fa fa-check-circle" aria-hidden="true"></i></td>
-                            </c:if>
-                            <c:if test="${!userAccount.active}">
-                            <td><i class="fa fa-times-circle-o" aria-hidden="true"></i></td>
-                            </c:if>
-                    </tr>
-                </c:forEach>
-            </table>            
-        </details>
-        <c:set var="count" value="0" scope="page"/>
-        <details>
-            <summary>Pending Approvals</summary>
-            <form method="post">
-                <c:if test="${requestScope.approvals.size() == 0}">
-                    <h3>No pending account approvals</h3>
-                </c:if>
-                <c:if test="${requestScope.approvals.size() > 0}">              
-                    <table id="appointments">
-                        <tr>
-                            <th>Number</th>
-                            <th>Email</th>
-                            <th>First Name</th>
-                            <th>Surname</th>
-                            <th>Requested Role</th>
-                            <th>Approve</th>
-                            <th>Deny</th>
-                        </tr>
-                        <c:forEach items="${requestScope.approvals}" var="approval">
-                            <c:set var="count" value="${count + 1}" scope="page"/>
-                            <tr>
-                                <th>${count}</th>
-                                <th>${approval.account.email}</th>
-                                <th>${approval.account.firstName}</th>
-                                <th>${approval.account.surname}</th>
-                                <th>${approval.account.role}</th>
-                                <th><label><input type="radio" value="${approval.ID}-approved" name="approval-${count}"></label>
-                                </th>
-                                <th><label><input type="radio" value="${approval.ID}-denied" name="approval-${count}"></label></th>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                    <input type="hidden" id="action" name="action" value="submit-approvals">
-                    <button id="options">Submit Account Approvals</button>
-                </c:if>
-            </form>  
-        </details>
-        <details>
-            <summary>Edit Working Days</summary>
-            <form method="post">
-                <table id="appointments">                   
-                    <tr>
-                        <th>Staff Name</th>
-                        <th>Monday</th>
-                        <th>Tuesday</th>
-                        <th>Wednesday</th>
-                        <th>Thursday</th>
-                        <th>Friday</th>
-                    </tr>
-                    <c:forEach items="${requestScope.staff}" var="current">
-                        <tr>
-                            <td><c:out value="${current.firstName} ${current.surname}"/></td>
-                            <td><label>
-                                    <c:if test="${current.schedule.getDayBoolean(0)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-0" checked/>
-                                    </c:if>
-                                    <c:if test="${!current.schedule.getDayBoolean(0)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-0"/>
-                                    </c:if>
-                                </label></td>
-                            <td><label>
-                                    <c:if test="${current.schedule.getScheduleBoolean(1)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-1" checked/>
-                                    </c:if>
-                                    <c:if test="${!current.schedule.getScheduleBoolean(1)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-1"/>
-                                    </c:if>
-                                </label></td>
-                            <td><label>
-                                    <c:if test="${current.schedule.getDayBoolean(2)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-2" checked/>
-                                    </c:if>
-                                    <c:if test="${!current.schedule.getDayBoolean(2)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-2"/>
-                                    </c:if>
-                                </label></td>
-                            <td><label>
-                                    <c:if test="${current.schedule.getDayBoolean(3)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-3" checked/>
-                                    </c:if>
-                                    <c:if test="${!current.schedule.getDayBoolean(3)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-3"/>
-                                    </c:if>
-                                </label></td>
-                            <td><label>
-                                    <c:if test="${current.schedule.getDayBoolean(4)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-4" checked/>
-                                    </c:if>
-                                    <c:if test="${!current.schedule.getDayBoolean(4)}">
-                                        <input type="checkbox" name="checkrows" value="${current.ID}-4"/>
-                                    </c:if>
-                                </label></td>
-
-                        </tr>
-                    </c:forEach>
-                </table>
-                <br>
-                <input type="submit" name="action" value="Confirm Working Days"/>
-            </form>
-        </details>
-        <details>
-            <summary>View User</summary>
-            <form method="get" action="${pageContext.request.contextPath}/dashboard/patientinformation">
-                <label>
-                    <select name="userID">
-                        <c:forEach items="${requestScope.users}" var="user">
-                            <option id="userID" value="${user.ID}">${user.firstName} ${user.surname}</option>
-                        </c:forEach>
-                    </select>
-                </label>
-                <button>View User</button>
-            </form>
-        </details>
-
-        <details>
-            <summary>Delete User</summary>
-            <form></form>
-        </details>       
-
-        <form method="post">
-            <input type="hidden" name="action" value="recreate-tables">
-            <button>Recreate Tables</button>
-        </form>                              
-        <form method="post" action="${pageContext.request.contextPath}/login">
-            <button>Log Out</button>
-        </form>
-    </center>
-</body>
+        </div>
+    </body>
 </html>

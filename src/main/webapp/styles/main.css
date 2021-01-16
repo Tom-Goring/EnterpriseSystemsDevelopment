@@ -1,10 +1,23 @@
+
+:root {
+    --primaryLight: #e6f3ff;
+    --primaryDark: #42a5f5;
+    --secondaryDark: #181818;
+    --secondaryLight: #ffffff;
+    --alternativeLight: #e31566;
+}
+
 body {
     font-family: 'PT Sans', sans-serif;
-    color: #181818;
+    color: var(--secondaryDark);
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
 }
 .header {
-    background-color: #e6f3ff;
+    background-color: var(--primaryLight);
     text-transform: uppercase;
+    
 }
 .header ul {
     list-style-type: none;
@@ -17,8 +30,8 @@ body {
     float: right;
 }
 .header li a{
-    display: block;
-    color: #181818;
+   display: block;
+    color: var(--secondaryDark);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -35,22 +48,39 @@ body {
 }
 
 .header li a:hover {
-    background-color: #e31566;
+    background-color: var(--alternativeLight);
 }
 .header li button:hover {
     background-color: #e31566;
 }
 .pinkButton {
-    color: #ffffff;
-    background-color: #e31566;
+    color: var(--secondaryLight);
+    background-color: var(--alternativeLight);
     font-weight: bold;
-    border-radius: 25px;
+    border-radius: 12px;
+    border: none;
+    padding: 15px 128px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    -ms-transform: translateX(32%);
+    transform: translateX(32%);
+    margin-top: 25px;
 }
 .blueButton {
-    color: #ffffff;
-    background-color: #42a5f5;
+    color: var(--secondaryLight);
+    background-color: var(--primaryDark);
     font-weight: bold;
-    border-radius: 25px;
+    border-radius: 12px;
+    border: none;
+    padding: 15px 128px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    -ms-transform: translateX(32%);
+    transform: translateX(32%);
+    margin-top: 25px;
 }
 h1 {
     font-weight: bold;
@@ -64,8 +94,72 @@ p {
     float: left;
     width:150px;
     display: inline;
-/*    margin-top: 25px;*/
+    margin-left:250px;
+    background-color: var(--primaryLight);
 }
+
+#parent input[type=text]{
+    width: 40%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    
+}
+#blueButton{
+    color: var(--secondaryLight);
+    background-color: var(--primaryDark);
+    font-weight: bold;
+    border-radius: 12px;
+    border: none;
+    padding: 10px 50px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+#pinkButton {
+    color: var(--secondaryLight);
+    background-color: var(--alternativeLight);
+    font-weight: bold;
+    border-radius: 12px;
+    border: none;
+    padding: 15px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+
+input[type=text]
+{
+    padding: 10px 10px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    border:1px solid;
+}
+
+select{
+    width: 100%;
+/*    color: white;*/
+    padding: 10px 10px;
+    margin: 8px 0;
+/*    border: none;*/
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    border:1px solid;
+/*    border:blue;*/
+}
+#parent select{
+     width: 40%;
+}
+
 /*img {
     display: block;
     margin-left: auto;
