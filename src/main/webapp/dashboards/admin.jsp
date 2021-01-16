@@ -22,7 +22,8 @@
                 <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
                 <li><a>${requestScope.username}</a></li>
                 <li><button type="submit" name ="action" value="" form="logout">Logout</button></li>
-            </ul>           
+            </ul>  
+            <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
         </header>
         <div id="outer">
             <div id="inner">
@@ -30,39 +31,36 @@
                 <details>
                     <summary>Add new User</summary>
                     <div id="parent">                       
-                        <form method="post" action="${pageContext.request.contextPath}/login">
+                        <form method="post" id="register" autocomplete="off">
                             <label>
                                 First Name<span class="highlight-span">*</span>
-                                <input name="firstname" type="text" autocomplete="name">
+                                <input name="submitted-name" type="text" autocomplete="off" required>
                             </label> 
 
                             <label>                
                                 Surname<span class="highlight-span">*</span>
-                                <input name="surname" type="text">
+                                <input name="submitted-surname" type="text" required>
                             </label>
-                                                      
+
                             <label>
                                 Email<span class="highlight-span">*</span>
-                                <input name="email" type="text" autocomplete="email">
+                                <input name="submitted-email" type="text" autocomplete="off" required>
                             </label> 
-                            
+
                             <label>
                                 Password<span class="highlight-span">*</span>
-                                <input name="password" type="text" autocomplete="off">
-                            </label>  
-                            
+                                <input name="submitted-password" type="text" autocomplete="off" required>
+                            </label>                              
                             <label>
-<!--                                Role<span class="highlight-span">*</span>-->
                                 Role<span class="highlight-span">*</span>
-                                <select>
+                                <select name="submitted-role" required="">
                                     <option>doctor</option>
                                     <option>patient</option>
                                     <option>nurse</option>
                                     <option>admin</option>
                                 </select>
-                            </label>  
-                            
-                            <button id="blueButton">Submit</button>
+                            </label>                            
+                            <button type="submit" id="blueButton" form="register" name="action" value="add-account">Submit</button>
                         </form>
                     </div>
                 </details>
@@ -153,6 +151,7 @@
                     <div id="table">
                         <table id="appointments">  
                             <c:set var="count" value="0" scope="page" />
+                            <form id="userview" method="get" action="${pageContext.request.contextPath}/dashboard/patientinformation"></form>
                             <thead>
                                 <tr>
                                     <th>Number</th>
@@ -174,7 +173,7 @@
                                         <c:if test="${!userAccount.active}">
                                         <td><input type="checkbox"></td>
                                         </c:if>
-                                    <td><button id="bluebutton">View</button</td>
+                                    <td><button name="userID" id="view" value="${userAccount.ID}" type="submit" form="userview">View</button</td>
                                 </tr>
                             </c:forEach>
                         </table>  
@@ -213,6 +212,7 @@
                                 </c:forEach>
                             </table>
                             <input type="hidden" id="action" name="action" value="submit-approvals">
+                            <br>
                             <button id="blueButton">Submit Account Approvals</button>
                         </c:if>
                     </form>  
@@ -281,19 +281,19 @@
                         <!--                        <input type="submit" name="action" value="Confirm Working Days"/>-->
                     </form>
                 </details>
-                <details>
-                    <summary>View User</summary>
-                    <form method="get" action="${pageContext.request.contextPath}/dashboard/patientinformation">
-                        <label>
-                            <select name="userID">
-                                <c:forEach items="${requestScope.users}" var="user">
-                                    <option id="userID" value="${user.ID}">${user.firstName} ${user.surname}</option>
-                                </c:forEach>
-                            </select>
-                        </label>
-                        <button>View User</button>
-                    </form>
-                </details>
+                <!--                <details>
+                                    <summary>View User</summary>
+                                    <form method="get" action="${pageContext.request.contextPath}/dashboard/patientinformation">
+                                        <label>
+                                            <select name="userID">
+                <c:forEach items="${requestScope.users}" var="user">
+                    <option id="userID" value="${user.ID}">${user.firstName} ${user.surname}</option>
+                </c:forEach>
+            </select>
+        </label>
+        <button>View User</button>
+    </form>
+</details>-->
                 <details>
                     <summary>Delete User</summary>
                     <form>                    
@@ -319,7 +319,6 @@
                             <br>
                             <button id="pinkButton">Delete Selected</button> 
                         </div>                       
-                        
                     </form>
                 </details>       
                 <details>
@@ -327,12 +326,12 @@
                     <span><p>Warning, this action will reset all databases</p></span>
                     <form method="post">
                         <input type="hidden" name="action" value="recreate-tables">
-                        <button>Recreate Tables</button>
+                        <button id="pinkButton">Recreate Tables</button>
                     </form>  
                 </details>
-                <form method="post" action="${pageContext.request.contextPath}/login">
+<!--                <form method="post" action="${pageContext.request.contextPath}/login">
                     <button>Log Out</button>
-                </form>
+                </form>-->
             </div>
         </div>
     </body>

@@ -20,16 +20,23 @@ import Models.Prescription.PrescriptionDAO;
 import Models.Schedule.Schedule;
 import Models.Schedule.ScheduleDAO;
 import Models.User.*;
+import static Utils.Passwords.createSaltAndHash;
 import Utils.Tables;
+import Utils.Tuple;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Locale;
 
 @WebFilter(filterName = "DashboardFilter")
 public class DashboardFilter implements Filter {
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
 
     @Override
-    public void init(FilterConfig config) throws ServletException {}
+    public void init(FilterConfig config) throws ServletException {
+    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
@@ -86,6 +93,40 @@ public class DashboardFilter implements Filter {
             String action = request.getParameter("action");
 
             switch (action) {
+                case "add-account":
+                    try {
+                        String role = request.getParameter("submitted-role").toLowerCase(Locale.ROOT);
+                        Tuple<byte[], byte[]> saltAndHash = createSaltAndHash(request.getParameter("submitted-password"));
+                        UserAccount user = new UserAccount(null,
+                                request.getParameter("submitted-name"),
+                                request.getParameter("submitted-surname"),
+                                request.getParameter("submitted-email"),
+                                saltAndHash.x,
+                                saltAndHash.y,
+                                role,
+                                !UserAccount.isPrivilegedRole(role)
+                        );
+                        UserAccountDAO.insertUserAccount(user);
+                        HttpSession session = request.getSession(false);
+                        if (UserAccount.isPrivilegedRole(role)) {
+                            session.setAttribute("approvalNeeded", true);
+                            UserAccount userWithID = UserAccountDAO.getUserAccountByEmail(user.getEmail());
+                            Approval approval = new Approval(null, userWithID, false);
+                            ApprovalDAO.insertApproval(approval);
+                            Log.info(String.format("User: %s %s requested an account of privilege level %s",
+                                    userWithID.getFirstName(), userWithID.getSurname(), userWithID.getRole()));
+                        } else {
+                            session.setAttribute("createdSuccessfully", true);
+                        }
+                        Log.info(String.format("Created new user %s %s with email %s", user.getFirstName(), user.getSurname(), user.getEmail()));
+
+                    } catch (DuplicateEmailPresentException | UserNotFoundException e) {
+                        request.setAttribute("duplicate_email_error", true);
+
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 case "recreate-tables":
                     Tables.recreateTables();
                     break;

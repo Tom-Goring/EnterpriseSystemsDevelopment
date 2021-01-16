@@ -114,12 +114,19 @@ p {
     font-weight: bold;
     border-radius: 12px;
     border: none;
-    padding: 10px 50px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
 }
-
+#view
+{
+    color: var(--secondaryLight);
+    background-color: var(--primaryDark);
+    font-weight: bold;
+    border-radius: 12px;
+    font-size: 16px;   
+}
 #pinkButton {
     color: var(--secondaryLight);
     background-color: var(--alternativeLight);
@@ -134,7 +141,7 @@ p {
 }
 
 
-input[type=text]
+#parent input[type=text]
 {
     padding: 10px 10px;
     margin: 8px 0;
@@ -144,26 +151,14 @@ input[type=text]
     border:1px solid;
 }
 
-select{
-    width: 100%;
+#parent select{
+    width: 40%;
 /*    color: white;*/
     padding: 10px 10px;
     margin: 8px 0;
-/*    border: none;*/
+    border: none;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
-    border:1px solid;
-/*    border:blue;*/
+    border:1px solid black;
 }
-#parent select{
-     width: 40%;
-}
-
-/*img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 80px;
-    width: 60%; 
-}*/
