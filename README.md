@@ -1,3 +1,12 @@
+### Group Information
+Group 25
+
+* Tom Goring
+* Maxwell Gyamfi
+* Louis Harding
+* Bredan Pires
+* Charlie Williams
+
 ### Steps to run in Intellij
 
 1. Clone repo to local directory
