@@ -1,6 +1,11 @@
 package Filters;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,10 +14,14 @@ import java.io.IOException;
 
 @WebFilter(filterName = "LoginFilter")
 public class LoginFilter implements Filter {
+
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
+
     @Override
-    public void init(FilterConfig config) throws ServletException {}
+    public void init(FilterConfig config) throws ServletException {
+    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
@@ -23,24 +32,30 @@ public class LoginFilter implements Filter {
         boolean loggedIn = session != null && session.getAttribute("currentUser") != null;
         boolean isLoginRequest = request.getServletPath().equals("/login");
         boolean isRegistrationRequest = request.getServletPath().equals("/register");
+        boolean isCSS = request.getRequestURI().contains(".css");
+        boolean isPNG = request.getRequestURI().contains(".png");
 
-        if (loggedIn) {
-            if (isLoginRequest && request.getMethod().equals("POST")) {
-                chain.doFilter(request, response);
-            } else if (isLoginRequest || isRegistrationRequest) {
-                String URI = request.getContextPath() + "/dashboard";
-                response.sendRedirect(URI);
+        if (!isCSS && !isPNG) {
+            if (loggedIn) {
+                if (isLoginRequest && request.getMethod().equals("POST")) {
+                    chain.doFilter(request, response);
+                } else if (isLoginRequest || isRegistrationRequest) {
+                    String URI = request.getContextPath() + "/dashboard";
+                    response.sendRedirect(URI);
+                } else {
+                    chain.doFilter(request, response);
+                }
             } else {
-                chain.doFilter(request, response);
+                String loginURI;
+                if (isLoginRequest || isRegistrationRequest) {
+                    chain.doFilter(request, response);
+                } else {
+                    loginURI = request.getContextPath() + "/login";
+                    response.sendRedirect(loginURI);
+                }
             }
         } else {
-            String loginURI;
-            if (isLoginRequest || isRegistrationRequest) {
-                chain.doFilter(request, response);
-            } else {
-                loginURI = request.getContextPath() + "/login";
-                response.sendRedirect(loginURI);
-            }
+            chain.doFilter(req, resp);
         }
     }
 }
