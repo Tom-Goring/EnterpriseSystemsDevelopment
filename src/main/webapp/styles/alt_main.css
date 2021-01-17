@@ -112,6 +112,41 @@ input[type=text], select {
     border-radius: 4px;
     box-sizing: border-box;
 }
+<<<<<<< Updated upstream:src/main/webapp/styles/main.css
+=======
+#blueButton{
+    color: var(--secondaryLight);
+    background-color: var(--primaryDark);
+    font-weight: bold;
+    border-radius: 12px;
+    border: none;
+    padding: 10px 50px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+#view
+{
+    color: var(--secondaryLight);
+    background-color: var(--primaryDark);
+    font-weight: bold;
+    border-radius: 12px;
+    font-size: 16px;   
+}
+#pinkButton {
+    color: var(--secondaryLight);
+    background-color: var(--alternativeLight);
+    font-weight: bold;
+    border-radius: 12px;
+    border: none;
+    padding: 15px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+>>>>>>> Stashed changes:src/main/webapp/styles/alt_main.css
 
 input[type=submit] {
     width: 100%;
