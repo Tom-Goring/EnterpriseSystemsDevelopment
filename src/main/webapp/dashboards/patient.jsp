@@ -16,14 +16,17 @@
         <title>Patient Dashboard</title>
     </head>
     <body>
-        <header class="header">
+                <div class="outer">
+    <div class="header">
+        <div class="innerDashboard">
+            <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
             <ul>
-                <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
-                <li><a>User name</a></li>
+                <li><a>${requestScope.username}</a></li>
                 <li><button type="submit" name ="action" value="" form="logout">Logout</button></li>
             </ul>
-        </header>                 
-    <center>      
+        </div>
+    </div>
+                <div class="innerDashboard">
         <c:if test="${requestScope.prescriptions.size() == 0}">
             <h3>No prescriptions available</h3>
         </c:if>
@@ -49,9 +52,10 @@
             </table>
         </c:if>      
         <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
-        <button id="options" type="submit" name ="action" value="prescriptions" form="prescription" disabled>Repeat Order</button> 
-        <a href="${pageContext.request.contextPath}/dashboard/appointments"> <button type="button" id="options">Appointments</button></a>       
+        <button class="pinkAlternateButton" type="submit" name ="action" value="prescriptions" form="prescription" disabled>Repeat Order</button> 
+        <a href="${pageContext.request.contextPath}/dashboard/appointments"> <button type="button" class="pinkAlternateButton">Appointments</button></a>       
         
-    </center>
+                </div>
+                </div>
 </body>
 </html>

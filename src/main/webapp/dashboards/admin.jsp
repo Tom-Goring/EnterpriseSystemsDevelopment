@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
-    <title>Admin Page</title>
+    <title>Admin Dashboard</title>
 </head>
 <body>
 
@@ -21,8 +21,8 @@
         <div class="innerDashboard">
             <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
             <ul>
-                <li><a href="#">Log Out</a></li>
-                <%-- TODO: Make this work --%>
+                <li><a>${requestScope.username}</a></li>
+                <li><button type="submit" name ="action" value="" form="logout">Logout</button></li>
             </ul>
         </div>
     </div>

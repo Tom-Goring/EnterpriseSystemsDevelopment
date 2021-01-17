@@ -10,19 +10,24 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP  Page</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css" />
-        
+        <title>Appointments</title>
     </head>
     <body>
-        <header class="header">
+                <div class="outer">
+    <div class="header">
+        <div class="innerDashboard">
+            <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
             <ul>
-                <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
                 <li><a>${requestScope.username}</a></li>
                 <li><button type="submit" name ="action" value="" form="logout">Logout</button></li>
             </ul>
-        </header>
+        </div>
+    </div>
+                <div class="innerDashboard">
         <c:choose>
             <c:when test="${requestScope.task == null}">
             <center>                
@@ -60,10 +65,10 @@
                     <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
                     <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments" id="optionsForm"></form>
                     <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments" id="patientInfo"></form>
-                    <button type="submit" name ="action" value="Home" id="options" form="patientInfo">Prescriptions</button>
-                    <button type="submit" name ="action" value="Add" id="options" form="optionsForm">Add</button>
-                    <button type="submit" name ="action" value="Update" id="options" form="optionsForm">Update</button>
-                    <button type="submit" name ="action" value="Delete" id="options" form="optionsForm">Delete</button>                      
+                    <button type="submit" name ="action" value="Home" class="blueAlternateButton" form="patientInfo">Prescriptions</button>
+                    <button type="submit" name ="action" value="Add" class="blueAlternateButton" form="optionsForm">Add</button>
+                    <button type="submit" name ="action" value="Update" class="blueAlternateButton" form="optionsForm">Update</button>
+                    <button type="submit" name ="action" value="Delete" class="blueAlternateButton" form="optionsForm">Delete</button>                      
                 </div>
             </center>
         </c:when>
@@ -388,5 +393,7 @@
             </center>
         </c:when>
     </c:choose>
+                </div>
+                </div>
 </body>
 </html>
