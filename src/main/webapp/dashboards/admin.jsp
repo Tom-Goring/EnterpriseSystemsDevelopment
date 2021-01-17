@@ -8,39 +8,23 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<<<<<<< Updated upstream
-<head>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Admin Dashboard</title>
-</head>
-<body>
-<div class="outer">
-    <div class="header">
-        <div class="innerDashboard">
-            <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
-=======
     <head>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/alt_main.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Admin Page</title>
     </head>
     <body>    
-        <header class="header">          
->>>>>>> Stashed changes
+        <header class="header">
             <ul>
                 <li><a>${requestScope.username}</a></li>
                 <li>
                     <button type="submit" name="action" value="" form="logout">Logout</button>
                 </li>
             </ul>
-        </div>
+        </header>
     </div>
     <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
     <div class="innerDashboard">

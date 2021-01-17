@@ -112,8 +112,7 @@ input[type=text], select {
     border-radius: 4px;
     box-sizing: border-box;
 }
-<<<<<<< Updated upstream:src/main/webapp/styles/main.css
-=======
+
 #blueButton{
     color: var(--secondaryLight);
     background-color: var(--primaryDark);
@@ -145,8 +144,6 @@ input[type=text], select {
     display: inline-block;
     font-size: 16px;
 }
-
->>>>>>> Stashed changes:src/main/webapp/styles/alt_main.css
 
 input[type=submit] {
     width: 100%;

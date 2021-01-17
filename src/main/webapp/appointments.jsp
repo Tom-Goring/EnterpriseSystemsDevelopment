@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<<<<<<< Updated upstream
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -22,17 +22,6 @@
     <div class="header">
         <div class="innerDashboard">
             <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
-=======
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP  Page</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css" />
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/alt_main.css" />
-        
-    </head>
-    <body>
-        <header class="header">
->>>>>>> Stashed changes
             <ul>
                 <li><a>${requestScope.username}</a></li>
                 <li>
