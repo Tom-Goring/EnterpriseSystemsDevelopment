@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserAccountDAO {
 
@@ -136,15 +138,15 @@ public class UserAccountDAO {
     public static boolean updateUserAccount(UserAccount userAccount) {
         try {
             Connection con = Database.getInstance().getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE USERS SET " +
-                    "FIRSTNAME = ?, " +
-                    "SURNAME = ?, " +
-                    "EMAIL = ?, " +
-                    "HASHED_PASSWORD = ?, " +
-                    "SALT = ?, " +
-                    "ROLE = ?, " +
-                    "ACTIVE = ?" +
-                    "WHERE ID = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE USERS SET "
+                    + "FIRSTNAME = ?, "
+                    + "SURNAME = ?, "
+                    + "EMAIL = ?, "
+                    + "HASHED_PASSWORD = ?, "
+                    + "SALT = ?, "
+                    + "ROLE = ?, "
+                    + "ACTIVE = ?"
+                    + "WHERE ID = ?");
             ps.setString(1, userAccount.getFirstName());
             ps.setString(2, userAccount.getSurname());
             ps.setString(3, userAccount.getEmail());
@@ -161,5 +163,36 @@ public class UserAccountDAO {
         }
     }
 
-}
+    public static void deleteUserAccount(int ID) {
+        Connection con = Database.getInstance().getConnection();
+        try {
 
+            PreparedStatement ps = con.prepareStatement("DELETE FROM USERS WHERE ID = ?");
+            ps.setInt(1, ID);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserAccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void updateUserAccountDetails(int ID, String email, String role, String firstname, String surname) throws SQLException, DuplicateEmailPresentException {
+        
+        try {
+            Connection con = Database.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("UPDATE USERS SET FIRSTNAME=?,SURNAME =?,EMAIL=?,ROLE=? WHERE ID=?"
+                    + "WHERE ID = ?");
+            ps.setString(1, firstname);
+            ps.setString(2, surname);
+            ps.setString(3, email);
+            ps.setString(4, role);
+            ps.setInt(5, ID);
+            ps.executeUpdate();
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            e.printStackTrace();
+            throw new DuplicateEmailPresentException();
+
+        }
+
+    }
+}

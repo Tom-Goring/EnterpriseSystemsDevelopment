@@ -25,7 +25,10 @@ import Utils.Tables;
 import Utils.Tuple;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebFilter(filterName = "DashboardFilter")
 public class DashboardFilter implements Filter {
@@ -130,6 +133,39 @@ public class DashboardFilter implements Filter {
                 case "recreate-tables":
                     Tables.recreateTables();
                     break;
+
+                case "update-selected":
+                    String[] ids = request.getParameterValues("userIDS");
+                    String[] emails = request.getParameterValues("email");
+                    String[] firstnames = request.getParameterValues("firstname");
+                    String[] lastnames = request.getParameterValues("surname");
+                    String[] roles = request.getParameterValues("types");
+                    String[] selected = request.getParameterValues("selected");
+
+                    if (selected != null) {
+                        for (int i = 0; i < ids.length; i++) {
+                            if (Arrays.asList(selected).contains(String.valueOf(i + 1))) {
+                                try {
+                                    UserAccountDAO.updateUserAccountDetails(Integer.parseInt(ids[i]), emails[i], roles[i], firstnames[i], lastnames[i]);
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(DashboardFilter.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (DuplicateEmailPresentException ex) {
+                                    Logger.getLogger(DashboardFilter.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                case "delete-selected":
+                    String[] selectedUsersID = request.getParameterValues("selected");
+
+                    if (selectedUsersID != null) {
+                        for (String selectedUsersID1 : selectedUsersID) {
+                            UserAccountDAO.deleteUserAccount(Integer.parseInt(selectedUsersID1));
+                        }
+                    }
+                    break;
                 case "Confirm Working Days":
                     String[] rawSchedules = request.getParameterValues("checkrows");
                     if (rawSchedules.length > 0) {
@@ -161,6 +197,7 @@ public class DashboardFilter implements Filter {
                 case "submit-approvals":
                     int count = 1;
                     String rawApproval = request.getParameter("approval-" + count);
+                    String[] raw = request.getParameterValues("approval-" + count);
                     while (rawApproval != null) {
                         String[] IDtoApproval = rawApproval.split("-");
                         Approval approval = ApprovalDAO.getApproval(Integer.parseInt(IDtoApproval[0]));

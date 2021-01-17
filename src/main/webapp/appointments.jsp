@@ -71,16 +71,16 @@
                               id="optionsForm"></form>
                         <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments"
                               id="patientInfo"></form>
-                        <button type="submit" name="action" value="Home" class="blueAlternateButton" form="patientInfo">
+                        <button type="submit" name="action" value="Home" id="options" form="patientInfo">
                             Prescriptions
                         </button>
-                        <button type="submit" name="action" value="Add" class="blueAlternateButton" form="optionsForm">
+                        <button type="submit" name="action" value="Add" id="options" form="optionsForm">
                             Add
                         </button>
-                        <button type="submit" name="action" value="Update" class="blueAlternateButton"
+                        <button type="submit" name="action" value="Update" id="options"
                                 form="optionsForm">Update
                         </button>
-                        <button type="submit" name="action" value="Delete" class="blueAlternateButton"
+                        <button type="submit" name="action" value="Delete" id="options"
                                 form="optionsForm">Delete
                         </button>
                     </div>
