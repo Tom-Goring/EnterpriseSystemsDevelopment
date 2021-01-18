@@ -9,17 +9,21 @@ import Models.User.User;
 import Models.User.UserDAO;
 import Models.User.UserNotFoundException;
 import Utils.Database;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author maxwell
  */
 public class AppointmentDAO {
@@ -40,6 +44,11 @@ public class AppointmentDAO {
 
         } catch (SQLException e) {
             Logger.getLogger(Appointment.class.getName()).log(Level.SEVERE, null, e);
+            try {
+                throw e;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
 
@@ -53,6 +62,11 @@ public class AppointmentDAO {
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(AppointmentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                throw ex;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
 
@@ -64,6 +78,11 @@ public class AppointmentDAO {
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(AppointmentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                throw ex;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
 
@@ -97,6 +116,11 @@ public class AppointmentDAO {
             return appointments;
         } catch (UserNotFoundException | SQLException e) {
             e.printStackTrace();
+            try {
+                throw e;
+            } catch (SQLException | UserNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
             return null;
         }
     }

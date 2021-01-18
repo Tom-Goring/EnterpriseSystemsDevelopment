@@ -1,4 +1,4 @@
-package UserTest;
+package ModelsTest.UserTest;
 
 import Models.User.DuplicateEmailPresentException;
 import Models.User.User;
