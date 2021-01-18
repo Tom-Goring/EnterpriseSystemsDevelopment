@@ -13,7 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css"/>
+<!--        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css"/>-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
         <title>Appointments</title>
     </head>
@@ -25,7 +25,7 @@
                     <ul>
                         <li><a>${requestScope.username}</a></li>
                         <li>
-                            <button type="submit" name="action" value="" form="logout">Logout</button>
+                                <button type="submit" name="action" value="" form="logout" id="pinkButton">Logout</button>                            
                         </li>
                     </ul>
                 </div>
@@ -94,8 +94,7 @@
                 </c:if>
                 <c:if test="${requestScope.slots.size() > min}">             
                     <form action="${pageContext.request.contextPath}/dashboard/appointments" method="post">
-                        <table id="appointments">
-                            <caption>Current Appointment Booking</caption>
+                        <table id="appointments">          
                             <tr>
                                 <th>Doctor</th>
                                 <th>Slots</th>

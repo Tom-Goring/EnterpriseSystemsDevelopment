@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css"/>
+<!--    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css"/>-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Admin Page</title>
 </head>
@@ -23,7 +23,7 @@
         <div class="innerDashboard">
             <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
             <ul>
-<!--                <li><a>${requestScope.username}</a></li>-->
+<!--                <li><a>${requestScope.hello}</a></li>-->
                 <li>
                     <button type="submit" name="action" value="" form="logout" id="pinkButton">Logout</button>
                 </li>
