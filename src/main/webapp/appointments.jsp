@@ -73,7 +73,7 @@
                         <div id="addbooking">
                             <label>
                                 Date:
-                                <input type="date" name="date" required="">
+                                <input type="date" name="date" required="" min="${requestScope.minimumDate}" max="2099-01-18">
                             </label>
                             <label>
                                 Length:

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -77,11 +78,15 @@ public class AppointmentServlet extends HttpServlet {
                     break;
             }
         } else {
+            
+            LocalDate today = java.time.LocalDate.now();  
+            String minimumDate = today.toString();
             User user = (User) request.getSession().getAttribute("currentUser");
             ArrayList<Appointment> allAppointments;
             ArrayList<User> doctorsList = UserDAO.getAllStaff();
             allAppointments = AppointmentDAO.retrieveAppointments(user);
-
+            
+            request.setAttribute("minimumDate", minimumDate);
             request.setAttribute("appointments", allAppointments);
             request.setAttribute("doctors", doctorsList);
             dispatcher = request.getRequestDispatcher("/appointments.jsp");
