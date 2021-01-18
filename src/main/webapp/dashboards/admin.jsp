@@ -23,9 +23,9 @@
         <div class="innerDashboard">
             <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
             <ul>
-                <li><a>${requestScope.username}</a></li>
+<!--                <li><a>${requestScope.username}</a></li>-->
                 <li>
-                    <button type="submit" name="action" value="" form="logout">Logout</button>
+                    <button type="submit" name="action" value="" form="logout" id="pinkButton">Logout</button>
                 </li>
             </ul>
         </div>
@@ -123,8 +123,7 @@
                                             <option>nurse</option>
                                             <option>admin</option>
                                         </select>
-                                    </c:if>
-                                    <!-- <input type="text" name="role" value="${userAccount.role}"> -->
+                                    </c:if>                                   
                                 </td>
                                 <td><input type="checkbox" name="selected" value="${count}"></td>
                             </tr>
@@ -301,8 +300,7 @@
                     <br>
                     <button type="submit" name="action" value="Confirm Working Days" form="workingdays" id="blueButton">
                         Confirm Working Days
-                    </button>
-                    <!--                        <input type="submit" name="action" value="Confirm Working Days"/>-->
+                    </button>                   
                 </div>
             </form>
         </details>
@@ -343,9 +341,6 @@
                 <button id="pinkButton">Recreate Tables</button>
             </form>
         </details>
-        <!--                <form method="post" action="${pageContext.request.contextPath}/login">
-                        <button>Log Out</button>
-                    </form>-->
     </div>
 </div>
 </body>

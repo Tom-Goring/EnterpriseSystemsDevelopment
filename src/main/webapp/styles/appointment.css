@@ -8,12 +8,7 @@
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
-
 }
-
-/*#appointments tr:nth-child(even){background-color: #f2f2f2;}*/
-
-/*#appointments tr:hover {background-color: #ddd;}*/
 
 #appointments th {
     padding-top: 12px;
@@ -26,7 +21,6 @@
     top: 0;
     z-index: 2
 }
-
 #slots {
     text-align: center;
     width: 50%;
@@ -169,4 +163,23 @@ details p {
 
 details[open] summary ~ * {
     animation: open 0.3s ease-in-out;
+}
+
+#addbooking
+{
+    display: block;
+}
+#addbooking select
+{
+    width:20%;
+}
+
+input[type=date]
+{
+    width:20%;
+    height:40px;
+    border: 1px solid #ccc;
+     border-radius: 4px;
+    box-sizing: border-box;
+    
 }
