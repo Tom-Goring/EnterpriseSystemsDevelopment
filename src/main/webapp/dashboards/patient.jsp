@@ -64,7 +64,7 @@
                     </c:if>
                     <c:if test="${requestScope.prescriptions.size() != 0}">
                         <div id="table">
-                            <form>
+                            <form id="repeatPrescriptions" method="post" action="${pageContext.request.contextPath}/IssuePrescription">
                                 <table id="appointments">
                                     <tr>
                                         <th>Medicine</th>
@@ -77,17 +77,22 @@
                                     <c:forEach items="${requestScope.prescriptions}" var="prescription">
                                         <tr>
                                             <td>${prescription.medicine}</td>
-                                            <td>${prescription.quantity}</td>
+                                            <td>${prescription.quantity}</td>                                       
                                             <td>${prescription.repeating}</td>
                                             <td>${prescription.issueDate}</td>
                                             <td>${prescription.endDate}</td>
-                                            <td><input type="radio" name="selected" value="${prescription.ID}"></td>
+                                            <c:if test="${prescription.repeating=='true'}">
+                                                <td><input type="radio" name="selected" value="${prescription.ID}" disabled=""></td>
+                                            </c:if>
+                                            <c:if test="${prescription.repeating=='false'}">
+                                                <td><input type="radio" name="selected" value="${prescription.ID}"></td>
+                                            </c:if>
                                         </tr>
                                     </c:forEach>                        
                                 </table>
                                 <br>
-                                <button id="pinkButtonAlternative" type="submit" name="action" value="prescriptions" form="prescription"
-                                        disabled>Repeat Order
+                                <button id="pinkButtonAlternative" type="submit" name="action" value="repeatPrescriptions" form="repeatPrescriptions"
+                                        >Repeat Order
                                 </button>
                             </form>
 

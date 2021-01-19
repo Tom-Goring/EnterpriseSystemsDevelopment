@@ -114,6 +114,16 @@ input[type=text], select {
     box-sizing: border-box;
 }
 
+input[type=number]{
+    width: 100%;
+    padding: 12px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 #blueButtonAlternative{
     color: var(--secondaryLight);
     background-color: var(--primaryDark);
@@ -303,10 +313,13 @@ details[open] summary ~ * {
 
 input[type=date]
 {
-    width:20%;
+    width:40%;
     height:40px;
     border: 1px solid #ccc;
      border-radius: 4px;
     box-sizing: border-box;
     
+}
+#parent{
+    display:flex;
 }
