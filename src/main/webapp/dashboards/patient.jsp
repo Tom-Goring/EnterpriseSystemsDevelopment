@@ -6,7 +6,7 @@
   Time: 02:11
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
     <head>
         <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -22,7 +22,7 @@
                     <ul>
 <!--                        <li><a>${requestScope.username}</a></li>-->
                         <li>
-                            <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
+                            <button type="submit" name="action" value="" form="logout" class="pinkButtonAlternative">Logout</button>
                         </li>
                     </ul>
                     <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
@@ -36,7 +36,7 @@
                     </c:if>
                     <c:if test="${requestScope.prescriptions.size() != 0}">
                         <div id="table">
-                            <table id="appointments">
+                            <table id="prescriptions">
                                 <tr>
                                     <th>Medicine</th>
                                     <th>Quantity</th>
@@ -77,7 +77,7 @@
                                     <c:forEach items="${requestScope.prescriptions}" var="prescription">
                                         <tr>
                                             <td>${prescription.medicine}</td>
-                                            <td>${prescription.quantity}</td>                                       
+                                            <td>${prescription.quantity}</td>
                                             <td>${prescription.repeating}</td>
                                             <td>${prescription.issueDate}</td>
                                             <td>${prescription.endDate}</td>
@@ -88,10 +88,10 @@
                                                 <td><input type="radio" name="selected" value="${prescription.ID}"></td>
                                             </c:if>
                                         </tr>
-                                    </c:forEach>                        
+                                    </c:forEach>
                                 </table>
                                 <br>
-                                <button id="pinkButtonAlternative" type="submit" name="action" value="repeatPrescriptions" form="repeatPrescriptions"
+                                <button class="pinkButtonAlternative" type="submit" name="action" value="repeatPrescriptions" form="repeatPrescriptions"
                                         >Repeat Order
                                 </button>
                             </form>
@@ -101,12 +101,49 @@
                 </details>
                 <details>
                     <summary>Appointments</summary>
-                    <a href="${pageContext.request.contextPath}/dashboard/appointments">
-                        <button type="button" id="pinkButtonAlternative">Manage Appointments</button>
+                    <c:if test="${requestScope.appointments.size() == 0}">
+                        <h3>No appointments scheduled</h3>
+                    </c:if>
+                    <c:if test="${requestScope.appointments.size() != 0}">
+                        <table border="1" cellpadding="5">
+                            <tr>
+                                <th>Date</th>
+                                <th>Staff Member</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Public/Private</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            <c:forEach items="${requestScope.appointments}" var="appointment">
+                                <tr>
+                                    <td>${appointment.date}</td>
+                                    <td>${appointment.staffMember.firstName} ${appointment.staffMember.surname}</td>
+                                    <td>${appointment.startTime}</td>
+                                    <td>${appointment.endTime}</td>
+                                    <td>${appointment.type}</td>
+                                    <td>
+                                        <form method="get" action="${pageContext.request.contextPath}/appointments/update">
+                                            <button>Edit</button>
+                                            <input type="hidden" name="appointmentID" value="${appointment.ID}">
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="${pageContext.request.contextPath}/appointments/delete">
+                                            <button>Delete</button>
+                                            <input type="hidden" name="appointmentID" value="${appointment.ID}">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
+                    <br/>
+                    <a href="${pageContext.request.contextPath}/appointments/create">
+                        <button type="button" class="pinkButton">Schedule a new appointment</button>
                     </a>
                     <br>
                 </details>
-
             </div>
         </div>
     </body>
