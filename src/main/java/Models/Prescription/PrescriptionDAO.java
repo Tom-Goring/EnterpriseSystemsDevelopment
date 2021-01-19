@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class PrescriptionDAO {
     
-    public static void insertPrescription(Prescription prescription){
+    public static boolean insertPrescription(Prescription prescription){
         Connection con = Database.getInstance().getConnection();
         
         try {
@@ -32,10 +32,12 @@ public class PrescriptionDAO {
             ps.executeUpdate();
 
             System.out.println("Prescription inserted");
+            return true;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return false;
     }
     
     public static Prescription getPrescription(int ID) throws PrescriptionNotFoundException {
