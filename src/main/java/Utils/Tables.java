@@ -6,8 +6,10 @@ import Models.User.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import static Utils.Passwords.createSaltAndHash;
 
@@ -23,57 +25,69 @@ public class Tables {
                     "hashed_password VARCHAR(128) FOR BIT DATA not null," +
                     "salt VARCHAR(16) FOR BIT DATA not null, " +
                     "role VARCHAR(16) not null, " +
-                    "active boolean not null" +
+                    "active boolean not null, " +
+                    "DOB DATE not null, " +
+                    "city varchar(30) not null, " +
+                    "postcode varchar(20) not null, " +
+                    "street varchar(40) not null, " +
+                    "gender varchar(10), " +
+                    "type varchar(20)" +
                     ")");
             ps.executeUpdate();
             System.out.println("Table created successfully!");
+
+            Date generic_dob = Date.valueOf(LocalDate.now());
+            Address generic_address = new Address("City", "AAA AAA", "Street");
+
             Tuple<byte[], byte[]> saltAndHash = createSaltAndHash("admin");
-            UserAccount admin = new UserAccount(null,
-                    "admin",
-                    "",
-                    "admin",
+
+            User admin = new User(null, "admin", "admin", "admin@admin.com", "admin", generic_dob, generic_address, Gender.Male, Type.Other);
+
+            UserAccount adminAccount = new UserAccount(
+                    admin,
                     saltAndHash.x,
                     saltAndHash.y,
-                    "admin",
                     true
             );
-            UserAccountDAO.insertUserAccount(admin);
+            UserAccountDAO.insertUserAccount(adminAccount);
             System.out.println("Admin user created successfully!");
 
+
             Tuple<byte[], byte[]> saltAndHash2 = createSaltAndHash("password");
-            UserAccount doctor1 = new UserAccount(null,
-                    "doctor",
-                    "",
-                    "doctor1",
+
+            User doctorUser1 = new User(null, "doctor", "doctorson", "doctor1@doctor.com", "doctor", generic_dob, generic_address, Gender.Male, Type.Other);
+
+            UserAccount doctor1 = new UserAccount(
+                    doctorUser1,
                     saltAndHash2.x,
                     saltAndHash2.y,
-                    "doctor",
                     true
             );
+
             UserAccountDAO.insertUserAccount(doctor1);
             System.out.println("Doctor1 user created successfully!");
 
             Tuple<byte[], byte[]> saltAndHash3 = createSaltAndHash("password");
-            UserAccount doctor2 = new UserAccount(null,
-                    "doctor2",
-                    "",
-                    "doctor2",
+
+            User doctorUser2 = new User(null, "femdoc", "doctorsdottir", "doctor2@doctor.com", "doctor", generic_dob, generic_address, Gender.Female, Type.Other);
+
+            UserAccount doctor2 = new UserAccount(
+                    doctorUser2,
                     saltAndHash3.x,
                     saltAndHash3.y,
-                    "doctor",
                     true
             );
             UserAccountDAO.insertUserAccount(doctor2);
             System.out.println("Doctor2 user created successfully!");
 
             Tuple<byte[], byte[]> saltAndHash4 = createSaltAndHash("password");
-            UserAccount patient = new UserAccount(null,
-                    "patient",
-                    "",
-                    "patient",
+
+            User patientUser = new User(null, "patient", "patientperson", "patient@patient.com", "patient", generic_dob, generic_address, Gender.Male, Type.PublicPatient);
+
+            UserAccount patient = new UserAccount(
+                    patientUser,
                     saltAndHash4.x,
                     saltAndHash4.y,
-                    "patient",
                     true
             );
             UserAccountDAO.insertUserAccount(patient);
