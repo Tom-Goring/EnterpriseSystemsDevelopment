@@ -8,81 +8,98 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-    <h3>${requestScope.user.firstName} ${requestScope.user.surname}</h3>
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>Firstname</th>
-            <th>Surname</th>
-            <th>Email</th>
-            <th>DOB</th>
-            <th>City</th>
-            <th>Street</th>
-            <th>Post Code</th>
-            <th>Gender</th>
-            <th>User Role</th>
-        </tr>
-        <tr>
-            <td>${requestScope.user.firstName}</td>
-            <td>${requestScope.user.surname}</td>
-            <td>${requestScope.user.email}</td>
-            <td>${requestScope.user.DOB}</td>
-            <td>${requestScope.user.address.city}</td>
-            <td>${requestScope.user.address.street}</td>
-            <td>${requestScope.user.address.postcode}</td>
-            <td>${requestScope.user.gender}</td>
-            <td>${requestScope.user.role}</td>
-        </tr>
-    </table>
-    <br/>
-    <c:if test="${requestScope.appointments.size() != 0}">
-        <table border="1" cellpadding="5">
-            <tr>
-                <th>Staff Member</th>
-                <th>Patient</th>
-                <th>Date</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Type</th>
-            </tr>
-            <c:forEach items="${requestScope.appointments}" var="appointment">
-                <tr>
-                    <td>${appointment.staffMember.firstName} ${appointment.staffMember.surname}</td>
-                    <td>${appointment.patient.firstName} ${appointment.patient.surname}</td>
-                    <td>${appointment.date}</td>
-                    <td>${appointment.startTime}</td>
-                    <td>${appointment.endTime}</td>
-                    <td>${appointment.type}</td>
-                </tr>
-            </c:forEach>
-        </table>
-    </c:if>
-    <br/>
-    <c:if test="${requestScope.prescriptions.size() != 0}">
-        <table cellpadding="5" border="1">
-            <tr>
-                <th>Patient</th>
-                <th>Medicine</th>
-                <th>Quantity</th>
-                <th>Repeating</th>
-                <th>Issue Date</th>
-                <th>End Date</th>
-            </tr>
-            <c:forEach items="${requestScope.prescriptions}" var="prescriptions">
-                <tr>
-                    <td>${prescriptions.patient}</td>
-                    <td>${prescriptions.medicine}</td>
-                    <td>${prescriptions.quantity}</td>
-                    <td>${prescriptions.repeating}</td>
-                    <td>${prescriptions.issueDate}</td>
-                    <td>${prescriptions.endDate}</td>
-                </tr>
-            </c:forEach>
-        </table>
-    </c:if>
-    <a href="${pageContext.request.contextPath}/dashboard">Back</a>
-</body>
+    <head>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
+        <title>User Information</title>
+    </head>
+    <body>        
+        <div class="outer">
+            <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
+            <div class="header">
+                <div class="innerDashboard">
+                    <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
+                    <ul>
+                        <li><a>${requestScope.user.firstName} ${requestScope.user.surname}</a></li>
+                        <li>
+                            <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="innerDashboard">            
+                <details><summary>User Details</summary>
+                    <table id="appointments">
+                        <tr>
+                            <th>Firstname</th>
+                            <th>Surname</th>
+                            <th>Email</th>
+                            <th>User Role</th>
+                        </tr>
+                        <tr>
+                            <td>${requestScope.user.firstName}</td>
+                            <td>${requestScope.user.surname}</td>
+                            <td>${requestScope.user.email}</td>
+                            <td>${requestScope.user.role}</td>
+                        </tr>
+                    </table>
+                </details>
+                <details>
+                    <summary>Upcoming Appointments</summary>
+                        <c:if test="${requestScope.appointments.size() == 0}">
+                        <h3>No upcoming appointments</h3>
+                    </c:if>
+                    <c:if test="${requestScope.appointments.size() != 0}">                       
+                        <table id="appointments">
+                            <tr>
+                                <th>Staff Member</th>
+                                <th>Patient</th>
+                                <th>Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Type</th>
+                            </tr>
+                            <c:forEach items="${requestScope.appointments}" var="appointment">
+                                <tr>
+                                    <td>${appointment.staffMember.firstName} ${appointment.staffMember.surname}</td>
+                                    <td>${appointment.patient.firstName} ${appointment.patient.surname}</td>
+                                    <td>${appointment.date}</td>
+                                    <td>${appointment.startTime}</td>
+                                    <td>${appointment.endTime}</td>
+                                    <td>${appointment.type}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
+                </details>
+                <details>
+                    <summary>Prescriptions</summary>
+                    <c:if test="${requestScope.prescriptions.size() == 0}">
+                        <h3>No prescriptions available</h3>
+                    </c:if>
+                    <c:if test="${requestScope.prescriptions.size() != 0}">  
+                    <table id="appointments">
+                        <tr>                           
+                            <th>Medicine</th>
+                            <th>Quantity</th>
+                            <th>Repeating</th>
+                            <th>Issue Date</th>
+                            <th>End Date</th>
+                        </tr>
+                        <c:forEach items="${requestScope.prescriptions}" var="prescriptions">
+                            <tr>                               
+                                <td>${prescriptions.medicine}</td>
+                                <td>${prescriptions.quantity}</td>
+                                <td>${prescriptions.repeating}</td>
+                                <td>${prescriptions.issueDate}</td>
+                                <td>${prescriptions.endDate}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                     </c:if>
+                </details>
+            </div>
+        </div>
+    </body>
 </html>

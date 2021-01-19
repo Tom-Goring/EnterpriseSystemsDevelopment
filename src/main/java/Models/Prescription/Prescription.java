@@ -1,5 +1,6 @@
 package Models.Prescription;
 
+import Models.User.User;
 import java.sql.*;
 
 /**
@@ -9,16 +10,16 @@ import java.sql.*;
 
 public class Prescription {
     private final Integer ID;
-    private final Integer patient;
+    private final User patient;
     private final String medicine;
     private final Integer quantity;
     private final Boolean repeating;
     private final Date issueDate;
     private final Date endDate;
     
-    public Prescription(Integer ID, Integer patientID, String medicine, int quantity, Boolean repeating, Date issueDate, Date endDate){
+    public Prescription(Integer ID, User patient, String medicine, int quantity, Boolean repeating, Date issueDate, Date endDate){
         this.ID = ID;
-        this.patient = patientID;
+        this.patient = patient;
         this.medicine = medicine;
         this.quantity = quantity;
         this.repeating = repeating;
@@ -30,7 +31,7 @@ public class Prescription {
         return ID;
     }
 
-    public Integer getPatient() {
+    public User getPatient() {
         return patient;
     }
 
@@ -52,6 +53,11 @@ public class Prescription {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Prescription{" + "ID=" + ID + ", patient=" + patient + ", medicine=" + medicine + ", quantity=" + quantity + ", repeating=" + repeating + ", issueDate=" + issueDate + ", endDate=" + endDate + '}';
     }
     
 }

@@ -216,10 +216,29 @@ public class Tables {
             throwables.printStackTrace();
         }
     }
-	
+
+    public static void createPrescriptionsApprovalTable()
+    {
+        Connection con = Database.getInstance().getConnection();
+        try {
+            PreparedStatement ps = con.prepareStatement("create table prescriptionsapprovals(" +
+                    "ID int not null constraint psapproval references prescription(ID) on delete cascade, " +
+                    "prescriptionID int not null constraint prescription_FK references prescription(ID) on delete cascade, " +
+                    "actioned boolean, " +
+                    "primary key(ID)"+
+                    ")"
+            );
+            ps.executeUpdate();
+            System.out.println("Prescriptions Approvals table created successfully!");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public static void recreateTables() {
         System.out.println("Recreating database table structure...");
         Connection con = Database.getInstance().getConnection();
+
         try {
             PreparedStatement ps = con.prepareStatement("DROP TABLE schedules");
             ps.executeUpdate();
@@ -239,6 +258,11 @@ public class Tables {
             PreparedStatement ps = con.prepareStatement("DROP TABLE approvals");
             ps.executeUpdate();
             System.out.println("Approvals table dropped");
+        } catch (SQLException e) {}
+        try {
+            PreparedStatement ps = con.prepareStatement("DROP TABLE prescriptionsapprovals");
+            ps.executeUpdate();
+            System.out.println("Prescriptions approval table dropped");
         } catch (SQLException e) {}
         try {
             PreparedStatement ps = con.prepareStatement("DROP TABLE prescription");
@@ -263,6 +287,7 @@ public class Tables {
         createScheduleTable();
         createPrescriptionTable();
         createSlotPricesTable();
+        createPrescriptionsApprovalTable();
         Log.info("Tables were recreated");
     }
     

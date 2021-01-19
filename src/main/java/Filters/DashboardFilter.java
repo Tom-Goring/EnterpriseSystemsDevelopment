@@ -19,10 +19,12 @@ public class DashboardFilter implements Filter {
     private final String[] pages = {"appointments", "patientinformation"};
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
 
     @Override
-    public void init(FilterConfig config) throws ServletException {}
+    public void init(FilterConfig config) throws ServletException {
+    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
@@ -31,16 +33,6 @@ public class DashboardFilter implements Filter {
         HttpSession session = request.getSession(false);
 
         String final_segment = request.getServletPath().substring(request.getServletPath().lastIndexOf("/") + 1);
-
-        if (final_segment.equals("turnover")) {
-            if (request.getAttribute("totalCost") != null) {
-                AdminDispatcher.dispatch(request).forward(request, response);
-                return;
-            } else {
-                chain.doFilter(request, response);
-                return;
-            }
-        }
 
         if (Arrays.asList(this.pages).contains(final_segment)) {
             chain.doFilter(request, response);
