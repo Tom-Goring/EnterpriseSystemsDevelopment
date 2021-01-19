@@ -25,7 +25,7 @@
             <br/>
             <label>
                 Password<span class="highlight-span">*</span>
-                <input name="submitted-password" type="password" autocomplete="off">
+                <input name="submitted-password" type="text" autocomplete="off">
             </label>
             <br/>
             <button class="blueButton">Submit</button>
