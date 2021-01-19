@@ -16,7 +16,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-@WebServlet(name = "create", value = "/appointments/create")
+@WebServlet(name = "createAppointment", value = "/appointments/create")
 public class Create extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

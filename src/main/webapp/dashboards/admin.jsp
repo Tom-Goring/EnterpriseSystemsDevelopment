@@ -21,7 +21,6 @@
         <div class="innerDashboard">
             <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
             <ul>
-<!--                <li><a>${requestScope.hello}</a></li>-->
                 <li>
                     <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
                 </li>
@@ -33,7 +32,7 @@
         <details>
             <summary>Add new User</summary>
             <div id="parent">
-                <form method="post" id="register" autocomplete="off">
+                <form method="post" action="${pageContext.request.contextPath}/users/create" autocomplete="off">
                     <label>
                         First Name<span class="highlight-span">*</span>
                         <input name="submitted-name" type="text" autocomplete="off" required>
@@ -48,7 +47,6 @@
                         Email<span class="highlight-span">*</span>
                         <input name="submitted-email" type="text" autocomplete="off" required>
                     </label>
-
                     <label>
                         Password<span class="highlight-span">*</span>
                         <input name="submitted-password" type="text" autocomplete="off" required>
@@ -62,14 +60,42 @@
                             <option>admin</option>
                         </select>
                     </label>
-                    <button type="submit" id="blueButtonAlternative" form="register" name="action" value="add-account">Submit
+                    <label>
+                        Address<span class="highlight-span">*</span>
+                        <input type="text" name="street">
+                        <input type="text" name="city">
+                        <input type="text" name="postcode">
+                    </label>
+                    <br/>
+                    <label>
+                        Gender<span class="highlight-span">*</span>
+                        <select name="gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </label>
+                    <label>
+                        Date of Birth<span class="highlight-span">*</span>
+                        <input type="date" max="${requestScope.minimumDate}" name="DOB">
+                    </label>
+                    <br/>
+                    <label>
+                        Public/Private<span class="highlight-span">*</span>
+                        <select name="type">
+                            <option>Public</option>
+                            <option>Private</option>
+                        </select>
+                    </label>
+                    <button type="submit" id="blueButtonAlternative">
+                        Submit
                     </button>
                 </form>
             </div>
         </details>
         <details>
             <summary>Edit User</summary>
-            <form method="post" id="updateUser">
+            <form method="post" action="${pageContext.request.contextPath}/users/update" id="updateUser">
                 <c:set var="count" value="0" scope="page"/>
                 <div id="table">
                     <table id="appointments">
@@ -91,7 +117,7 @@
                                 <td><input type="text" name="surname" value="${userAccount.surname}"></td>
                                 <td>
                                     <c:if test="${userAccount.role.equals('doctor')}">
-                                        <select name="types">
+                                        <select name="role">
                                             <option>doctor</option>
                                             <option>nurse</option>
                                             <option>admin</option>
@@ -99,7 +125,7 @@
                                         </select>
                                     </c:if>
                                     <c:if test="${userAccount.role.equals('nurse')}">
-                                        <select name="types">
+                                        <select name="role">
                                             <option>nurse</option>
                                             <option>doctor</option>
                                             <option>admin</option>
@@ -107,7 +133,7 @@
                                         </select>
                                     </c:if>
                                     <c:if test="${userAccount.role.equals('admin')}">
-                                        <select name="types">
+                                        <select name="role">
                                             <option>admin</option>
                                             <option>doctor</option>
                                             <option>nurse</option>
@@ -115,7 +141,7 @@
                                         </select>
                                     </c:if>
                                     <c:if test="${userAccount.role.equals('patient')}">
-                                        <select name="types">
+                                        <select name="role">
                                             <option>patient</option>
                                             <option>doctor</option>
                                             <option>nurse</option>
@@ -304,7 +330,7 @@
         </details>
         <details>
             <summary>Delete User</summary>
-            <form method="post" id="delete">
+            <form action="${pageContext.request.contextPath}/users/delete" id="delete" method="post">
                 <div id="table">
                     <table id="appointments">
                         <thead>
@@ -331,9 +357,66 @@
                 </div>
             </form>
         </details>
+        <details ${requestScope.changed_display_type ? 'open' : ''}>
+            <summary>View Patients</summary>
+            <form>
+                <label>
+                    NHS Patients:
+                    <input name="displayType" type="radio" value="public" ${sessionScope.displayType == 'public' ? 'checked' : ''}>
+                </label>
+                <label>
+                    Private Patients:
+                    <input name="displayType" type="radio" value="private" ${sessionScope.displayType == 'private' ? 'checked' : ''}>
+                </label>
+                <input type="hidden" name="changed-display-type" value="true">
+                <button type="submit">Change displayed patient types</button>
+            </form>
+            <c:if test="${requestScope.users.size() > 0}">
+                <div id="table">
+                    <table id="appointments">
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Email</th>
+                            <th>DOB</th>
+                            <th>City</th>
+                            <th>Street</th>
+                            <th>Postcode</th>
+                            <th>Gender</th>
+                        </tr>
+                        <c:forEach items="${requestScope.users}" var="user">
+                            <c:if test="${sessionScope.displayType == 'private'}">
+                                <c:if test="${user.type.private}">
+                                    <tr>
+                                        <td>${user.fullName}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.DOB}</td>
+                                        <td>${user.address.street}</td>
+                                        <td>${user.address.postcode}</td>
+                                        <td>${user.gender}</td>
+                                    </tr>
+                                </c:if>
+                            </c:if>
+                            <c:if test="${sessionScope.displayType == 'public'}">
+                                <c:if test="${user.type.public}">
+                                    <tr>
+                                        <td>${user.fullName}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.DOB}</td>
+                                        <td>${user.address.city}</td>
+                                        <td>${user.address.street}</td>
+                                        <td>${user.address.postcode}</td>
+                                        <td>${user.gender}</td>
+                                    </tr>
+                                </c:if>
+                            </c:if>
+                        </c:forEach>
+                    </table>
+                </div>
+            </c:if>
+        </details>
         <details>
             <summary>Recreate Tables</summary>
-            <span><p>Warning, this action will reset all databases</p></span>
+            <p>Warning, this action will reset all databases</p>
             <form method="post">
                 <input type="hidden" name="action" value="recreate-tables">
                 <button id="pinkButtonAlternative">Recreate Tables</button>

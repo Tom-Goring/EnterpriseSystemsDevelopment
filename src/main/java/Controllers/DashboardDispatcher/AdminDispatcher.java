@@ -102,6 +102,18 @@ public class AdminDispatcher {
         ArrayList<UserAccount> users = UserAccountDAO.getAllUserAccounts();
         List<User> staff = UserDAO.getAllStaff();
 
+        if (request.getSession().getAttribute("displayType") == null) {
+            request.getSession().setAttribute("displayType", "public");
+        }
+
+        if (request.getParameter("displayType") != null) {
+            request.getSession().setAttribute("displayType", request.getParameter("displayType"));
+        }
+
+        if (request.getParameter("changed-display-type") != null) {
+            request.setAttribute("changed_display_type", true);
+        }
+
         request.setAttribute("events", events);
         request.setAttribute("approvals", approvals);
         request.setAttribute("users", users);
