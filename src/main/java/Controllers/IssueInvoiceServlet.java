@@ -46,7 +46,8 @@ public class IssueInvoiceServlet extends HttpServlet {
             Integer.parseInt(request.getParameter("submitted-patientid")),
             request.getParameter("submitted-service"),
             Double.parseDouble(request.getParameter("submitted-amount")),
-            Date.valueOf(request.getParameter("submitted-issuedate"))
+            Date.valueOf(request.getParameter("submitted-issuedate")),
+            Date.valueOf(request.getParameter("submitted-duedate"))
         );
         try {
             User user = UserDAO.getUser(Integer.parseInt(request.getParameter("submitted-patientid")));

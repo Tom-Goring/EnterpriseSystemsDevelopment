@@ -38,6 +38,9 @@
             <label>
                 Issue date: <input name="submitted-issuedate"  type="date" required>
             </label>
+            <label>
+                Due date: <input name="submitted-duedate"  type="date" required>
+            </label>
             <br/><br/>
             <button>Submit</button>
         </form>

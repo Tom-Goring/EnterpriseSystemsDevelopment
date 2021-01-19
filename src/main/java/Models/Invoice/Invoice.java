@@ -6,6 +6,7 @@
 package Models.Invoice;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 
 public class Invoice {
@@ -13,12 +14,14 @@ public class Invoice {
     private final String service;
     private final Double amount;
     private final Date issueDate;
+    private final Date dueDate;
     
-        public Invoice(Integer ID, String service, Double amount, Date issueDate){
+        public Invoice(Integer ID, String service, Double amount, Date issueDate, Date dueDate){
         this.ID = ID;
         this.service = service;
         this.amount = amount;
         this.issueDate = issueDate;
+        this.dueDate = dueDate;
     }
     
     public Integer getID() {
@@ -33,7 +36,15 @@ public class Invoice {
         return amount;
     }
     
-    public Date getIssueDate() {
-        return issueDate;
+    public String getFormattedIssueDate() {
+        SimpleDateFormat format = new SimpleDateFormat("dd MMMM YYYY");
+        String issuedateString = format.format(issueDate);
+        return issuedateString;
+    }
+    
+    public String getFormattedDueDate() {
+        SimpleDateFormat format = new SimpleDateFormat("dd MMMM YYYY");
+        String duedateString = format.format(dueDate);
+        return duedateString;
     }
 }

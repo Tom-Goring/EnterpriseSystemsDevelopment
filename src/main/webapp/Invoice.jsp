@@ -125,8 +125,8 @@
                             </td>
                             
                             <td class="date">
-                                Created: ${requestScope.invoice.getIssueDate()}<br>
-                                Due: February 1, 2015
+                                Created: ${requestScope.invoice.getFormattedIssueDate()}<br>
+                                Due: ${requestScope.invoice.getFormattedDueDate()}
                             </td>
                         </tr>
                     </table>
@@ -144,8 +144,8 @@
                             </td>
                             
                             <td>
-                                Name: ${requestScope.user.getFirstName()}, ${requestScope.user.getSurname()}<br>
-                                Email: ${requestScope.user.getEmail()}
+                                ${requestScope.user.getFirstName()}, ${requestScope.user.getSurname()}<br>
+                                ${requestScope.user.getEmail()}
                             </td>
                         </tr>
                     </table>
