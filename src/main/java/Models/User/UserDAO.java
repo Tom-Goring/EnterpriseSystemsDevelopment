@@ -28,7 +28,15 @@ public class UserDAO {
                     rs.getString("firstName"),
                     rs.getString("surname"),
                     rs.getString("email"),
-                    rs.getString("role")
+                    rs.getString("role"),
+                    rs.getDate("DOB"),
+                    new Address(
+                            rs.getString("city"),
+                            rs.getString("postcode"),
+                            rs.getString("street")
+                    ),
+                    Gender.fromString(rs.getString("gender")),
+                    Type.fromString(rs.getString("type"))
             );
 
             rs.close();
@@ -54,7 +62,16 @@ public class UserDAO {
                     rs.getString("firstName"),
                     rs.getString("surname"),
                     rs.getString("email"),
-                    rs.getString("role")
+                    rs.getString("role"),
+                    rs.getDate("DOB"),
+                    new Address(
+                            rs.getString("city"),
+                            rs.getString("postcode"),
+                            rs.getString("street")
+                    ),
+                    Gender.fromString(rs.getString("gender")),
+                    Type.fromString(rs.getString("type"))
+
             ));
         }
 
@@ -67,7 +84,7 @@ public class UserDAO {
         ArrayList<User> staff = new ArrayList<>();
         try {
             Connection con = Database.getInstance().getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT ID, FIRSTNAME, SURNAME, EMAIL, ROLE FROM users WHERE role = ? OR role = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT ID, FIRSTNAME, SURNAME, EMAIL, ROLE, DOB, CITY, POSTCODE, STREET, GENDER, TYPE FROM users WHERE role = ? OR role = ?");
             ps.setString(1, "doctor");
             ps.setString(2, "nurse");
             ResultSet rs = ps.executeQuery();
@@ -77,7 +94,15 @@ public class UserDAO {
                         rs.getString("firstName"),
                         rs.getString("surname"),
                         rs.getString("email"),
-                        rs.getString("role")
+                        rs.getString("role"),
+                        rs.getDate("DOB"),
+                        new Address(
+                                rs.getString("city"),
+                                rs.getString("postcode"),
+                                rs.getString("street")
+                        ),
+                        Gender.fromString(rs.getString("gender")),
+                        Type.fromString(rs.getString("type"))
                 ));
             }
 
@@ -108,12 +133,11 @@ public class UserDAO {
             
             while(rs.next())
             {
-                boolean availableonDay = rs.getBoolean(day);
-                int staffid = rs.getInt("staffID");
-                if(availableonDay==true)
+                boolean availableOnDay = rs.getBoolean(day);
+                int staffID = rs.getInt("staffID");
+                if(availableOnDay)
                 {
-                    staff.add(getUser(staffid));
-                    //temp.add(Integer.SIZE)
+                    staff.add(getUser(staffID));
                 }
             }
         } catch (SQLException e) {

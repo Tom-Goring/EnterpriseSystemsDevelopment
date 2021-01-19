@@ -10,6 +10,7 @@ import Models.User.User;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Duration;
 import java.util.Calendar;
 
 /**
@@ -65,6 +66,10 @@ public class Appointment {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Duration getLength() {
+        return Duration.between(this.startTime.toInstant(), this.endTime.toInstant());
     }
 
     public static String getDayOfDate(Date date) {

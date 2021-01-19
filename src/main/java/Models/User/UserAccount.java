@@ -4,8 +4,23 @@ public class UserAccount extends User {
     private final byte[] password;
     private final byte[] salt;
     private boolean active;
-    public UserAccount(Integer ID, String firstName, String surname, String email, byte[] password, byte[] salt, String role, boolean active) {
-        super(ID, firstName, surname, email, role);
+    public UserAccount(
+            User user,
+            byte[] password,
+            byte[] salt,
+            boolean active
+    ) {
+        super(
+                user.getID(),
+                user.getFirstName(),
+                user.getSurname(),
+                user.getEmail(),
+                user.getRole(),
+                user.getDOB(),
+                user.getAddress(),
+                user.getGender(),
+                user.getType()
+        );
         this.password = password;
         this.salt = salt;
         this.active = active;
