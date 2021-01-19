@@ -11,9 +11,7 @@
 <head>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
-<!--    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css"/>-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>    
     <title>Admin Page</title>
 </head>
 <body>
@@ -25,7 +23,7 @@
             <ul>
 <!--                <li><a>${requestScope.hello}</a></li>-->
                 <li>
-                    <button type="submit" name="action" value="" form="logout" id="pinkButton">Logout</button>
+                    <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
                 </li>
             </ul>
         </div>
@@ -64,7 +62,7 @@
                             <option>admin</option>
                         </select>
                     </label>
-                    <button type="submit" id="blueButton" form="register" name="action" value="add-account">Submit
+                    <button type="submit" id="blueButtonAlternative" form="register" name="action" value="add-account">Submit
                     </button>
                 </form>
             </div>
@@ -131,7 +129,7 @@
                     </table>
 
                     <br>
-                    <button id="blueButton" type="submit" name="action" form="updateUser" value="update-selected">Edit
+                    <button id="blueButtonAlternative" type="submit" name="action" form="updateUser" value="update-selected">Edit
                         Selected
                     </button>
                 </div>
@@ -231,7 +229,7 @@
                         </c:forEach>
                     </table>
                     <br>
-                    <button type="submit" id="blueButton" value="submit-approvals" name="action">Submit Account
+                    <button type="submit" id="blueButtonAlternative" value="submit-approvals" name="action">Submit Account
                         Approvals
                     </button>
                 </c:if>
@@ -298,7 +296,7 @@
                         </c:forEach>
                     </table>
                     <br>
-                    <button type="submit" name="action" value="Confirm Working Days" form="workingdays" id="blueButton">
+                    <button type="submit" name="action" value="Confirm Working Days" form="workingdays" id="blueButtonAlternative">
                         Confirm Working Days
                     </button>                   
                 </div>
@@ -327,7 +325,7 @@
                         </c:forEach>
                     </table>
                     <br>
-                    <button id="pinkButton" type="submit" name="action" value="delete-selected" form="delete">Delete
+                    <button id="pinkButtonAlternative" type="submit" name="action" value="delete-selected" form="delete">Delete
                         Selected
                     </button>
                 </div>
@@ -338,7 +336,7 @@
             <span><p>Warning, this action will reset all databases</p></span>
             <form method="post">
                 <input type="hidden" name="action" value="recreate-tables">
-                <button id="pinkButton">Recreate Tables</button>
+                <button id="pinkButtonAlternative">Recreate Tables</button>
             </form>
         </details>
     </div>

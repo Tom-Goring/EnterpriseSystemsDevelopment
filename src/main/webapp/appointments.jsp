@@ -13,7 +13,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
-<!--        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css"/>-->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
         <title>Appointments</title>
     </head>
@@ -25,7 +24,7 @@
                     <ul>
                         <li><a>${requestScope.username}</a></li>
                         <li>
-                                <button type="submit" name="action" value="" form="logout" id="pinkButton">Logout</button>                            
+                            <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>                            
                         </li>
                     </ul>
                 </div>
@@ -84,7 +83,7 @@
                                 </select>
                             </label>                        
                         </div>
-                        <button type="submit" name="action" value="Availability" id="blueButton">Generate Slots</button>
+                        <button type="submit" name="action" value="Availability" id="blueButtonAlternative">Generate Slots</button>
                     </form>
                     <br>
                 </details>                              
@@ -129,7 +128,7 @@
                             </c:forEach>
                         </table>  
                         <br>
-                        <button type="submit" name="action" value="Confirm" id="blueButton">Confirm</button>
+                        <button type="submit" name="action" value="Confirm" id="blueButtonAlternative">Confirm</button>
                     </form>
                     <br>
                 </c:if>                                
@@ -144,8 +143,7 @@
                         <c:if test="${requestScope.appointments.size() > min}">
                             <c:set var="count" value="0" scope="page"/>
                             <div id="table">
-                                <table id="appointments">
-                                    <caption>List of Appointments</caption>
+                                <table id="appointments">                               
                                     <tr>
                                         <th>Number</th>
                                         <th>Date</th>
@@ -172,7 +170,7 @@
                                     </c:forEach>
                                 </table>
                                 <br>
-                                <button type="submit" name="action" value="Delete Selected" id="pinkButton">Delete Selected</button>
+                                <button type="submit" name="action" value="Delete Selected" id="pinkButtonAlternative">Delete Selected</button>
                             </div>
                         </c:if>                        
                     </form>
@@ -189,8 +187,7 @@
                             <c:if test="${requestScope.appointments.size() > min}">
                                 <c:set var="count" value="0" scope="page"/>
                                 <c:set var="type" scope="request" value="private"/>
-                                <table id="appointments">
-                                    <caption>List of Appointments</caption>
+                                <table id="appointments">                                   
                                     <tr>
                                         <th>Number</th>
                                         <th>Date</th>
@@ -245,14 +242,14 @@
                                 </table>
                             </c:if>
                             <br>
-                            <button type="submit" name="action" value="Update Selected" id="pinkButton">Update Selected</button>
+                            <button type="submit" name="action" value="Update Selected" id="pinkButtonAlternative">Update Selected</button>
                         </div>                                               
                     </form>
                     <br>
                 </details>   
                 <details>
                     <summary>Prescriptions</summary>
-                    <button type="submit" name="action" value="Home" id="pinkButton" form="patientInfo">
+                    <button type="submit" name="action" value="Home" id="pinkButtonAlternative" form="patientInfo">
                         View Prescriptions
                     </button>
                     <form method="GET" action="${pageContext.request.contextPath}/dashboard/appointments"

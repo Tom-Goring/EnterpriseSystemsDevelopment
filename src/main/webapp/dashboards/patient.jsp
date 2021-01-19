@@ -12,7 +12,6 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/main.css"/>
-<!--        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/appointment.css"/>-->
         <title>Patient Dashboard</title>
     </head>
     <body>
@@ -23,7 +22,7 @@
                     <ul>
 <!--                        <li><a>${requestScope.username}</a></li>-->
                         <li>
-                            <button type="submit" name="action" value="" form="logout" id="pinkButton">Logout</button>
+                            <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
                         </li>
                     </ul>
                     <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
@@ -86,7 +85,8 @@
                                         </tr>
                                     </c:forEach>                        
                                 </table>
-                                <button class="pinkAlternateButton" type="submit" name="action" value="prescriptions" form="prescription"
+                                <br>
+                                <button id="pinkButtonAlternative" type="submit" name="action" value="prescriptions" form="prescription"
                                         disabled>Repeat Order
                                 </button>
                             </form>
@@ -97,7 +97,7 @@
                 <details>
                     <summary>Appointments</summary>
                     <a href="${pageContext.request.contextPath}/dashboard/appointments">
-                        <button type="button" class="pinkAlternateButton">Manage Appointments</button>
+                        <button type="button" id="pinkButtonAlternative">Manage Appointments</button>
                     </a>
                     <br>
                 </details>
