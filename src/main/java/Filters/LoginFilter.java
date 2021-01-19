@@ -1,5 +1,7 @@
 package Filters;
 
+import Utils.Tables;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
