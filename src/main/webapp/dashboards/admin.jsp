@@ -357,9 +357,66 @@
                 </div>
             </form>
         </details>
+        <details ${requestScope.changed_display_type ? 'open' : ''}>
+            <summary>View Patients</summary>
+            <form>
+                <label>
+                    NHS Patients:
+                    <input name="displayType" type="radio" value="public" ${sessionScope.displayType == 'public' ? 'checked' : ''}>
+                </label>
+                <label>
+                    Private Patients:
+                    <input name="displayType" type="radio" value="private" ${sessionScope.displayType == 'private' ? 'checked' : ''}>
+                </label>
+                <input type="hidden" name="changed-display-type" value="true">
+                <button type="submit">Change displayed patient types</button>
+            </form>
+            <c:if test="${requestScope.users.size() > 0}">
+                <div id="table">
+                    <table id="appointments">
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Email</th>
+                            <th>DOB</th>
+                            <th>City</th>
+                            <th>Street</th>
+                            <th>Postcode</th>
+                            <th>Gender</th>
+                        </tr>
+                        <c:forEach items="${requestScope.users}" var="user">
+                            <c:if test="${sessionScope.displayType == 'private'}">
+                                <c:if test="${user.type.private}">
+                                    <tr>
+                                        <td>${user.fullName}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.DOB}</td>
+                                        <td>${user.address.street}</td>
+                                        <td>${user.address.postcode}</td>
+                                        <td>${user.gender}</td>
+                                    </tr>
+                                </c:if>
+                            </c:if>
+                            <c:if test="${sessionScope.displayType == 'public'}">
+                                <c:if test="${user.type.public}">
+                                    <tr>
+                                        <td>${user.fullName}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.DOB}</td>
+                                        <td>${user.address.city}</td>
+                                        <td>${user.address.street}</td>
+                                        <td>${user.address.postcode}</td>
+                                        <td>${user.gender}</td>
+                                    </tr>
+                                </c:if>
+                            </c:if>
+                        </c:forEach>
+                    </table>
+                </div>
+            </c:if>
+        </details>
         <details>
             <summary>Recreate Tables</summary>
-            <span><p>Warning, this action will reset all databases</p></span>
+            <p>Warning, this action will reset all databases</p>
             <form method="post">
                 <input type="hidden" name="action" value="recreate-tables">
                 <button id="pinkButtonAlternative">Recreate Tables</button>

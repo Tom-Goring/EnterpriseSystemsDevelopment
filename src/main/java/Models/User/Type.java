@@ -18,4 +18,24 @@ public enum Type {
                 return Type.Other;
         }
     }
+
+    @Override
+    public String toString() {
+        switch(this) {
+            case PrivatePatient:
+                return "private";
+            case PublicPatient:
+                return "public";
+            default:
+                return "other";
+        }
+    }
+
+    public boolean getPrivate() {
+        return this == Type.PrivatePatient;
+    }
+
+    public boolean getPublic() {
+        return this == Type.PublicPatient;
+    }
 }

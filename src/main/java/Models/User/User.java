@@ -77,6 +77,10 @@ public class User {
           return type;
      }
 
+     public String getFullName() {
+          return this.firstName + " " + this.surname;
+     }
+
      @Override
      public String toString() {
           return "User{" +
