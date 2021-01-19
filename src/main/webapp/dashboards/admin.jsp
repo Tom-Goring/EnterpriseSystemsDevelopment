@@ -21,7 +21,6 @@
         <div class="innerDashboard">
             <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
             <ul>
-<!--                <li><a>${requestScope.hello}</a></li>-->
                 <li>
                     <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
                 </li>
@@ -33,7 +32,7 @@
         <details>
             <summary>Add new User</summary>
             <div id="parent">
-                <form method="post" id="register" autocomplete="off">
+                <form method="post" action="${pageContext.request.contextPath}/users/create" autocomplete="off">
                     <label>
                         First Name<span class="highlight-span">*</span>
                         <input name="submitted-name" type="text" autocomplete="off" required>
@@ -48,7 +47,6 @@
                         Email<span class="highlight-span">*</span>
                         <input name="submitted-email" type="text" autocomplete="off" required>
                     </label>
-
                     <label>
                         Password<span class="highlight-span">*</span>
                         <input name="submitted-password" type="text" autocomplete="off" required>
@@ -62,14 +60,15 @@
                             <option>admin</option>
                         </select>
                     </label>
-                    <button type="submit" id="blueButtonAlternative" form="register" name="action" value="add-account">Submit
+                    <button type="submit" id="blueButtonAlternative">
+                        Submit
                     </button>
                 </form>
             </div>
         </details>
         <details>
             <summary>Edit User</summary>
-            <form method="post" id="updateUser">
+            <form method="post" action="${pageContext.request.contextPath}/users/update" id="updateUser">
                 <c:set var="count" value="0" scope="page"/>
                 <div id="table">
                     <table id="appointments">
@@ -91,7 +90,7 @@
                                 <td><input type="text" name="surname" value="${userAccount.surname}"></td>
                                 <td>
                                     <c:if test="${userAccount.role.equals('doctor')}">
-                                        <select name="types">
+                                        <select name="role">
                                             <option>doctor</option>
                                             <option>nurse</option>
                                             <option>admin</option>
@@ -99,7 +98,7 @@
                                         </select>
                                     </c:if>
                                     <c:if test="${userAccount.role.equals('nurse')}">
-                                        <select name="types">
+                                        <select name="role">
                                             <option>nurse</option>
                                             <option>doctor</option>
                                             <option>admin</option>
@@ -107,7 +106,7 @@
                                         </select>
                                     </c:if>
                                     <c:if test="${userAccount.role.equals('admin')}">
-                                        <select name="types">
+                                        <select name="role">
                                             <option>admin</option>
                                             <option>doctor</option>
                                             <option>nurse</option>
@@ -115,7 +114,7 @@
                                         </select>
                                     </c:if>
                                     <c:if test="${userAccount.role.equals('patient')}">
-                                        <select name="types">
+                                        <select name="role">
                                             <option>patient</option>
                                             <option>doctor</option>
                                             <option>nurse</option>
@@ -304,7 +303,7 @@
         </details>
         <details>
             <summary>Delete User</summary>
-            <form method="post" id="delete">
+            <form action="${pageContext.request.contextPath}/users/delete" id="delete" method="post">
                 <div id="table">
                     <table id="appointments">
                         <thead>
