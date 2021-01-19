@@ -20,16 +20,26 @@ import Models.Prescription.PrescriptionDAO;
 import Models.Schedule.Schedule;
 import Models.Schedule.ScheduleDAO;
 import Models.User.*;
+import static Utils.Passwords.createSaltAndHash;
 import Utils.Tables;
+import Utils.Tuple;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebFilter(filterName = "DashboardFilter")
 public class DashboardFilter implements Filter {
 
     @Override
-    public void destroy() {}
+    public void destroy() {
+    }
 
     @Override
-    public void init(FilterConfig config) throws ServletException {}
+    public void init(FilterConfig config) throws ServletException {
+    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
@@ -86,8 +96,75 @@ public class DashboardFilter implements Filter {
             String action = request.getParameter("action");
 
             switch (action) {
+                case "add-account":
+                    try {
+                        String role = request.getParameter("submitted-role").toLowerCase(Locale.ROOT);
+                        Tuple<byte[], byte[]> saltAndHash = createSaltAndHash(request.getParameter("submitted-password"));
+                        UserAccount user = new UserAccount(null,
+                                request.getParameter("submitted-name"),
+                                request.getParameter("submitted-surname"),
+                                request.getParameter("submitted-email"),
+                                saltAndHash.x,
+                                saltAndHash.y,
+                                role,
+                                !UserAccount.isPrivilegedRole(role)
+                        );
+                        UserAccountDAO.insertUserAccount(user);
+                        HttpSession session = request.getSession(false);
+                        if (UserAccount.isPrivilegedRole(role)) {
+                            session.setAttribute("approvalNeeded", true);
+                            UserAccount userWithID = UserAccountDAO.getUserAccountByEmail(user.getEmail());
+                            Approval approval = new Approval(null, userWithID, false);
+                            ApprovalDAO.insertApproval(approval);
+                            Log.info(String.format("User: %s %s requested an account of privilege level %s",
+                                    userWithID.getFirstName(), userWithID.getSurname(), userWithID.getRole()));
+                        } else {
+                            session.setAttribute("createdSuccessfully", true);
+                        }
+                        Log.info(String.format("Created new user %s %s with email %s", user.getFirstName(), user.getSurname(), user.getEmail()));
+
+                    } catch (DuplicateEmailPresentException | UserNotFoundException e) {
+                        request.setAttribute("duplicate_email_error", true);
+
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 case "recreate-tables":
                     Tables.recreateTables();
+                    break;
+
+                case "update-selected":
+                    String[] ids = request.getParameterValues("userIDS");
+                    String[] emails = request.getParameterValues("email");
+                    String[] firstnames = request.getParameterValues("firstname");
+                    String[] lastnames = request.getParameterValues("surname");
+                    String[] roles = request.getParameterValues("types");
+                    String[] selected = request.getParameterValues("selected");
+
+                    if (selected != null) {
+                        for (int i = 0; i < ids.length; i++) {
+                            if (Arrays.asList(selected).contains(String.valueOf(i + 1))) {
+                                try {
+                                    UserAccountDAO.updateUserAccountDetails(Integer.parseInt(ids[i]), emails[i], roles[i], firstnames[i], lastnames[i]);
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(DashboardFilter.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (DuplicateEmailPresentException ex) {
+                                    Logger.getLogger(DashboardFilter.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                case "delete-selected":
+                    String[] selectedUsersID = request.getParameterValues("selected");
+
+                    if (selectedUsersID != null) {
+                        for (String selectedUsersID1 : selectedUsersID) {
+                            UserAccountDAO.deleteUserAccount(Integer.parseInt(selectedUsersID1));
+                        }
+                    }
                     break;
                 case "Confirm Working Days":
                     String[] rawSchedules = request.getParameterValues("checkrows");
@@ -120,6 +197,7 @@ public class DashboardFilter implements Filter {
                 case "submit-approvals":
                     int count = 1;
                     String rawApproval = request.getParameter("approval-" + count);
+                    String[] raw = request.getParameterValues("approval-" + count);
                     while (rawApproval != null) {
                         String[] IDtoApproval = rawApproval.split("-");
                         Approval approval = ApprovalDAO.getApproval(Integer.parseInt(IDtoApproval[0]));

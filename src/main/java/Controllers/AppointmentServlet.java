@@ -7,6 +7,8 @@ package Controllers;
 
 import Models.Appointment.Appointment;
 import Models.Appointment.AppointmentDAO;
+import Models.Prescription.Prescription;
+import Models.Prescription.PrescriptionDAO;
 import Models.Schedule.Schedule;
 import Models.User.User;
 import Models.User.UserDAO;
@@ -17,9 +19,12 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,8 +41,10 @@ public class AppointmentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action;
+        User user = (User) request.getSession().getAttribute("currentUser");
         action = request.getParameter("action");
         RequestDispatcher dispatcher = performGetAction(action, request);
+        request.setAttribute("username", user.getFirstName() + " " + user.getSurname());
         dispatcher.forward(request, response);
     }
 
@@ -46,31 +53,42 @@ public class AppointmentServlet extends HttpServlet {
             throws ServletException, IOException {
         String action;
         action = request.getParameter("action");
+        User user = (User) request.getSession().getAttribute("currentUser");
         RequestDispatcher dispatcher = performPostAction(action, request);
+        request.setAttribute("username", user.getFirstName() + " " + user.getSurname());
         dispatcher.forward(request, response);
-
     }
 
     public RequestDispatcher performGetAction(String action, HttpServletRequest request) {
         RequestDispatcher dispatcher = null;
         if (action != null) {
             switch (action) {
-                case "Add":
-                    dispatcher = addAppointment(request);
-                    break;
-                case "Delete":
-                    dispatcher = deleteAppointment(request);
-                    break;
-                case "View":
-                    dispatcher = viewAppointments(request);
-                    break;
-                case "Update":
-                    dispatcher = updateAppointment(request);
+                case "Home":
+                    User user = (User) request.getSession().getAttribute("currentUser");
+                    ArrayList<Prescription> prescriptions;
+                    try {
+                        prescriptions = PrescriptionDAO.getAllPrescriptionsForUser(user.getID());
+                        request.setAttribute("prescriptions", prescriptions);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    dispatcher = request.getRequestDispatcher("/dashboards/patient.jsp");
                     break;
                 default:
                     break;
             }
         } else {
+            
+            LocalDate today = java.time.LocalDate.now();  
+            String minimumDate = today.toString();
+            User user = (User) request.getSession().getAttribute("currentUser");
+            ArrayList<Appointment> allAppointments;
+            ArrayList<User> doctorsList = UserDAO.getAllStaff();
+            allAppointments = AppointmentDAO.retrieveAppointments(user);
+            
+            request.setAttribute("minimumDate", minimumDate);
+            request.setAttribute("appointments", allAppointments);
+            request.setAttribute("doctors", doctorsList);
             dispatcher = request.getRequestDispatcher("/appointments.jsp");
         }
         return dispatcher;
@@ -79,24 +97,18 @@ public class AppointmentServlet extends HttpServlet {
     public RequestDispatcher performPostAction(String action, HttpServletRequest request) {
         RequestDispatcher dispatcher = null;
         if (action != null) {
-            User staffMember = null;
             Date date = null;
             try {
                 date = Date.valueOf(request.getParameter("date"));
-            } catch (Exception e) { e.printStackTrace(); }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             switch (action) {
                 case "Confirm":
                     dispatcher = confirmAppointment(request, date);
                     break;
                 case "Availability":
                     dispatcher = getAvailabilitySlots(request, date);
-                    break;
-
-                case "View Selected":
-                    dispatcher = viewSelected(request, staffMember, date);
-                    break;
-                case "View All":
-                    dispatcher = retrieveAllAppointments(request);
                     break;
                 case "Delete Selected":
                     dispatcher = deleteSelected(request);
@@ -108,48 +120,6 @@ public class AppointmentServlet extends HttpServlet {
         } else {
             dispatcher = request.getRequestDispatcher("appointments.jsp");
         }
-        return dispatcher;
-    }
-    private RequestDispatcher addAppointment(HttpServletRequest request)  {
-        request.setAttribute("task", "add");
-        return request.getRequestDispatcher("/appointments.jsp");
-    }
-
-    private RequestDispatcher deleteAppointment(HttpServletRequest request) {
-        RequestDispatcher dispatcher;
-
-        User user = (User) request.getSession().getAttribute("currentUser");
-        ArrayList<Appointment> allAppointments;
-
-        allAppointments = AppointmentDAO.retrieveAppointments(user);
-        request.setAttribute("appointments", allAppointments);
-        request.setAttribute("task", "delete");
-
-        dispatcher = request.getRequestDispatcher("/appointments.jsp");
-        return dispatcher;
-    }
-
-    private RequestDispatcher viewAppointments(HttpServletRequest request) {
-            User user = (User) request.getSession().getAttribute("currentUser");
-            System.out.println("view");
-            ArrayList<User> doctorsList = UserDAO.getAllStaff();
-            ArrayList<Appointment> appointments = AppointmentDAO.retrieveAppointments(user);
-
-            request.setAttribute("doctors", doctorsList);
-            request.setAttribute("task", "view");
-            request.setAttribute("appointments", appointments);
-
-            return request.getRequestDispatcher("/appointments.jsp");
-    }
-
-    private RequestDispatcher updateAppointment(HttpServletRequest request) {
-        ArrayList<Appointment> allAppointments;
-        RequestDispatcher dispatcher;
-        User user = (User) request.getSession().getAttribute("currentUser");
-        allAppointments = AppointmentDAO.retrieveAppointments(user);
-        request.setAttribute("appointments", allAppointments);
-        request.setAttribute("task", "update");
-        dispatcher = request.getRequestDispatcher("/appointments.jsp");
         return dispatcher;
     }
 
@@ -176,6 +146,11 @@ public class AppointmentServlet extends HttpServlet {
         request.setAttribute("date", date);
         request.setAttribute("slots", allSlots);
         request.setAttribute("task", "availableSlots");
+
+        User user = (User) request.getSession().getAttribute("currentUser");
+        ArrayList<Appointment> allAppointments;
+        allAppointments = AppointmentDAO.retrieveAppointments(user);
+        request.setAttribute("appointments", allAppointments);
         return request.getRequestDispatcher("/appointments.jsp");
     }
 
@@ -203,40 +178,31 @@ public class AppointmentServlet extends HttpServlet {
             }
             Appointment event = new Appointment(null, staffMember, patient, date, timeSlots[0], timeSlots[1], serviceType);
             AppointmentDAO.insertAppointment(event);
-            String addMessage = "Successfully added appointment";
-            request.setAttribute("successMessage", addMessage);
-            request.setAttribute("task", "displayTaskSuccess");
-            return request.getRequestDispatcher("/appointments.jsp");
+
         } catch (UserNotFoundException e) {
             e.printStackTrace();
             return null;
         }
-    }
 
-    private RequestDispatcher viewSelected(HttpServletRequest request, User staffMember, Date date)  {
-        try {
-            ArrayList<Appointment> events;
-            events = AppointmentDAO.retrieveByDate(staffMember, date);
-            request.setAttribute("appointments", events);
-            request.setAttribute("task", "viewSelected");
-            return request.getRequestDispatcher("/appointments.jsp");
-        } catch (SQLException | UserNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        User user = (User) request.getSession().getAttribute("currentUser");
+        ArrayList<Appointment> allAppointments;
+        allAppointments = AppointmentDAO.retrieveAppointments(user);
+        request.setAttribute("appointments", allAppointments);
+        return request.getRequestDispatcher("/appointments.jsp");
     }
 
     private RequestDispatcher deleteSelected(HttpServletRequest request) {
-        int count = 0;
-        String[] selectedAppointmentsID = request.getParameterValues("selected");
-        for (String selectedAppointmentsID1 : selectedAppointmentsID) {
-            AppointmentDAO.deleteAppointment(Integer.parseInt(selectedAppointmentsID1));
-            count++;
-        }
 
-        String deleted = "Successfully deleted " + count + " appointment(s)";
-        request.setAttribute("successMessage", deleted);
-        request.setAttribute("task", "displayTaskSuccess");
+        String[] selectedAppointmentsID = request.getParameterValues("selected");
+        if (selectedAppointmentsID != null) {
+            for (String selectedAppointmentsID1 : selectedAppointmentsID) {
+                AppointmentDAO.deleteAppointment(Integer.parseInt(selectedAppointmentsID1));
+            }
+        }
+        User user = (User) request.getSession().getAttribute("currentUser");
+        ArrayList<Appointment> allAppointments;
+        allAppointments = AppointmentDAO.retrieveAppointments(user);
+        request.setAttribute("appointments", allAppointments);
         return request.getRequestDispatcher("/appointments.jsp");
     }
 
@@ -250,35 +216,29 @@ public class AppointmentServlet extends HttpServlet {
         String[] types = request.getParameterValues("types");
         String[] selected = request.getParameterValues("selected");
 
-        for (int i = 0; i < IDs.length; i++) {
-            if (Arrays.asList(selected).contains(String.valueOf(i+1)))  {
-                try {
-                    Appointment appointment = new Appointment(
-                            Integer.parseInt(IDs[i]),
-                            UserDAO.getUser(Integer.parseInt(staffIDs[i])),
-                            UserDAO.getUser(Integer.parseInt(patientIDs[i])),
-                            Date.valueOf(dates[i]),
-                            Time.valueOf(startTimes[i]),
-                            Time.valueOf(endTimes[i]),
-                            types[i]
-                    );
-                    AppointmentDAO.updateAppointment(appointment);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (selected != null) {
+            for (int i = 0; i < IDs.length; i++) {
+                if (Arrays.asList(selected).contains(String.valueOf(i + 1))) {
+                    try {
+                        Appointment appointment = new Appointment(
+                                Integer.parseInt(IDs[i]),
+                                UserDAO.getUser(Integer.parseInt(staffIDs[i])),
+                                UserDAO.getUser(Integer.parseInt(patientIDs[i])),
+                                Date.valueOf(dates[i]),
+                                Time.valueOf(startTimes[i]),
+                                Time.valueOf(endTimes[i]),
+                                types[i]
+                        );
+                        AppointmentDAO.updateAppointment(appointment);
+                    } catch (UserNotFoundException | NumberFormatException e) {
+                    }
                 }
             }
         }
-
-        return request.getRequestDispatcher("/appointments.jsp");
-    }
-
-    private RequestDispatcher retrieveAllAppointments(HttpServletRequest request) {
-        User currentUser = (User) request.getSession().getAttribute("currentUser");
+        User user = (User) request.getSession().getAttribute("currentUser");
         ArrayList<Appointment> allAppointments;
-        allAppointments = AppointmentDAO.retrieveAppointments(currentUser);
+        allAppointments = AppointmentDAO.retrieveAppointments(user);
         request.setAttribute("appointments", allAppointments);
-        request.setAttribute("task", "viewAll");
         return request.getRequestDispatcher("/appointments.jsp");
     }
-
 }

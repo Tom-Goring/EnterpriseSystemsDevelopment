@@ -61,6 +61,6 @@ public class RegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("duplicate_email_error", false);
         request.getRequestDispatcher("register.jsp").forward(request, response);
-        Tables.recreateTables();
+//        Tables.recreateTables();
     }
  }

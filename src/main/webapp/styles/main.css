@@ -41,7 +41,7 @@ body {
 .header ul {
     list-style-type: none;
     overflow: hidden;
-    display: inline-block;
+    display: flex;
     float: right;
 }
 
@@ -49,12 +49,13 @@ body {
     display: block;
     color: var(--secondaryDark);
     text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+    padding: 14px 16px;  
 }
 
 .header li a:hover {
     background-color: var(--alternativeLight);
+    border-radius: 12px;
+    
 }
 
 .pinkButton {
@@ -105,12 +106,54 @@ p {
 
 input[type=text], select {
     width: 100%;
-    padding: 12px 20px;
+    padding: 12px 10px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+input[type=number]{
+    width: 100%;
+    padding: 12px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#blueButtonAlternative{
+    color: var(--secondaryLight);
+    background-color: var(--primaryDark);
+    font-weight: bold;
+    border-radius: 12px;
+    border: none;
+    padding: 10px 50px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+#view
+{
+    color: var(--secondaryLight);
+    background-color: var(--primaryDark);
+    font-weight: bold;
+    border-radius: 12px;
+    font-size: 16px;   
+}
+#pinkButtonAlternative{
+    color: var(--secondaryLight);
+    background-color: var(--alternativeLight);
+    font-weight: bold;
+    border-radius: 12px;
+    border: none;
+    padding: 15px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
 input[type=submit] {
@@ -139,11 +182,144 @@ img {
 
 #header-logo {
     float: left;
-    width:150px;
+    width: 150px;
     display: inline;
     margin-top: 25px;
 }
 
 .highlight-span {
     color: var(--primaryDark);
+}
+
+
+#appointments {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#appointments td, #appointments th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#appointments th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #e6f3ff;
+    color: black;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 2
+}
+#slots {
+    text-align: center;
+    width: 50%;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 2px;
+}
+
+#options {
+    border-radius: 45%;
+    width: 110px;
+    height: 100px;
+    outline: 0;
+    font-size: 15px;
+    background-color: #e6f3ff;
+}
+
+#update button {
+    border-radius: 45%;
+    width: 110px;
+    height: 100px;
+    outline: 0;
+    font-size: 35px;
+}
+
+#table {
+    width: 100%;
+    height: 300px;
+    overflow: auto;
+}
+
+#table table {
+    width: 100%;
+}
+
+summary {
+    outline: 0;
+    font-size: 20px;
+}
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+details summary {
+    width: 100%;
+    padding: 0.5rem 0;
+    border-top: 1px solid black;
+    position: relative;
+    cursor: pointer;
+    font-size: 1.45rem;
+    font-weight: 300;
+    list-style: none;
+}
+
+details summary:after {
+    content: "+";
+    color: black;
+    position: absolute;
+    font-size: 1.75rem;
+    line-height: 0;
+    margin-top: 0.75rem;
+    right: 0;
+    font-weight: 200;
+    transform-origin: center;
+    transition: 200ms linear;
+}
+
+details[open] summary:after {
+    transform: rotate(45deg);
+    font-size: 2rem;
+}
+
+details summary {
+    outline: 0;
+}
+
+details p {
+    font-size: 0.95rem;
+    margin: 0 0 1rem;
+    padding-top: 1rem;
+}
+
+details[open] summary ~ * {
+    animation: open 0.3s ease-in-out;
+}
+
+#addbooking
+{
+    display: block;
+}
+#addbooking select
+{
+    width:20%;
+}
+
+input[type=date]
+{
+    width:40%;
+    height:40px;
+    border: 1px solid #ccc;
+     border-radius: 4px;
+    box-sizing: border-box;
+    
+}
+#parent{
+    display:flex;
 }

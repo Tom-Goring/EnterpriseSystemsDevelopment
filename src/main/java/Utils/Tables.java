@@ -105,8 +105,8 @@ public class Tables {
         try {
             PreparedStatement ps = con.prepareStatement("create table appointments(" +
                     "ID int generated always as identity unique, " +
-                    "patientID int not null constraint patient_fk references users(ID), " +
-                    "staffID int not null constraint  staff_fk references users(ID), " +
+                    "patientID int not null constraint patient_fk references users(ID) on delete cascade, " +
+                    "staffID int not null constraint  staff_fk references users(ID) on delete cascade, " +
                     "date date not null, " +
                     "startTime time not null, " +
                     "endTime time not null, " +
@@ -124,7 +124,7 @@ public class Tables {
         try {
             PreparedStatement ps = con.prepareStatement("create table approvals(" +
                     "ID int generated always as identity unique, " +
-                    "accountID int not null constraint user_fk references users(ID), " +
+                    "accountID int not null constraint user_fk references users(ID) on delete cascade, " +
                     "actioned boolean" +
                     ")"
             );
@@ -142,7 +142,7 @@ public class Tables {
         try {
             PreparedStatement ps = con.prepareStatement("create table schedules("
                     + "ID int generated always as identity unique, "
-                    + "staffID int not null unique constraint staff_to_schedule_fk references users(ID), "
+                    + "staffID int not null unique constraint staff_to_schedule_fk references users(ID) on delete cascade, "
                     + "Monday boolean default false, "
                     + "Tuesday boolean default false, "
                     + "Wednesday boolean default false, "
@@ -164,7 +164,7 @@ public class Tables {
         try {
             PreparedStatement ps = con.prepareStatement("create table prescription(" + 
                     "ID int generated always as identity unique, " +
-                    "patientID int not null constraint patientid_FK references USERS (ID), " +
+                    "patientID int not null constraint patientid_FK references USERS (ID) on delete cascade, " +
                     "medicine varchar(30) not null, " +
                     "quantity int not null, " +
                     "repeating boolean not null, " +

@@ -24,7 +24,7 @@ public class UserInfoServlet extends HttpServlet {
             User user = UserDAO.getUser(Integer.parseInt(request.getParameter("userID")));
             ArrayList<Prescription> prescriptions = PrescriptionDAO.getAllPrescriptionsForUser(user.getID());
             ArrayList<Appointment> appointments = AppointmentDAO.retrieveAppointments(user);
-
+            request.setAttribute("username", user.getFirstName()+" "+user.getSurname());
             request.setAttribute("user", user);
             request.setAttribute("prescriptions", prescriptions);
             request.setAttribute("appointments", appointments);
