@@ -21,6 +21,7 @@
         <div class="innerDashboard">
             <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
             <ul>
+                 <li><a>${requestScope.user}</a></li>
                 <li>
                     <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
                 </li>
