@@ -108,13 +108,13 @@
                         <h3>No appointments scheduled</h3>
                     </c:if>
                     <c:if test="${requestScope.appointments.size() != 0}">
-                    <table border="1" cellpadding="5">
+                    <table id="appointments">
                         <tr>
                             <th>Date</th>
                             <th>Patient</th>
                             <th>Start Time</th>
                             <th>End Time</th>
-                            <th>Public/Private</th>
+                            <th>Type</th>
                             <th>Issue Invoice</th>
                             <th>Edit</th>
                             <th>Delete</th>
@@ -134,13 +134,13 @@
                                 </td>
                                 <td>
                                     <form method="get" action="${pageContext.request.contextPath}/appointments/update">
-                                        <button>Edit</button>
+                                        <button id="pinkButtonAlternative">Edit</button>
                                         <input type="hidden" name="appointmentID" value="${appointment.ID}">
                                     </form>
                                 </td>
                                 <td>
                                     <form method="post" action="${pageContext.request.contextPath}/appointments/delete">
-                                        <button>Delete</button>
+                                        <button id="pinkButtonAlternative">Delete</button>
                                         <input type="hidden" name="appointmentID" value="${appointment.ID}">
                                     </form>
                                 </td>
@@ -149,12 +149,7 @@
                     </table>
                 </c:if>
             </details>
-            <details open>
-                <summary>Issue a Prescription</summary>
-                    <form method="get" action="${pageContext.request.contextPath}/IssuePrescription">
-                        <button id="blueButtonAlternative">Create prescription</button>
-                    </form>                
-            </details>
+           
         </div>
     </body>       
 </html>
