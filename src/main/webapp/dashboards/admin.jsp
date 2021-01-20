@@ -62,9 +62,9 @@
                     </label>
                     <label>
                         Address<span class="highlight-span">*</span>
-                        <input type="text" name="street">
-                        <input type="text" name="city">
-                        <input type="text" name="postcode">
+                        <input type="text" name="street" placeholder="street">
+                        <input type="text" name="city" placeholder="city">
+                        <input type="text" name="postcode" placeholder="postcode">
                     </label>
                     <br/>
                     <label>

@@ -21,7 +21,7 @@ public class PatientDispatcher {
             ArrayList<Prescription> prescriptions = PrescriptionDAO.getAllPrescriptionsForUser(user.getID());
             ArrayList<Appointment> appointments = AppointmentDAO.retrieveAppointments(user);
             
-            request.setAttribute("user", user.getFirstName()+user.getSurname());
+            request.setAttribute("user", user.getFirstName()+ " "+user.getSurname());
             request.setAttribute("prescriptions", prescriptions);
             request.setAttribute("appointments", appointments);
             return request.getRequestDispatcher("/dashboards/patient.jsp");

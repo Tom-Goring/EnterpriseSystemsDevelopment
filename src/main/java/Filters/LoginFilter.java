@@ -29,7 +29,9 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
+         
 
+        
         boolean loggedIn = session != null && session.getAttribute("currentUser") != null;
         boolean isLoginRequest = request.getServletPath().equals("/login");
         boolean isRegistrationRequest = request.getServletPath().equals("/register");
