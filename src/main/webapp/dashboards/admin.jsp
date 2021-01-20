@@ -435,18 +435,23 @@
         <details>
             <summary>Change appointment lengths and charges</summary>
             <p>Current Slot Length: ${requestScope.slotPrices.slotSize} minutes</p>
-            <p>Current slot cost: £${requestScope.slotPrices.slotCost}</p>
+            <p>Current nurse cost: £${requestScope.slotPrices.nurseCost}</p>
+            <p>Current doctor rate: £${requestScope.slotPrices.doctorCost}</p>
             <p>Current max slot length: ${requestScope.slotPrices.maxSlotSize} minutes</p>
             <form action="${pageContext.request.contextPath}/slotprice" method="post">
-                <label>New Slot Interval:
+                <label>New slot length:
                     <input type="number" name="newSlotInterval">
                 </label>
                 <label>New max appointment length:
                     <input type="number" name="newMaxSlotLength">
                 </label>
                 <label>
-                    New cost per slot interval:
-                    <input type="number" name="newSlotCost">
+                    New Nurse Rate
+                    <input type="number" name="newNurseCost">
+                </label>
+                <label>
+                    New Doctor Rate
+                    <input type="number" name="newDoctorCost">
                 </label>
                 <button id="pinkButtonAlternative">Update appointment config</button>
             </form>

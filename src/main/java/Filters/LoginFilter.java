@@ -1,6 +1,7 @@
 package Filters;
 
 import Utils.Tables;
+import javafx.scene.control.Tab;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

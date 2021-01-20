@@ -15,10 +15,11 @@ import java.math.BigDecimal;
 public class SlotPriceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int newSlotInterval = Integer.parseInt(request.getParameter("newSlotInterval"));
-        BigDecimal newSlotCost = new BigDecimal(request.getParameter("newSlotCost"));
+        BigDecimal newDoctorCost = new BigDecimal(request.getParameter("newDoctorCost"));
+        BigDecimal newNurseCost = new BigDecimal(request.getParameter("newNurseCost"));
         int newMaxSlotLength = Integer.parseInt(request.getParameter("newMaxSlotLength"));
 
-        SlotPrices newSlotPrices = new SlotPrices(newSlotInterval, newSlotCost, newMaxSlotLength);
+        SlotPrices newSlotPrices = new SlotPrices(newSlotInterval, newNurseCost, newDoctorCost, newMaxSlotLength);
 
         SlotPriceDAO.updateSlotPrices(newSlotPrices);
 
