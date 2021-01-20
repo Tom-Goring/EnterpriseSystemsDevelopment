@@ -114,6 +114,16 @@ input[type=text], select {
     box-sizing: border-box;
 }
 
+input[type=password] {
+    width: 100%;
+    padding: 12px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 input[type=number]{
     width: 100%;
     padding: 12px 10px;
