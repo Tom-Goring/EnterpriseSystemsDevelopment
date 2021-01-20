@@ -3,6 +3,7 @@ package Utils;
 import Models.Event.Log;
 import Models.User.*;
 
+import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
@@ -149,8 +150,6 @@ public class Tables {
         }
     }
 
-
-
     public static void createScheduleTable() {
         Connection con = Database.getInstance().getConnection();
         try {
@@ -172,7 +171,6 @@ public class Tables {
         }
     }
 
-
     public static void createPrescriptionTable() {
         Connection con = Database.getInstance().getConnection();
         try {
@@ -187,6 +185,29 @@ public class Tables {
                     ")");
             ps.executeUpdate();
             System.out.println("Prescription table created successfully!");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void createSlotPricesTable() {
+        Connection con = Database.getInstance().getConnection();
+        try {
+            PreparedStatement ps = con.prepareStatement("create table slotprices(" +
+                    "ID int generated always as identity unique, " +
+                    "slotInterval int not null, " +
+                    "slotCost int not null, " +
+                    "slotMaximumDuration int not null)"
+            );
+            ps.executeUpdate();
+
+            ps = con.prepareStatement("insert into SLOTPRICES (SLOTINTERVAL, SLOTCOST, SLOTMAXIMUMDURATION) VALUES (?, ?, ?)");
+            ps.setInt(1, 10);
+            ps.setBigDecimal(2, new BigDecimal(10));
+            ps.setInt(3, 30);
+            ps.executeUpdate();
+
+            System.out.println("Slot Prices table created successfully!");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -225,6 +246,11 @@ public class Tables {
             ps.executeUpdate();
             System.out.println("Users table dropped");
         } catch (SQLException e) {}
+        try {
+            PreparedStatement ps = con.prepareStatement("DROP TABLE slotprices");
+            ps.executeUpdate();
+            System.out.println("Slot prices table dropped");
+        } catch (SQLException e) {}
 
         createUserTable();
         createEventTable();
@@ -232,6 +258,7 @@ public class Tables {
         createAppointmentsTable();
         createScheduleTable();
         createPrescriptionTable();
+        createSlotPricesTable();
         Log.info("Tables were recreated");
     }
     

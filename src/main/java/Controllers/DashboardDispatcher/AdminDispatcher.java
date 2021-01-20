@@ -1,5 +1,6 @@
 package Controllers.DashboardDispatcher;
 
+import Models.AppointmentSlots.SlotPriceDAO;
 import Models.Approval.Approval;
 import Models.Approval.ApprovalDAO;
 import Models.Event.Event;
@@ -97,6 +98,7 @@ public class AdminDispatcher {
                     break;
             }
         }
+
         List<Event> events = EventDao.getAllEvents();
         List<Approval> approvals = ApprovalDAO.getAllPendingApprovals();
         ArrayList<UserAccount> users = UserAccountDAO.getAllUserAccounts();
@@ -113,6 +115,12 @@ public class AdminDispatcher {
         if (request.getParameter("changed-display-type") != null) {
             request.setAttribute("changed_display_type", true);
         }
+
+        if (request.getAttribute("startPeriod") != null) {
+            System.out.println(request.getAttribute("startPeriod"));
+        }
+
+        request.setAttribute("slotPrices", SlotPriceDAO.getCurrentSlotPrices());
 
         request.setAttribute("events", events);
         request.setAttribute("approvals", approvals);

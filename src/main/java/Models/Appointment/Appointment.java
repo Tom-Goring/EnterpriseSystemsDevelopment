@@ -11,6 +11,7 @@ import Models.User.User;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Calendar;
 
 /**
@@ -69,7 +70,10 @@ public class Appointment {
     }
 
     public Duration getLength() {
-        return Duration.between(this.startTime.toInstant(), this.endTime.toInstant());
+        LocalTime from = this.startTime.toLocalTime();
+        LocalTime to = this.endTime.toLocalTime();
+
+        return Duration.between(from, to);
     }
 
     public static String getDayOfDate(Date date) {
