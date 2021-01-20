@@ -33,10 +33,9 @@
                 <details open>
                     <summary>Issue Invoice</summary>
                         <form method="post" action="${pageContext.request.contextPath}/IssueInvoice">
-                            <h2>Creating an Invoice for: ${appointment.patient.surname}, ${appointment.patient.firstName}</h2>
-                            <h2>Appointment Length: ${appointment.length.toMinutes()} Minutes</h2>
-                            <h2 value="service">${appointment.length.toMinutes()} minute appointment</h2>
-                            <h2 value="charge">Charges: £${charge}.00</h2>
+                            <p>Creating an Invoice for: ${appointment.patient.surname}, ${appointment.patient.firstName}</p>                           
+                            <p value="service">Length: ${appointment.length.toMinutes()} minute appointment</p>
+                            <p value="charge">Charges: £${charge}.00</p>
                             <label>
                                 Issue date: <input name="submitted-issuedate"  type="date" value="${appointment.date}" required>
                             </label>

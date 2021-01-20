@@ -43,7 +43,7 @@ public class StaffDispatcher {
         request.setAttribute("approvals", approvals);
         request.setAttribute("users", users);
         request.setAttribute("minimumDate", date);
-        request.setAttribute("user", user.getFirstName()+user.getSurname());
+        request.setAttribute("user", user.getFirstName()+" "+user.getSurname());
         System.out.println(approvals);
         request.setAttribute("appointments", appointments);
         return request.getRequestDispatcher("/dashboards/staff.jsp");

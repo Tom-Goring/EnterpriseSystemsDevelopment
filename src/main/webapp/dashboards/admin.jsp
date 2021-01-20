@@ -62,9 +62,9 @@
                     </label>
                     <label>
                         Address<span class="highlight-span">*</span>
-                        <input type="text" name="street">
-                        <input type="text" name="city">
-                        <input type="text" name="postcode">
+                        <input type="text" name="street" placeholder="street">
+                        <input type="text" name="city" placeholder="city">
+                        <input type="text" name="postcode" placeholder="postcode">
                     </label>
                     <br/>
                     <label>
@@ -369,7 +369,7 @@
                     <input name="displayType" type="radio" value="private" ${sessionScope.displayType == 'private' ? 'checked' : ''}>
                 </label>
                 <input type="hidden" name="changed-display-type" value="true">
-                <button type="submit">Change displayed patient types</button>
+                <button type="submit" id="blueButtonAlternative">Change displayed patient types</button>
             </form>
             <c:if test="${requestScope.users.size() > 0}">
                 <div id="table">

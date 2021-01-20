@@ -34,12 +34,22 @@
                         <tr>
                             <th>Firstname</th>
                             <th>Surname</th>
+                            <th>DOB</th>
+                            <th>City</th>
+                            <th>Street</th>
+                            <th>Post Code</th>
+                            <th>Gender</th>
                             <th>Email</th>
                             <th>User Role</th>
                         </tr>
                         <tr>
                             <td>${requestScope.user.firstName}</td>
-                            <td>${requestScope.user.surname}</td>
+                            <td>${requestScope.user.surname}</td>                            
+                            <td>${requestScope.user.DOB}</td>
+                            <td>${requestScope.user.address.city}</td>
+                            <td>${requestScope.user.address.street}</td>
+                            <td>${requestScope.user.address.postcode}</td>
+                            <td>${requestScope.user.gender}</td>
                             <td>${requestScope.user.email}</td>
                             <td>${requestScope.user.role}</td>
                         </tr>
@@ -75,29 +85,29 @@
                 </details>
                 <details>
                     <summary>Prescriptions</summary>
-                    <c:if test="${requestScope.prescriptions.size() == 0}">
+                        <c:if test="${requestScope.prescriptions.size() == 0}">
                         <h3>No prescriptions available</h3>
                     </c:if>
                     <c:if test="${requestScope.prescriptions.size() != 0}">  
-                    <table id="appointments">
-                        <tr>                           
-                            <th>Medicine</th>
-                            <th>Quantity</th>
-                            <th>Repeating</th>
-                            <th>Issue Date</th>
-                            <th>End Date</th>
-                        </tr>
-                        <c:forEach items="${requestScope.prescriptions}" var="prescriptions">
-                            <tr>                               
-                                <td>${prescriptions.medicine}</td>
-                                <td>${prescriptions.quantity}</td>
-                                <td>${prescriptions.repeating}</td>
-                                <td>${prescriptions.issueDate}</td>
-                                <td>${prescriptions.endDate}</td>
+                        <table id="appointments">
+                            <tr>                           
+                                <th>Medicine</th>
+                                <th>Quantity</th>
+                                <th>Repeating</th>
+                                <th>Issue Date</th>
+                                <th>End Date</th>
                             </tr>
-                        </c:forEach>
-                    </table>
-                     </c:if>
+                            <c:forEach items="${requestScope.prescriptions}" var="prescriptions">
+                                <tr>                               
+                                    <td>${prescriptions.medicine}</td>
+                                    <td>${prescriptions.quantity}</td>
+                                    <td>${prescriptions.repeating}</td>
+                                    <td>${prescriptions.issueDate}</td>
+                                    <td>${prescriptions.endDate}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
                 </details>
             </div>
         </div>
