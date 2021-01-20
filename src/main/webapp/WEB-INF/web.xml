@@ -59,6 +59,15 @@
         <url-pattern>/dashboard/patientinformation</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>IssueInvoiceServlet</servlet-name>
+        <servlet-class>Controllers.IssueInvoiceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IssueInvoiceServlet</servlet-name>
+        <url-pattern>/IssueInvoice</url-pattern>
+    </servlet-mapping>
+
     <session-config>
         <session-timeout>
             5
