@@ -55,8 +55,8 @@
                     <c:when test="${requestScope.stage == 'selectingStaffAndSlot'}">
                         <details open>
                             <summary>Available member of staff and time slot</summary>
-                            <c:set var="min" scope="request" value="${0}" />
-                            <c:if test="${requestScope.slots.size()==min}">
+                                <c:set var="min" scope="request" value="${0}" />
+                                <c:if test="${requestScope.slots.size()==min}">
                                 <p>0 slots available</p>
                             </c:if>
                             <c:if test="${requestScope.slots.size() > min}">
@@ -65,8 +65,7 @@
                                         <thead>
                                             <tr>                             
                                                 <th>Doctor</th>
-                                                <th>Slots</th>
-                                                <th>Service Type</th>
+                                                <th>Slots</th>                                          
                                                 <th>Date</th>
                                                 <th>Selection</th>
                                             </tr>
@@ -81,12 +80,7 @@
                                                         </c:forEach>
                                                     </select>
                                                 </td>
-                                                <td><select name="serviceType">
-                                                        <option>public (NHS)</option>
-                                                        <option>private</option>
-                                                    </select>
-                                                </td>
-
+                                              
                                                 <td>
                                                     <input name="date" value="${requestScope.date}" readonly>
                                                 </td>
@@ -96,7 +90,11 @@
                                                 </td>
                                             </tr>
                                         </c:forEach>
-                                    </table>                                               
+                                    </table> 
+                                    <select name="serviceType">
+                                        <option value="public (NHS)">public (NHS)</option>
+                                        <option value="private">private</option>
+                                    </select>
                                     <input type="hidden" name="customerName" value="${sessionScope.currentUser.firstName} ${sessionScope.currentUser.surname}"></td>
                                     <input type="hidden" name="email" value="${sessionScope.currentUser.email}">
                                     <button type="submit" id="pinkButtonAlternative">Confirm Appointment</button>
