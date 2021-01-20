@@ -369,7 +369,7 @@
                     <input name="displayType" type="radio" value="private" ${sessionScope.displayType == 'private' ? 'checked' : ''}>
                 </label>
                 <input type="hidden" name="changed-display-type" value="true">
-                <button type="submit">Change displayed patient types</button>
+                <button type="submit" id="blueButtonAlternative">Change displayed patient types</button>
             </form>
             <c:if test="${requestScope.users.size() > 0}">
                 <div id="table">
