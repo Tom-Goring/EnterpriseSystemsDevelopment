@@ -13,13 +13,15 @@ public class Invoice {
     private final Integer ID;
     private final String service;
     private final Double amount;
+    private final String type;
     private final Date issueDate;
     private final Date dueDate;
     
-        public Invoice(Integer ID, String service, Double amount, Date issueDate, Date dueDate){
+        public Invoice(Integer ID, String service, Double amount, String type, Date issueDate, Date dueDate){
         this.ID = ID;
         this.service = service;
         this.amount = amount;
+        this.type = type;
         this.issueDate = issueDate;
         this.dueDate = dueDate;
     }
@@ -32,6 +34,9 @@ public class Invoice {
         return service;
     }
     
+    public String getType() {
+        return type;
+    }
     public Double getAmount() {
         return amount;
     }

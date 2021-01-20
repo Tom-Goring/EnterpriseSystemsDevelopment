@@ -33,29 +33,20 @@
                 <details open>
                     <summary>Issue Invoice</summary>
                         <form method="post" action="${pageContext.request.contextPath}/IssueInvoice">
+                            <h2>Creating an Invoice for: ${appointment.patient.surname}, ${appointment.patient.firstName}</h2>
+                            <h2>Appointment Length: ${appointment.length.toMinutes()} Minutes</h2>
+                            <h2 value="service">${appointment.length.toMinutes()} minute appointment</h2>
+                            <h2 value="charge">Charges: £${charge}.00</h2>
                             <label>
-                                Patient: 
-                                <select name="submitted-patientid" required>
-                                    <c:forEach items="${requestScope.users}" var="user">
-                                        <option id="userID" value="${user.ID}">${user.surname}, ${user.firstName}</option>
-                                    </c:forEach>
-                                </select>
-                            </label>
-                <!--            <br/>-->
-                            <label>
-                                Service:   <input name="submitted-service" type="text" required>
-                            </label>
-                <!--            <br/>-->
-                            <label>
-                                Amount:   <input name="submitted-amount" type="number" step=".01" required>
-                            </label>
-                <!--            <br/>-->
-                            <label>
-                                Issue date: <input name="submitted-issuedate"  type="date" required>
+                                Issue date: <input name="submitted-issuedate"  type="date" value="${appointment.date}" required>
                             </label>
                             <label>
                                 Due date: <input name="submitted-duedate"  type="date" required>
                             </label>
+                            <input type="hidden" value ="${appointment.patient.ID}" name="patientID">
+                            <input type="hidden" value ="${appointment.length.toMinutes()} minute appointment" name="service">
+                            <input type="hidden" value ="${appointment.type}" name="type">
+                            <input type="hidden" value ="${charge}" name="charge">
                             <br/><br/>
                             <button id="blueButtonAlternative">Submit</button>
                         </form>

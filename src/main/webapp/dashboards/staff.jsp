@@ -108,43 +108,53 @@
                         <h3>No appointments scheduled</h3>
                     </c:if>
                     <c:if test="${requestScope.appointments.size() != 0}">
-                        <table id="appointments">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Patient</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Public/Private</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <c:forEach items="${requestScope.appointments}" var="appointment">
-                                <tr>
-                                    <td>${appointment.date}</td>
-                                    <td>${appointment.patient.firstName} ${appointment.patient.surname}</td>
-                                    <td>${appointment.startTime}</td>
-                                    <td>${appointment.endTime}</td>
-                                    <td>${appointment.type}</td>
-                                    <td>
-                                        <form method="get" action="${pageContext.request.contextPath}/appointments/update">
-                                            <button id="pinkButtonAlternative">Edit</button>
-                                            <input type="hidden" name="appointmentID" value="${appointment.ID}">
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form method="post" action="${pageContext.request.contextPath}/appointments/delete">
-                                            <button id="pinkButtonAlternative">Delete</button>
-                                            <input type="hidden" name="appointmentID" value="${appointment.ID}">
-                                        </form>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </c:if>
-                </details>
-            </div>
+                    <table border="1" cellpadding="5">
+                        <tr>
+                            <th>Date</th>
+                            <th>Patient</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Public/Private</th>
+                            <th>Issue Invoice</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        <c:forEach items="${requestScope.appointments}" var="appointment">
+                            <tr>
+                                <td>${appointment.date}</td>
+                                <td>${appointment.patient.firstName} ${appointment.patient.surname}</td>
+                                <td>${appointment.startTime}</td>
+                                <td>${appointment.endTime}</td>
+                                <td>${appointment.type}</td>
+                                <td>
+                                    <form method="get" action="${pageContext.request.contextPath}/IssueInvoice">
+                                        <input type="hidden" name="appointmentID" value="${appointment.ID}">
+                                        <button id="blueButtonAlternative">Create Invoice</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="get" action="${pageContext.request.contextPath}/appointments/update">
+                                        <button>Edit</button>
+                                        <input type="hidden" name="appointmentID" value="${appointment.ID}">
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" action="${pageContext.request.contextPath}/appointments/delete">
+                                        <button>Delete</button>
+                                        <input type="hidden" name="appointmentID" value="${appointment.ID}">
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </c:if>
+            </details>
+            <details open>
+                <summary>Issue a Prescription</summary>
+                    <form method="get" action="${pageContext.request.contextPath}/IssuePrescription">
+                        <button id="blueButtonAlternative">Create prescription</button>
+                    </form>                
+            </details>
         </div>
     </body>       
 </html>

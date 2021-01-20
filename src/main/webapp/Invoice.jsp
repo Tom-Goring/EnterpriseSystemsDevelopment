@@ -39,6 +39,7 @@
                     <table>
                         <tr>
                             <td>
+                                ${requestScope.invoice.type}<br>
                                 SmartCare Surgery<br>
                                 2 Smart Road<br>
                                 LD1 2ND
@@ -46,7 +47,10 @@
                             
                             <td>
                                 ${requestScope.user.getFirstName()}, ${requestScope.user.getSurname()}<br>
-                                ${requestScope.user.getEmail()}
+                                ${requestScope.user.getEmail()} <br>
+                                ${requestScope.user.address.street} <br>
+                                ${requestScope.user.address.city} <br>
+                                ${requestScope.user.address.postcode} <br>
                             </td>
                         </tr>
                     </table>
