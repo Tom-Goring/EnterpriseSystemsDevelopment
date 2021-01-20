@@ -24,7 +24,8 @@ public class Create extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // initial selection of date and length
         // selection of doctor and slot on that date
-
+        User patient = (User) request.getSession(false).getAttribute("currentUser");
+        
         if (request.getParameter("stage") != null) {
             Date date = Date.valueOf(request.getParameter("date"));
             int length = Integer.parseInt(request.getParameter("length"));
@@ -58,6 +59,7 @@ public class Create extends HttpServlet {
             request.setAttribute("minimumDate", minimumDate);
             request.setAttribute("stage", "pickingDateAndLength");
         }
+        request.setAttribute("user", patient.getFirstName()+patient.getSurname());
         request.getRequestDispatcher("/appointments/create.jsp").forward(request, response);
     }
 
@@ -84,6 +86,7 @@ public class Create extends HttpServlet {
             String addMessage = "Successfully added appointment";
             request.setAttribute("successMessage", addMessage);
             request.setAttribute("task", "displayTaskSuccess");
+            request.setAttribute("user", patient.getFirstName()+patient.getSurname());
             response.sendRedirect(request.getContextPath() + "/dashboard");
         } catch (UserNotFoundException e) {
             e.printStackTrace();

@@ -20,23 +20,23 @@
                 <div class="innerDashboard">
                     <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
                     <ul>
-<!--                        <li><a>${requestScope.username}</a></li>-->
+                       <li><a>${requestScope.user}</a></li>
                         <li>
-                            <button type="submit" name="action" value="" form="logout" class="pinkButtonAlternative">Logout</button>
+                            <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
                         </li>
                     </ul>
                     <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
                 </div>
             </div>
             <div class="innerDashboard">
-                <details open>
+                <details>
                     <summary>Your Prescriptions</summary>
                         <c:if test="${requestScope.prescriptions.size() == 0}">
                         <h3>No prescriptions available</h3>
                     </c:if>
                     <c:if test="${requestScope.prescriptions.size() != 0}">
                         <div id="table">
-                            <table id="prescriptions">
+                            <table id="appointments">
                                 <tr>
                                     <th>Medicine</th>
                                     <th>Quantity</th>
@@ -64,7 +64,7 @@
                     </c:if>
                     <c:if test="${requestScope.prescriptions.size() != 0}">
                         <div id="table">
-                            <form id="repeatPrescriptions" method="post" action="${pageContext.request.contextPath}/IssuePrescription">
+                            <form id="prescriptions" method="post" action="${pageContext.request.contextPath}/IssuePrescription">
                                 <table id="appointments">
                                     <tr>
                                         <th>Medicine</th>
@@ -75,23 +75,20 @@
                                         <th>Repeat</th>
                                     </tr>
                                     <c:forEach items="${requestScope.prescriptions}" var="prescription">
-                                        <tr>
-                                            <td>${prescription.medicine}</td>
-                                            <td>${prescription.quantity}</td>
-                                            <td>${prescription.repeating}</td>
-                                            <td>${prescription.issueDate}</td>
-                                            <td>${prescription.endDate}</td>
-                                            <c:if test="${prescription.repeating=='true'}">
-                                                <td><input type="radio" name="selected" value="${prescription.ID}" disabled=""></td>
-                                            </c:if>
-                                            <c:if test="${prescription.repeating=='false'}">
-                                                <td><input type="radio" name="selected" value="${prescription.ID}"></td>
-                                            </c:if>
-                                        </tr>
+                                        <c:if test="${prescription.repeating=='false'}">
+                                            <tr>
+                                                <td>${prescription.medicine}</td>
+                                                <td>${prescription.quantity}</td>
+                                                <td>${prescription.repeating}</td>
+                                                <td>${prescription.issueDate}</td>
+                                                <td>${prescription.endDate}</td>
+                                                <td><input type="radio" name="selectedPrescription" value="${prescription.ID}"></td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                 </table>
                                 <br>
-                                <button class="pinkButtonAlternative" type="submit" name="action" value="repeatPrescriptions" form="repeatPrescriptions"
+                                <button id="pinkButtonAlternative" type="submit" name="action" value="repeatPrescriptions" form="prescriptions"
                                         >Repeat Order
                                 </button>
                             </form>
@@ -101,17 +98,17 @@
                 </details>
                 <details>
                     <summary>Appointments</summary>
-                    <c:if test="${requestScope.appointments.size() == 0}">
+                        <c:if test="${requestScope.appointments.size() == 0}">
                         <h3>No appointments scheduled</h3>
                     </c:if>
                     <c:if test="${requestScope.appointments.size() != 0}">
-                        <table border="1" cellpadding="5">
+                        <table id="appointments">
                             <tr>
                                 <th>Date</th>
                                 <th>Staff Member</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
-                                <th>Public/Private</th>
+                                <th>Type</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -124,13 +121,13 @@
                                     <td>${appointment.type}</td>
                                     <td>
                                         <form method="get" action="${pageContext.request.contextPath}/appointments/update">
-                                            <button>Edit</button>
+                                            <button id="pinkButtonAlternative">Edit</button>
                                             <input type="hidden" name="appointmentID" value="${appointment.ID}">
                                         </form>
                                     </td>
                                     <td>
                                         <form method="post" action="${pageContext.request.contextPath}/appointments/delete">
-                                            <button>Delete</button>
+                                            <button id="pinkButtonAlternative">Delete</button>
                                             <input type="hidden" name="appointmentID" value="${appointment.ID}">
                                         </form>
                                     </td>
@@ -140,7 +137,7 @@
                     </c:if>
                     <br/>
                     <a href="${pageContext.request.contextPath}/appointments/create">
-                        <button type="button" class="pinkButton">Schedule a new appointment</button>
+                        <button type="button" id="pinkButtonAlternative">Schedule a new appointment</button>
                     </a>
                     <br>
                 </details>
