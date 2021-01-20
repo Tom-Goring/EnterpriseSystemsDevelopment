@@ -1,5 +1,7 @@
 package Filters;
 
+import Utils.Tables;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -12,16 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "LoginFilter")
+@WebFilter(filterName = "LoginFilter", urlPatterns = {"/*"})
 public class LoginFilter implements Filter {
 
     @Override
-    public void destroy() {
-    }
+    public void destroy() {}
 
     @Override
-    public void init(FilterConfig config) throws ServletException {
-    }
+    public void init(FilterConfig config) throws ServletException {}
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {

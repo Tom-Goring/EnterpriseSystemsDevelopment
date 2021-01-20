@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet {
         if (session.getAttribute("currentUser") != null) {
             UserAccount user = (UserAccount) session.getAttribute("currentUser");
             session.invalidate();
+            request.setAttribute("username", user.getFirstName()+" "+user.getSurname());
             Log.info(String.format("User %s %s logged out", user.getFirstName(), user.getSurname()));
             request.setAttribute("login_failed", false);
             request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -57,6 +58,7 @@ public class LoginServlet extends HttpServlet {
         if (session != null) {
             session.setAttribute("loginFailed", false);
         }
+        
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 }

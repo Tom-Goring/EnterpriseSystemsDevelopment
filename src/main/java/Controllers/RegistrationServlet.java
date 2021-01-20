@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Locale;
 
 import static Utils.Passwords.createSaltAndHash;
@@ -27,16 +29,29 @@ public class RegistrationServlet extends HttpServlet {
         try {
             String role = request.getParameter("submitted-role").toLowerCase(Locale.ROOT);
             Tuple<byte[], byte[]> saltAndHash = createSaltAndHash(request.getParameter("submitted-password"));
-            UserAccount user = new UserAccount(null,
+
+            User user = new User(
+                    null,
                     request.getParameter("submitted-name"),
                     request.getParameter("submitted-surname"),
                     request.getParameter("submitted-email"),
+                    request.getParameter("submitted-role"),
+                    Date.valueOf(request.getParameter("DOB")),
+                    new Address(
+                            request.getParameter("city"),
+                            request.getParameter("postcode"),
+                            request.getParameter("street")
+                    ),
+                    Gender.fromString(request.getParameter("gender")),
+                    Type.fromString(request.getParameter("type"))
+            );
+            UserAccount userAccount = new UserAccount(
+                    user,
                     saltAndHash.x,
                     saltAndHash.y,
-                    role,
                     !UserAccount.isPrivilegedRole(role)
             );
-            UserAccountDAO.insertUserAccount(user);
+            UserAccountDAO.insertUserAccount(userAccount);
             HttpSession session = request.getSession(false);
             if (UserAccount.isPrivilegedRole(role)) {
                 session.setAttribute("approvalNeeded", true);
@@ -59,8 +74,11 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LocalDate today = LocalDate.now();
+        String minimumDate = today.toString();
+        request.setAttribute("minimumDate", minimumDate);
         request.setAttribute("duplicate_email_error", false);
         request.getRequestDispatcher("register.jsp").forward(request, response);
-        Tables.recreateTables();
+//        Tables.recreateTables();
     }
  }

@@ -16,38 +16,66 @@
         <title>Issue Prescription Form</title>
     </head>
     <body>
-        <h1>Issue Prescription</h1>
-        <form method="post" action="${pageContext.request.contextPath}/IssuePrescription">
-            <label>
-                Patient: 
-                <select name="submitted-patientid" required>
-                    <c:forEach items="${requestScope.users}" var="user">
-                        <option id="userID" value="${user.ID}">${user.surname}, ${user.firstName}</option>
-                    </c:forEach>
-                </select>
-            </label>
-<!--            <br/>-->
-            <label>
-                Medicine:   <input name="submitted-medicine" required>
-            </label>
-<!--            <br/>-->
-            <label>
-                Quantity:   <input name="submitted-quantity" required>
-            </label>
-<!--            <br/>-->
-            <label>
-                Repeating:  <input name="submitted-repeating" placeholder="True or False format" required>
-            </label>
-<!--            <br/>-->
-            <label>
-                Issue date: <input name="submitted-issuedate"  type="date" required>
-            </label>
-<!--            <br/>-->
-            <label>
-                End date: <input name="submitted-enddate" type="date" required>
-            </label>
-            <br/><br/>
-            <button>Submit</button>
-        </form>
+        <div class="outer">
+            <form method="post" action="${pageContext.request.contextPath}/login" id="logout"></form>
+            <div class="header">
+                <div class="innerDashboard">
+                    <img src="${pageContext.request.contextPath}/images/temp_logo.png" alt="logo" id="header-logo">
+                    <ul>
+        <!--                <li><a>${requestScope.hello}</a></li>-->
+                        <li>
+                            <button type="submit" name="action" value="" form="logout" id="pinkButtonAlternative">Logout</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="innerDashboard">
+                <details>
+                    <summary>Issue Prescription</summary>                
+                    <form method="post" action="${pageContext.request.contextPath}/IssuePrescription" id="prescription">
+                        <label>
+                            Patient<span class="highlight-span">*</span>
+                            <select name="submitted-patientid" required="">
+                                <c:forEach items="${requestScope.users}" var="user">
+                                    <option id="userID" value="${user.ID}">${user.firstName} ${user.surname}</option>
+                                </c:forEach>
+                            </select>
+                        </label>         
+                        <label>
+                            Medicine<span class="highlight-span">*</span>
+                            <input name="submitted-medicine" type="text" required="">
+                        </label>
+                        <label>
+                            Quantity<span class="highlight-span">*</span>   
+                            <input name="submitted-quantity" type="number" required="">
+                        </label>
+                        <label>
+                            Repeating<span class="highlight-span">*</span>  
+                            <select name="submitted-repeating" required="">
+                                <option>True</option>
+                                <option>False</option>
+                            </select>
+                        </label>           
+                        <label>
+                            Issue date<span class="highlight-span">*</span> 
+                            <input name="submitted-issuedate"  type="date" required="" min="${requestScope.minimumDate}" max="2099-01-18">
+                        </label>
+                        <label>
+                            End date<span class="highlight-span">*</span> 
+                            <input name="submitted-enddate" type="date" required="" min="${requestScope.minimumDate}" max="2099-01-18">
+                        </label>
+                    </form>
+                    <br>
+                    <button id="blueButtonAlternative" form="prescription">Submit</button>
+                </details>
+                <details>
+                    <summary>Prescription Reordering Approvals</summary>                     
+                </details>
+
+                <details>
+                    <summary>Upcoming Appointments</summary>
+                </details>
+            </div>
+        </div>
     </body>
 </html>

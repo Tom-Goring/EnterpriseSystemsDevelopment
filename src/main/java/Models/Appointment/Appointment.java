@@ -5,10 +5,13 @@
  */
 package Models.Appointment;
 
+import Models.Schedule.Schedule;
 import Models.User.User;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Duration;
+import java.util.Calendar;
 
 /**
  *
@@ -21,7 +24,7 @@ public class Appointment {
     private final Date date;
     private final Time startTime;
     private final Time endTime;
-    private final String type;
+    private String type;
 
     public Appointment(Integer ID, User staffMember, User patient, Date date, Time startTime, Time endTime, String type) {
         this.ID = ID;
@@ -59,6 +62,22 @@ public class Appointment {
 
     public String getType() {
         return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Duration getLength() {
+        return Duration.between(this.startTime.toInstant(), this.endTime.toInstant());
+    }
+
+    public static String getDayOfDate(Date date) {
+        Schedule sch = new Schedule();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        return sch.getDayOfWeek(day);
     }
 
     @Override

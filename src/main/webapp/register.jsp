@@ -48,6 +48,33 @@
                 </select>
             </label>
             <br/>
+            <label>
+                Address<span class="highlight-span">*</span>
+                <input type="text" name="street">
+                <input type="text" name="city">
+                <input type="text" name="postcode">
+            </label>
+            <br/>
+            <label>
+                Gender<span class="highlight-span">*</span>
+                <select name="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </label>
+            <label>
+                Date of Birth<span class="highlight-span">*</span>
+                <input type="date" max="${requestScope.minimumDate}" name="DOB">
+            </label>
+            <br/>
+            <label>
+                Public/Private<span class="highlight-span">*</span>
+                <select name="type">
+                    <option>Public</option>
+                    <option>Private</option>
+                </select>
+            </label>
             <button class="pinkButton">Submit</button>
         </form>
         <br/>

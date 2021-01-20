@@ -125,6 +125,29 @@ public class AppointmentDAO {
         }
     }
 
+    public static Appointment getAppointmentByID(Integer ID) {
+        try {
+            Connection con = Database.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM appointments WHERE ID = ?");
+            ps.setInt(1, ID);
+
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return new Appointment(
+                    rs.getInt("ID"),
+                    UserDAO.getUser(rs.getInt("staffID")),
+                    UserDAO.getUser(rs.getInt("patientID")),
+                    rs.getDate("date"),
+                    rs.getTime("startTime"),
+                    rs.getTime("endTime"),
+                    rs.getString("type")
+            );
+        } catch (SQLException | UserNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static ArrayList<Appointment> retrieveAppointments() throws SQLException, UserNotFoundException {
         ArrayList<Appointment> appointments = new ArrayList<>();
         Connection con = Database.getInstance().getConnection();
