@@ -1,21 +1,15 @@
 package ControllersTest;
 
-import Controllers.AppointmentServlet;
+import Models.Appointment.Appointment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 class AppointmentServletTest {
-
-    HttpServletRequest mockedRequest;
-    AppointmentServlet servlet;
 
     long monday = 392580000;
     long wednesday = 549018000;
@@ -23,8 +17,6 @@ class AppointmentServletTest {
 
     @BeforeEach
     void setUp() {
-        servlet = new AppointmentServlet();
-        mockedRequest = mock(HttpServletRequest.class);
     }
 
     @AfterEach
@@ -32,22 +24,11 @@ class AppointmentServletTest {
     }
 
     @Test
-    void Given_AddGetAction_Then_SelectDispatcherCase() {
-        // Given
-
-        // When
-        RequestDispatcher result = servlet.performGetAction("Add", mockedRequest);
-
-        // Then
-        assertEquals(result, mockedRequest.getRequestDispatcher("/appointments.jsp"));
-    }
-
-    @Test
     void Given_MondayDate_Then_ReturnDayOfWeek() {
         // Given
 
         // When
-        String result = servlet.getAvailableDay(new Date(monday));
+        String result = Appointment.getDayOfDate(new Date(monday));
 
         // Then
         assertEquals(result, "Monday");
@@ -58,7 +39,7 @@ class AppointmentServletTest {
         // Given
 
         // When
-        String result = servlet.getAvailableDay(new Date(wednesday));
+        String result = Appointment.getDayOfDate(new Date(wednesday));
 
         // Then
         assertEquals(result, "Wednesday");
@@ -69,7 +50,7 @@ class AppointmentServletTest {
         // Given
 
         // When
-        String result = servlet.getAvailableDay(new Date(thursday));
+        String result = Appointment.getDayOfDate(new Date(thursday));
 
         // Then
         assertEquals(result, "Thursday");

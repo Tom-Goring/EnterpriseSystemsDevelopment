@@ -14,14 +14,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 class UserDaoTest {
 
     String email;
+    UserAccount user;
 
     @BeforeEach
     void setUp() {
         email = "charlie@uwe.ac.uk";
+        user = mock(UserAccount.class);
     }
 
     @AfterEach
@@ -33,7 +36,6 @@ class UserDaoTest {
     @Test
     void Given_ValidUser_Then_InsertUser() throws DuplicateEmailPresentException {
         // Given
-        UserAccount user = new UserAccount(12, "Charlie", "Williams,", email, new byte[16], new byte[16], "admin", true);
 
         // When
         boolean isInserted = UserAccountDAO.insertUserAccount(user);
@@ -46,7 +48,6 @@ class UserDaoTest {
     @Test
     void Given_DuplicateUser_Then_ThrowException() throws DuplicateEmailPresentException {
         // Given
-        UserAccount user = new UserAccount(12, "Charlie", "Williams,", email, new byte[16], new byte[16], "admin", true);
         UserAccountDAO.insertUserAccount(user);
 
         // When

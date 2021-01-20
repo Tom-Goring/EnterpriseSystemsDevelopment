@@ -16,6 +16,7 @@ import java.sql.Time;
 import static Models.Appointment.AppointmentDAO.formatSelectedSlot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 class AppointmentDAOTest {
 
@@ -25,8 +26,8 @@ class AppointmentDAOTest {
 
     @BeforeEach
     void setUp() {
-        staff = new User(12, "", "", "", "Doctor");
-        patient = new User(13, "", "", "", "Patient");
+        staff = mock(User.class);
+        patient = mock(User.class);
         appointment = new Appointment(12, staff, patient, new Date(12), new Time(1), new Time(1), "Appointment");
     }
 
