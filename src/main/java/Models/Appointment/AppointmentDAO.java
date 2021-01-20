@@ -10,12 +10,7 @@ import Models.User.UserDAO;
 import Models.User.UserNotFoundException;
 import Utils.Database;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -188,6 +183,33 @@ public class AppointmentDAO {
             ));
         }
         return appointments;
+    }
+
+    public static ArrayList<Appointment> retrieveAllBetweenDates(Date first, Date second) {
+        try {
+            ArrayList<Appointment> appointments = new ArrayList<>();
+            Connection con = Database.getInstance().getConnection();
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM appointments WHERE DATE > ? AND DATE < ?");
+            ps.setDate(1, first);
+            ps.setDate(2, second);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                appointments.add(new Appointment(
+                        rs.getInt("ID"),
+                        UserDAO.getUser(rs.getInt("staffID")),
+                        UserDAO.getUser(rs.getInt("patientID")),
+                        rs.getDate("date"),
+                        rs.getTime("startTime"),
+                        rs.getTime("endTime"),
+                        rs.getString("type")
+                ));
+            }
+            return appointments;
+        } catch (SQLException | UserNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static ArrayList<String> getGeneratedSlots(int appointmentLength, User staffMember, Date date) {

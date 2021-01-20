@@ -2,6 +2,8 @@ package Controllers.Appointments;
 
 import Models.Appointment.Appointment;
 import Models.Appointment.AppointmentDAO;
+import Models.AppointmentSlots.SlotPriceDAO;
+import Models.AppointmentSlots.SlotPrices;
 import Models.User.User;
 import Models.User.UserDAO;
 import Models.User.UserNotFoundException;
@@ -49,8 +51,10 @@ public class Create extends HttpServlet {
             request.setAttribute("slots", allSlots);
             request.setAttribute("stage", "selectingStaffAndSlot");
         } else {
+            SlotPrices slotPrices = SlotPriceDAO.getCurrentSlotPrices();
             LocalDate today = LocalDate.now();
             String minimumDate = today.toString();
+            request.setAttribute("slotPrices", slotPrices);
             request.setAttribute("minimumDate", minimumDate);
             request.setAttribute("stage", "pickingDateAndLength");
         }

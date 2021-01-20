@@ -414,10 +414,47 @@
                 </div>
             </c:if>
         </details>
+        <details ${sessionScope.totalTurnover != null ? 'open' : ''}>
+            <summary>Turnover</summary>
+                <form action="${pageContext.request.contextPath}/turnover" method="post">
+                    <label>NHS Only
+                        <input type="checkbox" name="nhsOnly">
+                    </label>
+                    <label>
+                        Date to generate turnover since
+                        <input type="date" max="${requestScope.minimumDate}" name="date">
+                    </label>
+                    <br/>
+                    <br/>
+                    <button id="pinkButtonAlternative">Generate Turnover stats</button>
+                </form>
+            <c:if test="${sessionScope.totalTurnover != null}">
+                <p>Total turnover for period since ${sessionScope.startPeriod}: £${sessionScope.totalTurnover}</p>
+            </c:if>
+        </details>
+        <details>
+            <summary>Change appointment lengths and charges</summary>
+            <p>Current Slot Length: ${requestScope.slotPrices.slotSize} minutes</p>
+            <p>Current slot cost: £${requestScope.slotPrices.slotCost}</p>
+            <p>Current max slot length: ${requestScope.slotPrices.maxSlotSize} minutes</p>
+            <form action="${pageContext.request.contextPath}/slotprice" method="post">
+                <label>New Slot Interval:
+                    <input type="number" name="newSlotInterval">
+                </label>
+                <label>New max appointment length:
+                    <input type="number" name="newMaxSlotLength">
+                </label>
+                <label>
+                    New cost per slot interval:
+                    <input type="number" name="newSlotCost">
+                </label>
+                <button id="pinkButtonAlternative">Update appointment config</button>
+            </form>
+        </details>
         <details>
             <summary>Recreate Tables</summary>
             <p>Warning, this action will reset all databases</p>
-            <form method="post">
+            <form method="post" action="${pageContext.request.contextPath}/dashboard/slotprice">
                 <input type="hidden" name="action" value="recreate-tables">
                 <button id="pinkButtonAlternative">Recreate Tables</button>
             </form>

@@ -26,9 +26,9 @@
                     <label>
                         Appointment Length:
                         <select name="length">
-                            <option>15</option>
-                            <option>30</option>
-                            <option>60</option>
+                            <c:forEach begin="${requestScope.slotPrices.slotSize}" end="${requestScope.slotPrices.maxSlotSize}" step="${requestScope.slotPrices.slotSize}" varStatus="slot">
+                                <option value="${slot.current}">${slot.current} minutes</option>
+                            </c:forEach>
                         </select>
                     </label>
                     <br>

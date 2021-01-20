@@ -30,26 +30,36 @@ public class DashboardFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession(false);
 
-       String final_segment = request.getServletPath().substring(request.getServletPath().lastIndexOf("/") + 1);
+        String final_segment = request.getServletPath().substring(request.getServletPath().lastIndexOf("/") + 1);
 
-       if (Arrays.asList(this.pages).contains(final_segment)) {
-           chain.doFilter(request, response);
-       } else if (final_segment.equals("dashboard")) {
-           UserAccount user = (UserAccount) session.getAttribute("currentUser");
-           switch (user.getRole()) {
-               case "admin":
-                   AdminDispatcher.dispatch(request).forward(request, response);
-                   break;
-               case "patient":
-                   PatientDispatcher.dispatch(request).forward(request, response);
-                   break;
-               case "nurse":
-               case "doctor":
-                   StaffDispatcher.dispatch(request).forward(request, response);
-                   break;
-           }
-       } else {
+        if (final_segment.equals("turnover")) {
+            if (request.getAttribute("totalCost") != null) {
+                AdminDispatcher.dispatch(request).forward(request, response);
+                return;
+            } else {
+                chain.doFilter(request, response);
+                return;
+            }
+        }
+
+        if (Arrays.asList(this.pages).contains(final_segment)) {
+            chain.doFilter(request, response);
+        } else if (final_segment.equals("dashboard")) {
+            UserAccount user = (UserAccount) session.getAttribute("currentUser");
+            switch (user.getRole()) {
+                case "admin":
+                    AdminDispatcher.dispatch(request).forward(request, response);
+                    break;
+                case "patient":
+                    PatientDispatcher.dispatch(request).forward(request, response);
+                    break;
+                case "nurse":
+                case "doctor":
+                    StaffDispatcher.dispatch(request).forward(request, response);
+                    break;
+            }
+        } else {
             response.sendRedirect(request.getContextPath() + "/dashboard");
-       }
+        }
     }
 }
