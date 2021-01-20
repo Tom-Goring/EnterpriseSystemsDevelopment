@@ -36,7 +36,7 @@ public class SlotPriceDAO {
                     rs.getInt(2),
                     rs.getBigDecimal(3),
                     rs.getBigDecimal(4),
-                    rs.getInt(4)
+                    rs.getInt(5)
 
             );
 
