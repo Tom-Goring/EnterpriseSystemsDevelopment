@@ -39,7 +39,23 @@ public class Tables {
 
             Date generic_dob = Date.valueOf(LocalDate.now());
             Address generic_address = new Address("City", "AAA AAA", "Street");
+            
+            // DOBs for test users
+            Date generic_dob1 = Date.valueOf("1991-12-16");
+            Date generic_dob2 = Date.valueOf("1995-04-07");
+            Date generic_dob3 = Date.valueOf("2001-06-05");
+            Date generic_dob4 = Date.valueOf("2008-05-26");
+            Date generic_dob5 = Date.valueOf("2019-01-22");
+            
+            // addresses for test users
+            Address generic_address1 = new Address("Birkenhead", "CH42 5PX", "52 Grasville Road");
+            Address generic_address2 = new Address("Newport", "TF10 7FU", "14 Keller Drive");
+            Address generic_address3 = new Address("Collyweston", "PE9 3PY", "11 Woodfield");
+            Address generic_address4 = new Address("Mortehoe", "EX34 7ER", "7 Pebbles Court");
+            Address generic_address5 = new Address("Grimsby", "DN34 5QP", "10 Africa Close");
 
+            
+            // admin test user
             Tuple<byte[], byte[]> saltAndHash = createSaltAndHash("admin");
 
             User admin = new User(null, "admin", "admin", "admin@admin.com", "admin", generic_dob, generic_address, Gender.Male, Type.Other);
@@ -53,10 +69,10 @@ public class Tables {
             UserAccountDAO.insertUserAccount(adminAccount);
             System.out.println("Admin user created successfully!");
 
-
+            // doctor 1 test user
             Tuple<byte[], byte[]> saltAndHash2 = createSaltAndHash("password");
 
-            User doctorUser1 = new User(null, "doctor", "doctorson", "doctor1@doctor.com", "doctor", generic_dob, generic_address, Gender.Male, Type.Other);
+            User doctorUser1 = new User(null, "doctor", "First", "doctor1@doctor.com", "doctor", generic_dob, generic_address, Gender.Male, Type.Other);
 
             UserAccount doctor1 = new UserAccount(
                     doctorUser1,
@@ -67,10 +83,11 @@ public class Tables {
 
             UserAccountDAO.insertUserAccount(doctor1);
             System.out.println("Doctor1 user created successfully!");
-
+            
+            // doctor 2 test user
             Tuple<byte[], byte[]> saltAndHash3 = createSaltAndHash("password");
 
-            User doctorUser2 = new User(null, "femdoc", "doctorsdottir", "doctor2@doctor.com", "doctor", generic_dob, generic_address, Gender.Female, Type.Other);
+            User doctorUser2 = new User(null, "doctor", "Second", "doctor2@doctor.com", "doctor", generic_dob, generic_address, Gender.Female, Type.Other);
 
             UserAccount doctor2 = new UserAccount(
                     doctorUser2,
@@ -81,20 +98,62 @@ public class Tables {
             UserAccountDAO.insertUserAccount(doctor2);
             System.out.println("Doctor2 user created successfully!");
 
+            // patient 1 test user Rob Smith
             Tuple<byte[], byte[]> saltAndHash4 = createSaltAndHash("password");
-
-            User patientUser = new User(null, "patient", "patientperson", "patient@patient.com", "patient", generic_dob, generic_address, Gender.Male, Type.PublicPatient);
-
-            UserAccount patient = new UserAccount(
-                    patientUser,
+            User patientUser1 = new User(null, "Rob", "Smith", "RSmith@patient.com", "patient", generic_dob1, generic_address1, Gender.Male, Type.PublicPatient);
+            UserAccount patient1 = new UserAccount(
+                    patientUser1,
                     saltAndHash4.x,
                     saltAndHash4.y,
                     true
             );
-            UserAccountDAO.insertUserAccount(patient);
-            System.out.println("patient user created successfully!");
+            UserAccountDAO.insertUserAccount(patient1);
+            System.out.println("patient test user 1 created successfully!");
+            
+            // patient 2 test user Liz Brown
+            User patientUser2 = new User(null, "Liz", "Brown", "LBrown@patient.com", "patient", generic_dob2, generic_address2, Gender.Female, Type.PublicPatient);
+            UserAccount patient2 = new UserAccount(
+                    patientUser2,
+                    saltAndHash4.x,
+                    saltAndHash4.y,
+                    true
+            );
+            UserAccountDAO.insertUserAccount(patient2);
+            System.out.println("patient test user 2 created successfully!");
+           
+            // patient 3 test user Brad Hesistant
+            User patientUser3 = new User(null, "Brad", "Hesitant", "BHesitant@patient.com", "patient", generic_dob3, generic_address3, Gender.Male, Type.PublicPatient);
+            UserAccount patient3 = new UserAccount(
+                    patientUser3,
+                    saltAndHash4.x,
+                    saltAndHash4.y,
+                    true
+            );
+            UserAccountDAO.insertUserAccount(patient3);
+            System.out.println("patient test user 3 created successfully!");
+            
+            // patient 4 test user Maddie Clement
+            User patientUser4 = new User(null, "Maddie", "Clement", "MClement@patient.com", "patient", generic_dob4, generic_address4, Gender.Female, Type.PrivatePatient);
+            UserAccount patient4 = new UserAccount(
+                    patientUser4,
+                    saltAndHash4.x,
+                    saltAndHash4.y,
+                    true
+            );
+            UserAccountDAO.insertUserAccount(patient4);
+            System.out.println("patient test user 4 created successfully!");
 
-
+            // patient 5 test user Maria Ryley
+            User patientUser5 = new User(null, "Maria", "Ryley", "MRyley@patient.com", "patient", generic_dob5, generic_address5, Gender.Female, Type.PrivatePatient);
+            UserAccount patient5 = new UserAccount(
+                    patientUser5,
+                    saltAndHash4.x,
+                    saltAndHash4.y,
+                    true
+            );
+            UserAccountDAO.insertUserAccount(patient5);
+            System.out.println("patient test user 5 created successfully!");
+            
         } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException | DuplicateEmailPresentException throwables) {
             throwables.printStackTrace();
         }
