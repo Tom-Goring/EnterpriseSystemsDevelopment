@@ -4,6 +4,7 @@ import Models.Appointment.Appointment;
 import Models.Appointment.AppointmentDAO;
 import Models.AppointmentSlots.SlotPriceDAO;
 import Models.AppointmentSlots.SlotPrices;
+import Models.User.Type;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,9 +27,21 @@ public class TurnoverServlet extends HttpServlet {
         ArrayList<Appointment> appointments = AppointmentDAO.retrieveAllBetweenDates(date, Date.valueOf(today));
         assert appointments != null;
 
+        System.out.println(request.getParameter("nhsOnly"));
+        boolean nhsOnly = false;
+        if (request.getParameter("nhsOnly") != null) {
+            nhsOnly = true;
+        }
+
         ArrayList<Long> durations = new ArrayList<>();
         for (Appointment appointment : appointments) {
-            durations.add(appointment.getLength().toMinutes());
+            if (nhsOnly) {
+                if (appointment.getPatient().getType() == Type.PublicPatient) {
+                    durations.add(appointment.getLength().toMinutes());
+                }
+            } else {
+                durations.add(appointment.getLength().toMinutes());
+            }
         }
 
         SlotPrices slotPrices = SlotPriceDAO.getCurrentSlotPrices();

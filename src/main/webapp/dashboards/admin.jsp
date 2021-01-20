@@ -417,6 +417,9 @@
         <details ${sessionScope.totalTurnover != null ? 'open' : ''}>
             <summary>Turnover</summary>
                 <form action="${pageContext.request.contextPath}/turnover" method="post">
+                    <label>NHS Only
+                        <input type="checkbox" name="nhsOnly">
+                    </label>
                     <label>
                         Date to generate turnover since
                         <input type="date" max="${requestScope.minimumDate}" name="date">
