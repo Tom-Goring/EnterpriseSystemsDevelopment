@@ -126,6 +126,7 @@ public class AdminDispatcher {
         request.setAttribute("approvals", approvals);
         request.setAttribute("users", users);
         request.setAttribute("staff", staff);
+        request.setAttribute("user",currentUser.getFullName());
 
         return request.getRequestDispatcher("/dashboards/admin.jsp");
     }
