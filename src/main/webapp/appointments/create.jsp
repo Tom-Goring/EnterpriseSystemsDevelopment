@@ -75,29 +75,35 @@
                                             <tr>
                                                 <td><c:out value="${doctorToSlots.x.firstName} ${doctorToSlots.x.surname}"/></td>
                                                 <td>
-                                                    <select name="selectedSlot" required>
-                                                        <c:forEach items="${doctorToSlots.y}" var="slot">
-                                                            <option value="${slot}/${doctorToSlots.x.ID}">${slot}</option>
-                                                        </c:forEach>
-                                                    </select>
+                                                    <label>
+                                                        <select name="selectedSlot" required>
+                                                            <c:forEach items="${doctorToSlots.y}" var="slot">
+                                                                <option value="${slot}/${doctorToSlots.x.ID}">${slot}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </label>
                                                 </td>
-                                                <td><select name="serviceType">
-                                                        <option>public (NHS)</option>
-                                                        <option>private</option>
-                                                    </select>
+                                                <td>
+                                                    <label>
+                                                        <input name="date" value="${requestScope.date}" readonly>
+                                                    </label>
                                                 </td>
 
                                                 <td>
-                                                    <input name="date" value="${requestScope.date}" readonly>
-                                                </td>
-
-                                                <td>
-                                                    <input required type="radio" name="staffID" value="${doctorToSlots.x.ID}">
+                                                    <label>
+                                                        <input required type="radio" name="staffID" value="${doctorToSlots.x.ID}">
+                                                    </label>
                                                 </td>
                                             </tr>
                                         </c:forEach>
-                                    </table>                                               
-                                    <input type="hidden" name="customerName" value="${sessionScope.currentUser.firstName} ${sessionScope.currentUser.surname}"></td>
+                                    </table>
+                                    <label>Appointment Type:
+                                        <select name="serviceType" required>
+                                            <option>public (NHS)</option>
+                                            <option>private</option>
+                                        </select>
+                                    </label>
+                                    <input type="hidden" name="customerName" value="${sessionScope.currentUser.firstName} ${sessionScope.currentUser.surname}">
                                     <input type="hidden" name="email" value="${sessionScope.currentUser.email}">
                                     <button type="submit" id="pinkButtonAlternative">Confirm Appointment</button>
                                     <!--                                <input type="submit"/>-->
