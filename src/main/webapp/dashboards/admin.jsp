@@ -460,7 +460,7 @@
         <details>
             <summary>Recreate Tables</summary>
             <p>Warning, this action will reset all databases</p>
-            <form method="post" action="${pageContext.request.contextPath}/dashboards">
+            <form method="post" action="${pageContext.request.contextPath}/dashboard">
                 <input type="hidden" name="action" value="recreate-tables">
                 <button id="pinkButtonAlternative">Recreate Tables</button>
             </form>
