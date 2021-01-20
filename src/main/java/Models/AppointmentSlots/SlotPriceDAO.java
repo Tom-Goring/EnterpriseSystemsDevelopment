@@ -11,10 +11,11 @@ public class SlotPriceDAO {
     public static void updateSlotPrices(SlotPrices newSlotPrices) {
         Connection con = Database.getInstance().getConnection();
         try {
-            PreparedStatement ps = con.prepareStatement("UPDATE SLOTPRICES SET SLOTINTERVAL = ?, SLOTCOST = ?, SLOTMAXIMUMDURATION = ? WHERE ID = 1");
+            PreparedStatement ps = con.prepareStatement("UPDATE SLOTPRICES SET SLOTINTERVAL = ?, NURSECOST = ?, DOCTORCOST = ?, SLOTMAXIMUMDURATION = ? WHERE ID = 1");
             ps.setInt(1, newSlotPrices.slotSize);
-            ps.setBigDecimal(2, newSlotPrices.slotCost);
-            ps.setInt(3, newSlotPrices.maxSlotSize);
+            ps.setBigDecimal(2, newSlotPrices.nurseCost);
+            ps.setBigDecimal(3, newSlotPrices.doctorCost);
+            ps.setInt(4, newSlotPrices.maxSlotSize);
 
             ps.executeUpdate();
 
@@ -34,7 +35,9 @@ public class SlotPriceDAO {
             return new SlotPrices(
                     rs.getInt(2),
                     rs.getBigDecimal(3),
+                    rs.getBigDecimal(4),
                     rs.getInt(4)
+
             );
 
         } catch (SQLException throwables) {

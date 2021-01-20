@@ -33,28 +33,48 @@ public class TurnoverServlet extends HttpServlet {
             nhsOnly = true;
         }
 
-        ArrayList<Long> durations = new ArrayList<>();
+        ArrayList<Long> nurseDurations = new ArrayList<>();
+        ArrayList<Long> doctorDurations = new ArrayList<>();
         for (Appointment appointment : appointments) {
             if (nhsOnly) {
                 if (appointment.getPatient().getType() == Type.PublicPatient) {
-                    durations.add(appointment.getLength().toMinutes());
+                    if (appointment.getStaffMember().getRole().equals("doctor")) {
+                        doctorDurations.add(appointment.getLength().toMinutes());
+                    } else {
+                        nurseDurations.add(appointment.getLength().toMinutes());
+                    }
                 }
             } else {
-                durations.add(appointment.getLength().toMinutes());
+                if (appointment.getStaffMember().getRole().equals("doctor")) {
+                    doctorDurations.add(appointment.getLength().toMinutes());
+                } else {
+                    nurseDurations.add(appointment.getLength().toMinutes());
+                }
             }
         }
 
         SlotPrices slotPrices = SlotPriceDAO.getCurrentSlotPrices();
         assert slotPrices != null;
 
-        Long total = 0L;
-        for (Long duration : durations) {
-            total += duration;
+        Long nurseTotal = 0L;
+        Long doctorTotal = 0L;
+
+        for (Long duration : doctorDurations) {
+            doctorTotal += duration;
         }
 
-        int numSlots = (int) Math.round(Math.ceil((float)total / slotPrices.slotSize)); // gross
+        for (Long duration : nurseDurations) {
+            nurseTotal += duration;
+        }
 
-        BigDecimal totalCost =  slotPrices.getSlotCost().multiply(new BigDecimal(numSlots));
+        int nurseSlots = (int) Math.round(Math.ceil((float)nurseTotal / slotPrices.slotSize)); // gross
+
+        int doctorSlots = (int) Math.round(Math.ceil((float)doctorTotal / slotPrices.slotSize)); // gross
+
+        BigDecimal nurseCost = slotPrices.getNurseCost().multiply(new BigDecimal(nurseSlots));
+        BigDecimal doctorCost = slotPrices.getDoctorCost().multiply(new BigDecimal(doctorSlots));
+
+        BigDecimal totalCost = nurseCost.add(doctorCost);
 
         // couldnt work out how to forward to /dashboard again so we get session variables hurray
         HttpSession session = request.getSession(false);

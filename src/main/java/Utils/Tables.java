@@ -196,15 +196,19 @@ public class Tables {
             PreparedStatement ps = con.prepareStatement("create table slotprices(" +
                     "ID int generated always as identity unique, " +
                     "slotInterval int not null, " +
-                    "slotCost int not null, " +
-                    "slotMaximumDuration int not null)"
+                    "nurseCost int not null, " +
+                    "doctorCost int not null, " +
+                    "slotMaximumDuration int not null, " +
+                    "slotMinimumDuration int not null)"
             );
             ps.executeUpdate();
 
-            ps = con.prepareStatement("insert into SLOTPRICES (SLOTINTERVAL, SLOTCOST, SLOTMAXIMUMDURATION) VALUES (?, ?, ?)");
+            ps = con.prepareStatement("insert into SLOTPRICES (SLOTINTERVAL, NURSECOST, DOCTORCOST, SLOTMAXIMUMDURATION, SLOTMINIMUMDURATION) VALUES (?, ?, ?, ?, ?)");
             ps.setInt(1, 10);
-            ps.setBigDecimal(2, new BigDecimal(10));
-            ps.setInt(3, 30);
+            ps.setBigDecimal(2, new BigDecimal(5));
+            ps.setBigDecimal(3, new BigDecimal(10));
+            ps.setInt(4, 30);
+            ps.setInt(5, 10);
             ps.executeUpdate();
 
             System.out.println("Slot Prices table created successfully!");

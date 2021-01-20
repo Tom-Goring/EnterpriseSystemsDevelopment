@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 
 public class SlotPrices {
     public int slotSize;
-    public BigDecimal slotCost;
+    public BigDecimal nurseCost;
+    public BigDecimal doctorCost;
     public int maxSlotSize;
 
-    public SlotPrices(int slotSize, BigDecimal slotCost, int maxSlotSize) {
+    public SlotPrices(int slotSize, BigDecimal nurseCost, BigDecimal doctorCost, int maxSlotSize) {
         this.slotSize = slotSize;
-        this.slotCost = slotCost;
+        this.nurseCost = nurseCost;
+        this.doctorCost = doctorCost;
         this.maxSlotSize = maxSlotSize;
     }
 
@@ -17,8 +19,12 @@ public class SlotPrices {
         return slotSize;
     }
 
-    public BigDecimal getSlotCost() {
-        return slotCost;
+    public BigDecimal getNurseCost() {
+        return nurseCost;
+    }
+
+    public BigDecimal getDoctorCost() {
+        return doctorCost;
     }
 
     public int getMaxSlotSize() {
