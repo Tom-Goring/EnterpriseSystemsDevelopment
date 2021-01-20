@@ -440,18 +440,18 @@
             <p>Current max slot length: ${requestScope.slotPrices.maxSlotSize} minutes</p>
             <form action="${pageContext.request.contextPath}/slotprice" method="post">
                 <label>New slot length:
-                    <input type="number" name="newSlotInterval">
+                    <input type="number" name="newSlotInterval" required>
                 </label>
                 <label>New max appointment length:
-                    <input type="number" name="newMaxSlotLength">
+                    <input type="number" name="newMaxSlotLength" required>
                 </label>
                 <label>
                     New Nurse Rate
-                    <input type="number" name="newNurseCost">
+                    <input type="number" name="newNurseCost" required>
                 </label>
                 <label>
                     New Doctor Rate
-                    <input type="number" name="newDoctorCost">
+                    <input type="number" name="newDoctorCost" required>
                 </label>
                 <button id="pinkButtonAlternative">Update appointment config</button>
             </form>
@@ -459,7 +459,7 @@
         <details>
             <summary>Recreate Tables</summary>
             <p>Warning, this action will reset all databases</p>
-            <form method="post" action="${pageContext.request.contextPath}/dashboard/slotprice">
+            <form method="post" action="${pageContext.request.contextPath}/slotprice">
                 <input type="hidden" name="action" value="recreate-tables">
                 <button id="pinkButtonAlternative">Recreate Tables</button>
             </form>
