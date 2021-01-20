@@ -97,6 +97,18 @@ public class Tables {
             );
             UserAccountDAO.insertUserAccount(doctor2);
             System.out.println("Doctor2 user created successfully!");
+            
+            // nurse test user
+            User nurseUser = new User(null, "Layla", "Best", "nurse@nurse.com", "nurse", generic_dob, generic_address, Gender.Female, Type.Other);
+
+            UserAccount nurse = new UserAccount(
+                    nurseUser,
+                    saltAndHash3.x,
+                    saltAndHash3.y,
+                    true
+            );
+            UserAccountDAO.insertUserAccount(nurse);
+            System.out.println("nurse user created successfully!");
 
             // patient 1 test user Rob Smith
             Tuple<byte[], byte[]> saltAndHash4 = createSaltAndHash("password");
